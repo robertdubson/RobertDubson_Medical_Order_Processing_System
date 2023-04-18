@@ -16,5 +16,9 @@ namespace BusinessLogic
 
         public Status OrderStatus { get; set; }
 
+        public bool ShipToTheIssuePoint { get; set; }
+
+        public City DestinationCity { get; set; }
+
     }
 }
