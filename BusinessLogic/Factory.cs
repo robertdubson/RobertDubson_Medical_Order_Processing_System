@@ -4,9 +4,10 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    public class Client
+    public class Factory
     {
         public City Location { get; set; }
 
+        public List<MedicalProduct> AvailableProducts { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    class User : IUser
+    public class User : IUser
     {
 
         public string UserName { get; private set; }

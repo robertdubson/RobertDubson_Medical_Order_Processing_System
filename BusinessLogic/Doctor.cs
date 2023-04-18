@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    class Doctor
+    public class Doctor
     {
     }
 }

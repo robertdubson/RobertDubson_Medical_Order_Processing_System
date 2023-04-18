@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    interface IUser
+    public interface IUser
     {
         public bool Login(string password, string username);
         
