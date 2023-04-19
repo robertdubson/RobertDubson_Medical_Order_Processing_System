@@ -6,6 +6,8 @@ namespace BusinessLogic
 {
     public class MedicalProduct
     {
+        public int ID { get; private set; }
+
         public string ProductName { get; set; }
 
         public string Description { get; set; }

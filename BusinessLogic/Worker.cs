@@ -6,5 +6,8 @@ namespace BusinessLogic
 {
     public class Worker
     {
+        public int WorkerId { get; private set; }
+
+        public bool IsAvailable { get; set; }
     }
 }

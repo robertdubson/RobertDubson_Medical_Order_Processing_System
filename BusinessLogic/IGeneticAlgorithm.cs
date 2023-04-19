@@ -4,7 +4,14 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    interface IGeneticAlgorithm
+    public interface IGeneticAlgorithm
     {
+        public IPopulation InitializePopulation();
+
+        public float EvaluatePopulation(IPopulation _population);
+
+        public IPopulation Crossingover();
+
+        public IPopulation Mutation(); 
     }
 }

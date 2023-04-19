@@ -9,5 +9,11 @@ namespace BusinessLogic
         public City Location { get; set; }
 
         public List<MedicalProduct> AvailableProducts { get; set; }
+
+        public void OrderAProduct(int _productId) 
+        { }
+
+        public List<Worker> AvailableWorkers;
+
     }
 }
