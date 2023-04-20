@@ -4,8 +4,8 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    public interface IPopulation
+    public interface ISample
     {
-        public float CalculateFitness();
+        public double CalculateFitness();
     }
 }

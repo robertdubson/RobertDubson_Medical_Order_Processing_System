@@ -6,12 +6,14 @@ namespace BusinessLogic
 {
     public interface IGeneticAlgorithm
     {
-        public IPopulation InitializePopulation();
+        public ISample InitializePopulation();
 
-        public float EvaluatePopulation(IPopulation _population);
+        public double EvaluatePopulation(ISample _population);
 
-        public IPopulation Crossingover();
+        public ISample Selection(ISample _population);
 
-        public IPopulation Mutation(); 
+        public ISample Crossingover(ISample _population); // choose the leader of all the chromosomes on current sample
+
+        public ISample Mutation(ISample _population);  // randomly change the same product of other supplier 
     }
 }

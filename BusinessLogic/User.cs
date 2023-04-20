@@ -8,6 +8,8 @@ namespace BusinessLogic
     public class User : IUser
     {
 
+        public int ID { get; private set; }
+
         public string UserName { get; private set; }
 
         private string _passwordHash;

@@ -14,10 +14,6 @@ namespace BusinessLogic
 
         public string InstructionToUse { get; set; }
 
-        public float Price { get; set; }
-
-        public Supplier ProductSupplier { get; set; }
-
         
     }
 }

@@ -6,6 +6,6 @@ namespace BusinessLogic
 {
     public interface IChromosome
     {
-
+        public float CalculateRank();
     }
 }

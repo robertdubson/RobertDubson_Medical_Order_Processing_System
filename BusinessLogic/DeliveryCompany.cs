@@ -4,13 +4,14 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    public class Supplier
+    public class DeliveryCompany
     {
-
         public int ID { get; private set; }
 
-        public string Name { get; set; }       
+        public string Name { get; set; }
 
-        
+        public double PriceForKm { get; set; }
+
+
     }
 }

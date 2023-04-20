@@ -6,6 +6,9 @@ namespace BusinessLogic
 {
     public class Receipt
     {
+        
+        public int ID { get; private set; }
+        
         public Client PrecriptedTo { get; set; }
 
         public Doctor Author { get; set; }
