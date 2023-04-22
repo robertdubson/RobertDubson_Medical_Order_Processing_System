@@ -13,8 +13,8 @@ namespace BusinessLogic
 
         public string Address { get; set; }
 
-        public void OrderAProduct(int _productId) 
-        { }
+        public Supplier Company { get; set; }
+        
 
     }
 }
