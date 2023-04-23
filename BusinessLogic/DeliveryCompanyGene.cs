@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    public class DeliveryCompanyChromosome : IChromosome
+    public class DeliveryCompanyGene : IGene
     {
 
         DeliveryCompany _currentCompany;
@@ -21,7 +21,7 @@ namespace BusinessLogic
 
         City _currentCity;
 
-        public DeliveryCompanyChromosome(DeliveryCompany currentCompany, DeliveryCompanyAndCity cityData, City currentCity, City destination, int maxCouriers, double minPrice, double minDistance) 
+        public DeliveryCompanyGene(DeliveryCompany currentCompany, DeliveryCompanyAndCity cityData, City currentCity, City destination, int maxCouriers, double minPrice, double minDistance) 
         {
             _currentCompany = currentCompany;
 

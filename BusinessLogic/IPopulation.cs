@@ -4,8 +4,8 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    public interface ISample
+    public interface IPopulation
     {
-        public double CalculateFitness();
+        public List<IChromosome> GetChromosomes();
     }
 }

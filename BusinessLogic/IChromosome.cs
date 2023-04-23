@@ -6,6 +6,8 @@ namespace BusinessLogic
 {
     public interface IChromosome
     {
-        public double CalculateRank();
+        public double CalculateFitness();
+
+        public List<IGene> GetGenes();
     }
 }

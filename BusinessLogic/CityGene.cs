@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    public class CityChromosome : IChromosome
+    public class CityGene : IGene
     {
 
         City destinationCity;
@@ -13,7 +13,7 @@ namespace BusinessLogic
 
         double minDistance;
 
-        public CityChromosome(City _destinationCity, City _currentCity, double _minDistance) {
+        public CityGene(City _destinationCity, City _currentCity, double _minDistance) {
 
             destinationCity = _destinationCity;
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    public class FactoryChromosome : IChromosome
+    public class FactoryGene : IGene
     {
         Factory _currentFactory;
 
@@ -25,7 +25,7 @@ namespace BusinessLogic
 
 
         // передавати фабрику і productandfactory тієї самої ID фабрики виключно
-        public FactoryChromosome(Factory currentFactory, MedicalProduct currentProduct, SupplierAndProduct priceInfo, ProductAndFactory pAndF, City destination, int maxUnits, double minDistance, double minimalPrice) 
+        public FactoryGene(Factory currentFactory, MedicalProduct currentProduct, SupplierAndProduct priceInfo, ProductAndFactory pAndF, City destination, int maxUnits, double minDistance, double minimalPrice) 
         {
             _currentFactory = currentFactory;
 
