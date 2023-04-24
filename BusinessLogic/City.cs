@@ -15,6 +15,8 @@ namespace BusinessLogic
 
         public double CoordinateY { get; set; }
 
+        
+
 
     }
 }

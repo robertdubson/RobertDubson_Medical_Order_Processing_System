@@ -4,8 +4,9 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    public interface IChromosomeGenerator
+    public interface IGeneGenerator<E>
     {
-        public List<IChromosome> GenerateChromosomes();
+        public List<E> GenerateGenes();       
+       
     }
 }

@@ -13,7 +13,7 @@ namespace BusinessLogic
 
         public string Address { get; set; }
 
-        public Supplier Company { get; set; }
+        public int CompanyID { get; set; }
         
 
     }
