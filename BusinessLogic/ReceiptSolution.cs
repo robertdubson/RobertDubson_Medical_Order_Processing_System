@@ -8,13 +8,38 @@ namespace BusinessLogic
     {
 
         List<IGene> _genes;
-        
+
+        public CityGene CityGene { get; }
+
+        public FactoryGene FactoryGene { get; }
+
+        public DeliveryCompanyGene CompanyGene { get; }
+   
         public ReceiptSolution(List<IGene> genes) 
         {
 
             _genes = genes;
 
         }
+
+        public ReceiptSolution(CityGene cityGene, FactoryGene factoryGene, DeliveryCompanyGene companyGene) 
+        {
+            CityGene = cityGene;
+
+            FactoryGene = factoryGene;
+
+            CompanyGene = companyGene;
+
+            _genes = new List<IGene>();
+
+            _genes.Add(cityGene);
+
+            _genes.Add(factoryGene);
+
+            _genes.Add(companyGene);
+
+        }
+        
 
         public double CalculateFitness()
         {

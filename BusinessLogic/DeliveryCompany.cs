@@ -12,6 +12,5 @@ namespace BusinessLogic
 
         public double PriceForKm { get; set; }
 
-
     }
 }

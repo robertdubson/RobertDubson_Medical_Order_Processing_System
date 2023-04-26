@@ -9,7 +9,7 @@ namespace BusinessLogic
 
         public int ID { get; private set; }
 
-        public City Location { get; set; }
+        public int CityID { get; set; }
 
         public string Address { get; set; }
     }
