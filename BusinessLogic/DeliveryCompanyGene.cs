@@ -21,6 +21,8 @@ namespace BusinessLogic
 
         City _currentCity;
 
+        bool _geneValue;
+
         public DeliveryCompanyGene(DeliveryCompany currentCompany, DeliveryCompanyAndCity cityData, City currentCity, City destination, int maxCouriers, double minPrice, double minDistance) 
         {
             _currentCompany = currentCompany;
@@ -37,6 +39,28 @@ namespace BusinessLogic
 
             _currentCity = currentCity;
 
+            _geneValue = false;
+
+        }
+
+        public bool IsSelected() 
+        {
+            return _geneValue;
+        }
+
+        public void SelectGene() 
+        {
+            _geneValue = true;
+        }        
+
+        public void UnselectGene()
+        {
+            _geneValue = false;
+        }
+
+        public DeliveryCompany GetCompany() 
+        {
+            return _currentCompany;
         }
 
         public double CalculateRank()

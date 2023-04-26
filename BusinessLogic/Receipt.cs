@@ -9,19 +9,17 @@ namespace BusinessLogic
         
         public int ID { get; private set; }
         
-        public Client PrecriptedTo { get; set; }
+        public int ClientID { get; set; }
 
-        public Doctor Author { get; set; }
+        public int AuthorID { get; set; }
 
-        public string AppointmentReview { get; set; }
+        public string AppointmentReview { get; set; }       
 
-        public List<MedicalProduct> PrescriptedProducts { get; set; }
-
-        public Status OrderStatus { get; set; }
+        public int OrderStatusID { get; set; }
 
         public bool ShipToTheIssuePoint { get; set; }
 
-        public City DestinationCity { get; set; }
+        public int DestinationCityID { get; set; }
 
     }
 }

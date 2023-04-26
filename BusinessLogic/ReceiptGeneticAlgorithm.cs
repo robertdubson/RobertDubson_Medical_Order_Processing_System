@@ -6,7 +6,10 @@ namespace BusinessLogic
 {
     public class ReceiptGeneticAlgorithm : IGeneticAlgorithm
     {
+        public ReceiptGeneticAlgorithm()
+        {
 
+        }
 
 
         public IChromosome Crossingover(IPopulation _population)

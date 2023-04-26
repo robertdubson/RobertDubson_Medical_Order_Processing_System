@@ -8,7 +8,7 @@ namespace BusinessLogic
     {
 
         List<IGene> _genes;
-
+        
         public ReceiptSolution(List<IGene> genes) 
         {
 

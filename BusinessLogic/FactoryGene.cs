@@ -22,7 +22,7 @@ namespace BusinessLogic
 
         SupplierAndProduct _priceInfo;
 
-
+        bool _geneValue;
 
         // передавати фабрику і productandfactory тієї самої ID фабрики виключно
         public FactoryGene(Factory currentFactory, MedicalProduct currentProduct, SupplierAndProduct priceInfo, ProductAndFactory pAndF, City destination, int maxUnits, double minDistance, double minimalPrice) 
@@ -42,6 +42,28 @@ namespace BusinessLogic
             _priceInfo = priceInfo;
 
             _minPrice = minimalPrice;
+
+            _geneValue = false;
+        }
+
+        public Factory GetFactory() 
+        {
+            return _currentFactory;
+        }
+
+        public bool IsSelected()
+        {
+            return _geneValue;
+        }
+
+        public void SelectGene()
+        {
+            _geneValue = true;
+        }
+
+        public void UnselectGene()
+        {
+            _geneValue = false;
         }
 
         public double CalculateRank()

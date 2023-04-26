@@ -13,6 +13,8 @@ namespace BusinessLogic
 
         double minDistance;
 
+        bool _geneValue;
+
         public CityGene(City _destinationCity, City _currentCity, double _minDistance) {
 
             destinationCity = _destinationCity;
@@ -21,7 +23,29 @@ namespace BusinessLogic
 
             minDistance = _minDistance;
 
+            _geneValue = false;
 
+
+        }
+
+        public bool IsSelected() 
+        {
+            return _geneValue;
+        }
+
+        public void SelectGene() 
+        {
+            _geneValue = true;
+        }
+
+        public void UnselectGene() 
+        {
+            _geneValue = false;
+        }
+
+        public City GetCity() 
+        {
+            return currentCity;
         }
 
         public double CalculateRank()

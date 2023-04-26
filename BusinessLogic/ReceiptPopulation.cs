@@ -9,9 +9,9 @@ namespace BusinessLogic
 
         List<IChromosome> _chromosomes;
 
-        public ReceiptPopulation(List<IChromosome> chromosomes) 
+        public ReceiptPopulation() 
         {
-            _chromosomes = chromosomes;
+            //_chromosomes = chromosomes;
         }
 
         public List<IChromosome> GetChromosomes()
