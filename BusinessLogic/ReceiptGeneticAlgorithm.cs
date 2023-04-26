@@ -111,6 +111,7 @@ namespace BusinessLogic
                 if (selectedChild.CalculateFitness() < rs.CalculateFitness()) 
                 {
                     selectedChild = rs;
+
                 }
             }
 
