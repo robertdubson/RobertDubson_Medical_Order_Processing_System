@@ -167,8 +167,23 @@ namespace BusinessLogic
         }
 
         public IPopulation Crossingover(IPopulation population)
-        {
-            throw new NotImplementedException();
+        {            
+
+            IChromosome firstParent = population.GetTheBestSolution();
+
+            population.RemoveChromosome(firstParent);
+
+            IChromosome secondParent = population.GetRandomChromosome();
+
+            ReceiptSolution child = Mating((ReceiptSolution)firstParent, (ReceiptSolution)secondParent);
+
+            population.AddChromosome(child);
+
+            population.AddChromosome(firstParent);
+
+            population.RemoveChromosome(secondParent);
+
+            return population;
         }
 
         public IPopulation Mutation(IPopulation population)
@@ -176,9 +191,5 @@ namespace BusinessLogic
             throw new NotImplementedException();
         }
 
-        public IPopulation Selection(IPopulation population)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

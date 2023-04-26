@@ -14,6 +14,11 @@ namespace BusinessLogic
             _chromosomes = chromosomes;
         }
 
+        public void AddChromosome(IChromosome chromosome)
+        {
+            _chromosomes.Add(chromosome);
+        }
+
         public List<IChromosome> GetChromosomes()
         {
             return _chromosomes;
@@ -40,6 +45,20 @@ namespace BusinessLogic
             }
 
             return theBestSolution;
+        }
+
+        public void RemoveChromosome(IChromosome chromosome)
+        {
+            _chromosomes.Remove(chromosome);
+        }
+
+        public IChromosome GetRandomChromosome() 
+        {
+            Random rand = new Random();
+
+            int index = rand.Next(_chromosomes.Count);
+
+            return _chromosomes[index];
         }
     }
 }
