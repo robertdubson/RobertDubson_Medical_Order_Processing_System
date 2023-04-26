@@ -60,5 +60,7 @@ namespace BusinessLogic
 
             return _chromosomes[index];
         }
+
+        
     }
 }

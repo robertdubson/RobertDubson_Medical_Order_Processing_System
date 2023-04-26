@@ -9,5 +9,7 @@ namespace BusinessLogic
         public double CalculateFitness();
 
         public List<IGene> GetGenes();
+
+        public void CopyGenes(IChromosome chromosome);
     }
 }

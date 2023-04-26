@@ -14,6 +14,7 @@ namespace BusinessLogic
 
         public void AddChromosome(IChromosome chromosome);
 
-        public IChromosome GetRandomChromosome();
+        public IChromosome GetRandomChromosome();        
+        
     }
 }

@@ -9,11 +9,11 @@ namespace BusinessLogic
 
         List<IGene> _genes;
 
-        public CityGene CityGene { get; }
+        public CityGene CityGene { get; set; }
 
-        public FactoryGene FactoryGene { get; }
+        public FactoryGene FactoryGene { get; set; }
 
-        public DeliveryCompanyGene CompanyGene { get; }
+        public DeliveryCompanyGene CompanyGene { get; set; }
    
         public ReceiptSolution(List<IGene> genes) 
         {
@@ -56,6 +56,17 @@ namespace BusinessLogic
         public List<IGene> GetGenes()
         {
             return _genes;
+        }
+
+        public void CopyGenes(IChromosome chromosome)
+        {
+            ReceiptSolution newChromosome = (ReceiptSolution)chromosome;
+
+            CityGene = newChromosome.CityGene;
+
+            FactoryGene = newChromosome.FactoryGene;
+
+            CompanyGene = newChromosome.CompanyGene;
         }
     }
 }

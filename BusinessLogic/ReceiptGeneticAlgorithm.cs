@@ -188,7 +188,46 @@ namespace BusinessLogic
 
         public IPopulation Mutation(IPopulation population)
         {
-            throw new NotImplementedException();
+            Random rand = new Random();
+
+            int countOfMutants = rand.Next(population.GetChromosomes().Count);
+
+            for (int i=0; i <= countOfMutants; i++) 
+            {
+                Random randChromosome = new Random();
+
+                int chIndex = randChromosome.Next(population.GetChromosomes().Count);
+
+                ReceiptSolution selectedChromosome = (ReceiptSolution)population.GetChromosomes()[chIndex];
+
+                List<FactoryGene> possibleFactories = _factoryGenes.FindAll(gene => gene.GetFactory().Location == selectedChromosome.CityGene.GetCity() & gene.GetFactory() != selectedChromosome.FactoryGene.GetFactory());
+
+                Random randFactory = new Random();
+
+                int factoryIndex = randFactory.Next(possibleFactories.Count);
+
+                FactoryGene selectedFactoryGene = possibleFactories[factoryIndex];
+
+                List<DeliveryCompanyGene> possibleCompanies = _companyGenes.FindAll(gene => gene.GetCompany() != selectedChromosome.CompanyGene.GetCompany()); 
+                
+                Random randCompany = new Random();
+
+                int companyIndex = randCompany.Next(possibleCompanies.Count);
+
+                DeliveryCompanyGene selectedCompany = possibleCompanies[companyIndex];
+
+                selectedChromosome.CompanyGene = selectedCompany;
+
+                population.RemoveChromosome(selectedChromosome);
+
+                selectedChromosome.FactoryGene = selectedFactoryGene;
+
+                population.AddChromosome(selectedChromosome);
+
+            }
+
+            return population;
+            
         }
 
     }
