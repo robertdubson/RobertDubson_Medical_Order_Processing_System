@@ -12,8 +12,6 @@ namespace BusinessLogic
 
         public string PasswordHash { get; protected set; }
 
-        public string UserEmail { get; protected set; }
-
         public User(int id , string password, string username)
         {
             ID = id;

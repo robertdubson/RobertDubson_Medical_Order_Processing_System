@@ -7,11 +7,7 @@ namespace BusinessLogic
     public abstract class BaseModel
     {
         
-        public int ID { get; protected set; }
+        public int ID { get; set; }
 
-        public virtual void setId(int iD) 
-        {
-            ID = iD;
-        }
     }
 }
