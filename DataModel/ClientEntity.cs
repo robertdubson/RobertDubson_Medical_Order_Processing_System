@@ -13,7 +13,9 @@ namespace DataModel
 
         public string PasswordHash { get; set; }
 
-        public ClientEntity(int id, string cname, string passwordHash, string username)
+        public int LocationID { get; set; }
+
+        public ClientEntity(int id, string cname, int locationId, string passwordHash, string username)
         {
             ID = id;
 
@@ -22,6 +24,8 @@ namespace DataModel
             PasswordHash = passwordHash;
 
             ClientName = cname;
+
+            LocationID = locationId;
         }
 
         public ClientEntity(string passwordHash, string username, string clienName)

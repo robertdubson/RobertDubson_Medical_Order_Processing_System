@@ -8,7 +8,7 @@ namespace BusinessLogic
     {
         public string Name { get; set; }
 
-        public Doctor(int id, string name, string password, string username) : base (password, username)
+        public Doctor(int id, string name, string passwordHash, string username) : base (passwordHash, username)
         {
             ID = id;
 
@@ -16,18 +16,10 @@ namespace BusinessLogic
 
             UserName = username;
 
-            PasswordHash = GetHashString(password);
+            PasswordHash = passwordHash;
 
         }
 
-        public Doctor(string name, string password, string username) : base (password, username)
-        {
-            Name = name;
-
-            UserName = username;
-
-            PasswordHash = GetHashString(password);
-        }
 
 
     }

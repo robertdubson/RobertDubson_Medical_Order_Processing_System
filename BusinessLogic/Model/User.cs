@@ -12,13 +12,13 @@ namespace BusinessLogic
 
         public string PasswordHash { get; protected set; }
 
-        public User(int id , string password, string username)
+        public User(int id , string passwordHash, string username)
         {
             ID = id;
 
             UserName = username;
 
-            PasswordHash = GetHashString(password);
+            PasswordHash = passwordHash;
         }
 
         public User(string password, string username) 
