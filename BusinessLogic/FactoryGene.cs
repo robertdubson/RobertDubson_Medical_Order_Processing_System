@@ -12,6 +12,8 @@ namespace BusinessLogic
 
         int _maxUnits;
 
+        City _factoryCity;
+
         City _destination;
 
         double _minDistance;
@@ -25,7 +27,7 @@ namespace BusinessLogic
         bool _geneValue;
 
         // передавати фабрику і productandfactory тієї самої ID фабрики виключно
-        public FactoryGene(Factory currentFactory, MedicalProduct currentProduct, SupplierAndProduct priceInfo, ProductAndFactory pAndF, City destination, int maxUnits, double minDistance, double minimalPrice) 
+        public FactoryGene(Factory currentFactory, City factoryCity, MedicalProduct currentProduct, SupplierAndProduct priceInfo, ProductAndFactory pAndF, City destination, int maxUnits, double minDistance, double minimalPrice) 
         {
             _currentFactory = currentFactory;
 
@@ -44,6 +46,8 @@ namespace BusinessLogic
             _minPrice = minimalPrice;
 
             _geneValue = false;
+
+            _factoryCity = factoryCity;
         }
 
         public Factory GetFactory() 
@@ -68,7 +72,7 @@ namespace BusinessLogic
 
         public double CalculateRank()
         {
-            double distance = Math.Sqrt(Math.Pow(_currentFactory.Location.CoordinateX - _destination.CoordinateX, 2) - Math.Pow(_currentFactory.Location.CoordinateY - _destination.CoordinateY, 2));
+            double distance = Math.Sqrt(Math.Pow(_factoryCity.CoordinateX - _destination.CoordinateX, 2) - Math.Pow(_factoryCity.CoordinateY - _destination.CoordinateY, 2));
             
             double distance_rate = _minDistance / distance;
             

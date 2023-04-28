@@ -4,10 +4,10 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    public class City
+    public class City : BaseModel
     {
 
-        public int ID { get; private set; }
+        //public int ID { get; private set; }
 
         public string CityName { get; set; }
 
@@ -15,8 +15,27 @@ namespace BusinessLogic
 
         public double CoordinateY { get; set; }
 
-        
+        public City(int iD, string cityName, double X, double Y) 
+        {
+            ID = iD;
 
+            CityName = cityName;
 
+            CoordinateX = X;
+
+            CoordinateY = Y;
+
+        }
+
+        public City(string cityName, double X, double Y)
+        {
+
+            CityName = cityName;
+
+            CoordinateX = X;
+
+            CoordinateY = Y;            
+
+        }
     }
 }

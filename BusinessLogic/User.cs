@@ -5,32 +5,39 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    public class User : IUser
-    {
+    public class User : BaseModel, IUser
+    {        
 
-        public int ID { get; private set; }
+        public string UserName { get; protected set; }
 
-        public string UserName { get; private set; }
+        public string PasswordHash { get; protected set; }
 
-        private string _passwordHash;
+        public string UserEmail { get; protected set; }
 
-        public string UserEmail { get; private set; }
+        public User(int id , string password, string username)
+        {
+            ID = id;
+
+            UserName = username;
+
+            PasswordHash = GetHashString(password);
+        }
 
         public User(string password, string username) 
         {
             UserName = username;
 
-            _passwordHash = GetHashString(password);
+            PasswordHash = GetHashString(password);
 
         }
         
 
-        public bool Login(string password, string username)
+        public virtual bool Login(string password, string username)
         {
-            return GetHashString(password) == _passwordHash & username == UserName;
+            return GetHashString(password) == PasswordHash & username == UserName;
         }
 
-        public void Logout()
+        public virtual void Logout()
         {
             throw new NotImplementedException();
         }

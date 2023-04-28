@@ -13,6 +13,8 @@ namespace BusinessLogic
 
         List<SupplierAndProduct> _priceInfo;
 
+        List<City> _factoryCities;
+
         MedicalProduct _selectedProduct;
 
         City _destination;
@@ -26,7 +28,7 @@ namespace BusinessLogic
         List<FactoryGene> _genes;
 
 
-        public FactoryGeneGenerator(List<Factory> factories, List<ProductAndFactory> productsInFactories, List<SupplierAndProduct> priceInfo, MedicalProduct selectedProduct, City destination) 
+        public FactoryGeneGenerator(List<Factory> factories, List<City> cities, List<ProductAndFactory> productsInFactories, List<SupplierAndProduct> priceInfo, MedicalProduct selectedProduct, City destination) 
         {
             _factories = factories;
 
@@ -37,6 +39,8 @@ namespace BusinessLogic
             _destination = destination;
 
             _selectedProduct = selectedProduct;
+
+            _factoryCities = cities;
 
             _genes = new List<FactoryGene>();
             
@@ -68,7 +72,7 @@ namespace BusinessLogic
             return maxUnits;
         }
 
-        private double FindMinDistance(List<Factory> factories, City destination) 
+        private double FindMinDistance(List<Factory> factories, List<City> cities, City destination) 
         {
             double min = 0;
 
@@ -76,13 +80,17 @@ namespace BusinessLogic
             {
                 Dictionary<City, double> distances = new Dictionary<City, double>();
 
-                factories.ForEach(f => distances.Add(f.Location, GetDistanceBetween(f.Location, destination)));
+
+
+                factories.ForEach(f => distances.Add(cities.Find(c => c.ID == f.CityID), GetDistanceBetween(cities.Find(c => c.ID == f.CityID), destination)));
 
                 var random = new Random();
 
                 int index = random.Next(distances.Keys.Count);
 
-                min = distances[factories[index].Location];
+                City selectedCity = cities.Find(c => c.ID == factories[index].CityID);
+
+                min = distances[selectedCity];
 
                 foreach (City c in distances.Keys)
                 {
@@ -130,7 +138,7 @@ namespace BusinessLogic
         {
             _maxUnits = FindMaxUnits(_pAndFs, _selectedProduct);
 
-            _minDistance = FindMinDistance(_factories, _destination);
+            _minDistance = FindMinDistance(_factories, _factoryCities, _destination);
 
             _minPrice = FindMinPrice(_selectedProduct, _priceInfo);
 
@@ -142,7 +150,9 @@ namespace BusinessLogic
 
                 ProductAndFactory pAndF = _pAndFs.Find(pF => pF.ProductID == _selectedProduct.ID & f.ID == pF.FactoryID);
 
-                _genes.Add(new FactoryGene(f, _selectedProduct, sAndP, pAndF, _destination, _maxUnits, _minDistance, _minPrice));
+                City factoryCity = _factoryCities.Find(c => c.ID == f.CityID);
+
+                _genes.Add(new FactoryGene(f, factoryCity,_selectedProduct, sAndP, pAndF, _destination, _maxUnits, _minDistance, _minPrice));
             }
 
             return _genes;

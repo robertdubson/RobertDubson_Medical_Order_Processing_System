@@ -4,13 +4,22 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    public class Supplier
+    public class Supplier : BaseModel
     {
 
-        public int ID { get; private set; }
+        public string Name { get; set; }
 
-        public string Name { get; set; }       
+        public Supplier(int id, string name)
+        {
+            ID = id;
 
+            Name = name;
+        }
+
+        public Supplier(string name) 
+        {
+            Name = name;
+        }
         
     }
 }

@@ -12,7 +12,7 @@ namespace BusinessLogic
 
         List<DeliveryCompanyGene> _companyGenes;
 
-        MedicalProduct _selectedProduct;
+        MedicalProduct _selectedProduct;        
 
         
         public ReceiptGeneticAlgorithm(MedicalProduct selectedProduct, CityGeneGenerator cityGeneGenerator, FactoryGeneGenerator factoryGeneGenerator, DeliveryCompanyGeneGenerator deliveryCompanyGeneGenerator)
@@ -24,9 +24,25 @@ namespace BusinessLogic
             _factoryGenes = factoryGeneGenerator.GenerateGenes();
 
             _selectedProduct = selectedProduct;
+
+            
         }
 
-        public IPopulation InitializePopulation(int chromosomeCount=10)
+        public ReceiptSolution GetSolution(int maxIterations=100) 
+        {
+            ReceiptPopulation receiptPopulation = (ReceiptPopulation)InitializePopulation();
+            
+            while (maxIterations!=0 & _cityGenes.Count!=0 & _companyGenes.Count!=0 & _factoryGenes.Count!=0) 
+            {
+                receiptPopulation = (ReceiptPopulation)Crossingover(receiptPopulation);
+                receiptPopulation = (ReceiptPopulation)Mutation(receiptPopulation);
+                maxIterations--;
+            }
+
+            return (ReceiptSolution)receiptPopulation.GetTheBestSolution();
+        }
+
+        public IPopulation InitializePopulation(int chromosomeCount=50)
         {
             int solutionsCount = _cityGenes.Count * _factoryGenes.Count * _companyGenes.Count;
 
@@ -200,7 +216,7 @@ namespace BusinessLogic
 
                 ReceiptSolution selectedChromosome = (ReceiptSolution)population.GetChromosomes()[chIndex];
 
-                List<FactoryGene> possibleFactories = _factoryGenes.FindAll(gene => gene.GetFactory().Location == selectedChromosome.CityGene.GetCity() & gene.GetFactory() != selectedChromosome.FactoryGene.GetFactory());
+                List<FactoryGene> possibleFactories = _factoryGenes.FindAll(gene => gene.GetFactory().CityID == selectedChromosome.CityGene.GetCity().ID & gene.GetFactory() != selectedChromosome.FactoryGene.GetFactory());
 
                 Random randFactory = new Random();
 
@@ -223,6 +239,10 @@ namespace BusinessLogic
                 selectedChromosome.FactoryGene = selectedFactoryGene;
 
                 population.AddChromosome(selectedChromosome);
+
+                _factoryGenes.RemoveAt(factoryIndex);
+
+                _companyGenes.RemoveAt(companyIndex);
 
             }
 

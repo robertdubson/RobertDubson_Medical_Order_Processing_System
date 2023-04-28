@@ -4,12 +4,27 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    public class ReceiptAndProduct
+    public class ReceiptAndProduct : BaseModel
     {
-        public int ID { get; private set; }
 
         public int ReceiptID { get; set; }
 
         public int ProductID { get; set; }
+
+        public ReceiptAndProduct(int id, int receiptId, int productId)
+        {
+            ID = id;
+
+            ReceiptID = receiptId;
+
+            ProductID = productId;
+        }
+
+        public ReceiptAndProduct(int receiptId, int productId)
+        {
+            ReceiptID = receiptId;
+
+            ProductID = productId;
+        }
     }
 }

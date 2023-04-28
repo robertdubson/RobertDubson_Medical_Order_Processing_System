@@ -4,14 +4,33 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    public class DeliveryCompanyAndCity
+    public class DeliveryCompanyAndCity : BaseModel
     {
-        public int ID { get; private set; }
 
         public int CompanyID { get; set; }
 
         public int CityID { get; set; }
 
         public int AvailableCouriers { get; set; }
+
+        public DeliveryCompanyAndCity(int id, int companyId, int cityId, int couriers)
+        {
+            ID = id;
+
+            CompanyID = companyId;
+
+            CityID = cityId;
+
+            AvailableCouriers = couriers;
+        }
+
+        public DeliveryCompanyAndCity(int companyId, int cityId, int couriers)
+        {
+            CompanyID = companyId;
+
+            CityID = cityId;
+
+            AvailableCouriers = couriers;
+        }
     }
 }
