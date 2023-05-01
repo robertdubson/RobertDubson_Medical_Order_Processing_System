@@ -33,6 +33,8 @@ namespace DataLayer.UnitOfWork
 
         ISupplierRepository SupplierRepository { get; }
 
+        IDoctorRepository DoctorRepository { get; }
+
         int Complete();
 
     }

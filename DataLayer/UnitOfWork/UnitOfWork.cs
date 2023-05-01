@@ -23,6 +23,7 @@ namespace DataLayer.UnitOfWork
         private IStatusRepository _statusRepository;
         private ISupplierAndProductRepository _supplierAndProductRepository;
         private ISupplierRepository _supplierRepository;
+        private IDoctorRepository _doctorRepository;
 
         public UnitOfWork(ApplicationContext db)
         {
@@ -55,6 +56,7 @@ namespace DataLayer.UnitOfWork
 
         public ISupplierRepository SupplierRepository { get { return _supplierRepository ??= new SupplierRepository(_db); } }
 
+        public IDoctorRepository DoctorRepository { get { return _doctorRepository ??= new DoctorRepository(_db); } }
         public int Complete()
         {
             return _db.SaveChanges();

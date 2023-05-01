@@ -6,5 +6,8 @@ namespace DataLayer.Repositories.Abstract
 {
     public interface IDoctorRepository : IRepository<DoctorEntity, int>
     {
+        public DoctorEntity GetDoctorByUsername(string username);
     }
+
+    
 }

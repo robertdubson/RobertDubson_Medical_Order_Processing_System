@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32802.440
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobertDubson_Medical_Order_Processing_System", "RobertDubson_Medical_Order_Processing_System\RobertDubson_Medical_Order_Processing_System.csproj", "{FBCB9D48-95A3-49DB-99BB-6B9283BBE1AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RobertDubson_Medical_Order_Processing_System", "RobertDubson_Medical_Order_Processing_System\RobertDubson_Medical_Order_Processing_System.csproj", "{FBCB9D48-95A3-49DB-99BB-6B9283BBE1AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{6B7968E4-D243-4642-A1A3-64A3B059C5A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataModel", "DataModel\DataModel.csproj", "{6B7968E4-D243-4642-A1A3-64A3B059C5A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{DEDA4C24-57A6-4709-A40D-44D34D18B348}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{DEDA4C24-57A6-4709-A40D-44D34D18B348}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{71B76B25-00C4-4720-A83D-7F189D350A7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{71B76B25-00C4-4720-A83D-7F189D350A7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mappers", "Mappers\Mappers.csproj", "{B4F2FB27-B46F-4322-8A16-4B049CE1BBCB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mappers", "Mappers\Mappers.csproj", "{B4F2FB27-B46F-4322-8A16-4B049CE1BBCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{3C3F05E2-B345-4D10-8961-CD16C93229C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{B4F2FB27-B46F-4322-8A16-4B049CE1BBCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4F2FB27-B46F-4322-8A16-4B049CE1BBCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4F2FB27-B46F-4322-8A16-4B049CE1BBCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C3F05E2-B345-4D10-8961-CD16C93229C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C3F05E2-B345-4D10-8961-CD16C93229C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C3F05E2-B345-4D10-8961-CD16C93229C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C3F05E2-B345-4D10-8961-CD16C93229C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

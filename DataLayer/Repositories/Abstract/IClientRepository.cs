@@ -6,5 +6,6 @@ namespace DataLayer.Repositories.Abstract
 {
     public interface IClientRepository : IRepository<ClientEntity, int>
     {
+        ClientEntity GetClientByUsername(string username);
     }
 }

@@ -16,5 +16,7 @@ namespace DataLayer.Repositories
 
         public void Delete(TKey ID);
 
+        public int NextID();
+
     }
 }

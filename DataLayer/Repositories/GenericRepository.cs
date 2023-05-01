@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using DataModel;
 namespace DataLayer.Repositories
 {
-    public class GenericRepository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : class
+    public class GenericRepository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : BaseEntity
     {
         private readonly DbContext Context;
 
@@ -37,7 +39,7 @@ namespace DataLayer.Repositories
 
         public IEnumerable<TEntity> GetAll()
         {
-            return _DbSet;
+            return _DbSet.ToList();
         }
 
         public TEntity GetByID(TKey ID)
@@ -49,6 +51,21 @@ namespace DataLayer.Repositories
         {
             Context.Entry(example).State = EntityState.Modified;
             Context.SaveChanges();
+        }
+
+        public int NextID() 
+        {
+
+            if (_DbSet.ToList().Count != 0)
+            {
+                return _DbSet.ToList().OrderByDescending(example => example.ID).FirstOrDefault().ID + 1;
+            }
+            else 
+            {
+                return 1;
+            }
+            
+                   
         }
     }
 }
