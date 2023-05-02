@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using DataModel;
+using Microsoft.AspNetCore.Identity;
 namespace DataLayer
 {
     public class ApplicationContext : DbContext
