@@ -22,5 +22,10 @@ namespace DataModel
 
             UnitsInStorage = unitsInStorage;
         }
+
+        public ProductAndFactoryEntity()
+        {
+
+        }
     }
 }

@@ -18,5 +18,10 @@ namespace DataModel
 
             Address = address;
         }
+
+        public IssuePointEntity()
+        {
+
+        }
     }
 }

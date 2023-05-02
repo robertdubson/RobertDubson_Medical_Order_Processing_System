@@ -22,5 +22,10 @@ namespace DataModel
 
             Price = price;
         }
+
+        public SupplierAndProductEntity()
+        {
+
+        }
     }
 }

@@ -5,9 +5,12 @@ using Mappers;
 using DataLayer.UnitOfWork;
 using BusinessLogic;
 using System.Linq;
+using Services.Abstract;
+using System.Security.Cryptography;
+
 namespace Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -64,6 +67,26 @@ namespace Services
         public void UpdateClient(Client client) 
         {
             _unitOfWork.ClientRepository.Update(_clientMapper.FromDomainToEntity(client));
+        }
+
+        public string GetHash(string word) 
+        {
+            return GetHashString(word);
+        }
+
+        public static byte[] GetHashOfAString(string inputString)
+        {
+            using (HashAlgorithm algorithm = SHA256.Create())
+                return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
+        }
+
+        public static string GetHashString(string inputString)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in GetHashOfAString(inputString))
+                sb.Append(b.ToString("X2"));
+
+            return sb.ToString();
         }
 
 

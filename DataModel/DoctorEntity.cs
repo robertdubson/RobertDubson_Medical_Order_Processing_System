@@ -23,6 +23,11 @@ namespace DataModel
             Name = cname;
         }
 
+        public DoctorEntity()
+        {
+
+        }
+
         public DoctorEntity(string passwordHash, string username, string name)
         {
             UserName = username;

@@ -1,0 +1,15 @@
+﻿@model ClientCreationViewModel
+
+<form method="post" asp-action="CreateClient">
+    <label for="ClientName">First Name:</label>
+    <input type="text" id="firstName" name="FirstName" value="@Model.OfficialName" />
+    <label for="Password">Password:</label>
+    <input type="password" id="password" name="Password" value="@Model.InsertedPassword" />
+    <input type="text" id="Username" name="Password" value="@Model.UserName" />
+    <label for="myList">Select a value:</label>
+    @Html.DropDownListFor(model => model.SelectedCityIDStr, Model.AllCities, "Select an option", new { id = "myList" })
+
+
+
+    <button type="submit">Submit</button>
+</form>

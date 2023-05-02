@@ -13,5 +13,9 @@ namespace DataModel
 
             StatusName = name;
         }
+        public StatusEntity()
+        {
+
+        }
     }
 }

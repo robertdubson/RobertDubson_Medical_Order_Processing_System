@@ -18,5 +18,10 @@ namespace DataModel
 
             PriceForKm = priceKm;
         }
+
+        public DeliveryCompanyEntity()
+        {
+
+        }
     }
 }

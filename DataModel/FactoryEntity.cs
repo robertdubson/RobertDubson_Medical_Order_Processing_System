@@ -23,5 +23,10 @@ namespace DataModel
             CompanyID = compID;
         }
 
+        public FactoryEntity()
+        {
+
+        }
+
     }
 }

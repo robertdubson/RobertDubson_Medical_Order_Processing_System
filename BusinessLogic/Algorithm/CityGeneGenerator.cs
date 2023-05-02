@@ -21,8 +21,8 @@ namespace BusinessLogic
             _genes = new List<CityGene>();
 
             _destination = destination;
-            
 
+            _cities = cities;
         }
 
         private double FindMinDistance(List<City> cities, City destination) 

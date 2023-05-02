@@ -14,6 +14,7 @@ using System.Configuration;
 using DataLayer;
 using Services;
 using BusinessLogic;
+using DataLayer.UnitOfWork;
 namespace MedicalDeliveryService
 {
     public class Startup
@@ -30,7 +31,9 @@ namespace MedicalDeliveryService
         {
             services.AddControllersWithViews();
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<User, IdentityRole>( a => { }).AddEntityFrameworkStores<ApplicationContext>();
+            //services.AddIdentity<IdentityUser, IdentityRole>( a => { }).AddEntityFrameworkStores<ApplicationContext>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +55,7 @@ namespace MedicalDeliveryService
             app.UseRouting();
 
             app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {

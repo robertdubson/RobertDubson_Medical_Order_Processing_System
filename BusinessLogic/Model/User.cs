@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.Text;
-
+using Microsoft.AspNetCore.Identity;
 namespace BusinessLogic
 {
     public class User : BaseModel, IUser

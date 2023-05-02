@@ -12,6 +12,11 @@ namespace DataModel
 
         public double CoordinateY { get; set; }
 
+        public CityEntity()
+        {
+
+        }
+
         public CityEntity(int iD, string cityName, double X, double Y)
         {
             ID = iD;

@@ -18,5 +18,10 @@ namespace DataModel
 
             ProductID = productId;
         }
+
+        public ReceiptAndProductEntity()
+        {
+
+        }
     }
 }

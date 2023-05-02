@@ -36,5 +36,10 @@ namespace DataModel
 
 
         }
+
+        public ReceiptEntity()
+        {
+
+        }
     }
 }

@@ -14,5 +14,10 @@ namespace DataModel
 
             Name = name;
         }
+
+        public SupplierEntity()
+        {
+
+        }
     }
 }

@@ -22,5 +22,10 @@ namespace DataModel
 
             InstructionToUse = instruction;
         }
+
+        public MedicalProductEntity()
+        {
+
+        }
     }
 }

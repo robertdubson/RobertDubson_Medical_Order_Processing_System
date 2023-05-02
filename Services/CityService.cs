@@ -5,9 +5,10 @@ using DataLayer.UnitOfWork;
 using BusinessLogic;
 using Mappers;
 using System.Linq;
+using Services.Abstract;
 namespace Services
 {
-    public class CityService
+    public class CityService : ICityService
     {
         private readonly IUnitOfWork _unitOfWork;
 

@@ -22,5 +22,10 @@ namespace DataModel
 
             AvailableCouriers = couriers;
         }
+
+        public DeliveryCompanyAndCityEntity()
+        {
+
+        }
     }
 }
