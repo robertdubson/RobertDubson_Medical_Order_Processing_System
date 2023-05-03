@@ -16,5 +16,10 @@ namespace Mappers
         {
             return new City(example.ID, example.CityName, example.CoordinateX, example.CoordinateY);
         }
+
+        public CityEntity NewExample(City example)
+        {
+            return new CityEntity(example.CityName, example.CoordinateX, example.CoordinateY);
+        }
     }
 }

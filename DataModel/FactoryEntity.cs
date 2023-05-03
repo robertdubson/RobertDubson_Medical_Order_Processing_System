@@ -22,6 +22,15 @@ namespace DataModel
 
             CompanyID = compID;
         }
+        public FactoryEntity( int cityId, string address, int compID)
+        {
+
+            CityID = cityId;
+
+            Address = address;
+
+            CompanyID = compID;
+        }
 
         public FactoryEntity()
         {

@@ -33,13 +33,15 @@ namespace DataModel
             LocationID = locationId;
         }
 
-        public ClientEntity(string passwordHash, string username, string clienName)
+        public ClientEntity(string passwordHash, string username, string clienName, int locationId)
         {
             UserName = username;
 
             PasswordHash = passwordHash;
 
             ClientName = clienName;
+
+            LocationID = locationId;
 
         }
     }

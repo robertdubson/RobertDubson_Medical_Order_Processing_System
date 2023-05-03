@@ -35,7 +35,7 @@ namespace DataLayer.UnitOfWork
 
         IDoctorRepository DoctorRepository { get; }
 
-        int Complete();
+        public int Complete();
 
     }
 }

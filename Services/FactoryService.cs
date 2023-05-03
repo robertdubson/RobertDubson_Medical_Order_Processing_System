@@ -31,7 +31,7 @@ namespace Services
 
         public void AddFactory(Factory factory) 
         {
-            _unitOfWork.FactoryRepository.Add(_factoryMapper.FromDomainToEntity(factory));
+            _unitOfWork.FactoryRepository.Add(_factoryMapper.NewExample(factory));
         }
 
         public void UpdateFactory(Factory factory) 

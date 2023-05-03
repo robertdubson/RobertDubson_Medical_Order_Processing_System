@@ -19,6 +19,14 @@ namespace DataModel
             ProductID = productId;
         }
 
+        public ReceiptAndProductEntity(int receiptId, int productId)
+        {
+
+            ReceiptID = receiptId;
+
+            ProductID = productId;
+        }
+
         public ReceiptAndProductEntity()
         {
 

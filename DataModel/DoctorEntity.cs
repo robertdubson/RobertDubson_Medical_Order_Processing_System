@@ -23,18 +23,18 @@ namespace DataModel
             Name = cname;
         }
 
-        public DoctorEntity()
+        public DoctorEntity(string cname, string passwordHash, string username)
         {
 
-        }
-
-        public DoctorEntity(string passwordHash, string username, string name)
-        {
             UserName = username;
 
             PasswordHash = passwordHash;
 
-            Name = name;
+            Name = cname;
+        }
+
+        public DoctorEntity()
+        {
 
         }
     }

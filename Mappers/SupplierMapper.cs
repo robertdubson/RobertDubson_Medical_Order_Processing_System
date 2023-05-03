@@ -16,5 +16,10 @@ namespace Mappers
         {
             return new Supplier(example.ID, example.Name);
         }
+
+        public SupplierEntity NewExample(Supplier example)
+        {
+            return new SupplierEntity( example.Name);
+        }
     }
 }

@@ -37,6 +37,24 @@ namespace DataModel
 
         }
 
+        public ReceiptEntity(int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId)
+        {
+
+            ClientID = clientid;
+
+            AuthorID = authorId;
+
+            AppointmentReview = review;
+
+            OrderStatusID = statusId;
+
+            ShipToTheIssuePoint = shipToPoint;
+
+            DestinationCityID = destinationId;
+
+
+        }
+
         public ReceiptEntity()
         {
 

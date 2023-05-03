@@ -16,5 +16,10 @@ namespace Mappers
         {
             return new Client(example.ID, example.ClientName, example.LocationID, example.PasswordHash, example.UserName);
         }
+
+        public ClientEntity NewExample(Client example)
+        {
+            return new ClientEntity(example.Name, example.PasswordHash, example.UserName, example.LocationID );
+        }
     }
 }

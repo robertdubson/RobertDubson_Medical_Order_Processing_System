@@ -13,6 +13,12 @@ namespace DataModel
 
             StatusName = name;
         }
+
+        public StatusEntity(string name)
+        {
+
+            StatusName = name;
+        }
         public StatusEntity()
         {
 

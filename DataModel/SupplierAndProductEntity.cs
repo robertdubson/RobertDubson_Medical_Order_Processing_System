@@ -23,6 +23,16 @@ namespace DataModel
             Price = price;
         }
 
+        public SupplierAndProductEntity(int SupId, int ProdId, double price)
+        {
+
+            SupplierID = SupId;
+
+            ProductID = ProdId;
+
+            Price = price;
+        }
+
         public SupplierAndProductEntity()
         {
 

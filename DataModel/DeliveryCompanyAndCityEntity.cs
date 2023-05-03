@@ -23,6 +23,16 @@ namespace DataModel
             AvailableCouriers = couriers;
         }
 
+        public DeliveryCompanyAndCityEntity(int companyId, int cityId, int couriers)
+        {
+
+            CompanyID = companyId;
+
+            CityID = cityId;
+
+            AvailableCouriers = couriers;
+        }
+
         public DeliveryCompanyAndCityEntity()
         {
 

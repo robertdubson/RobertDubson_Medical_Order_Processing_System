@@ -9,5 +9,7 @@ namespace Mappers
         public E FromDomainToEntity(D example);
 
         public D FromEntityToDomain(E example);
+
+        public E NewExample(D example);
     }
 }

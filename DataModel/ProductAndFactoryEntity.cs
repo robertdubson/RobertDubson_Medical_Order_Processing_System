@@ -23,6 +23,16 @@ namespace DataModel
             UnitsInStorage = unitsInStorage;
         }
 
+        public ProductAndFactoryEntity(int factoryId, int productId, int unitsInStorage)
+        {
+
+            FactoryID = factoryId;
+
+            ProductID = productId;
+
+            UnitsInStorage = unitsInStorage;
+        }
+
         public ProductAndFactoryEntity()
         {
 

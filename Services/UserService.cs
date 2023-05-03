@@ -29,27 +29,46 @@ namespace Services
 
         public Client GetClientByUserName(string username) 
         {
-            return _clientMapper.FromEntityToDomain(_unitOfWork.ClientRepository.GetClientByUsername(username));
+            if (_unitOfWork.ClientRepository.GetClientByUsername(username) != null)
+            {
+                return _clientMapper.FromEntityToDomain(_unitOfWork.ClientRepository.GetClientByUsername(username));
+            }
+            else 
+            {
+                return null;
+            }
+            
+            
         }
 
         public Doctor GetDoctorByUserName(string username) 
         {
-            return _doctorMapper.FromEntityToDomain(_unitOfWork.DoctorRepository.GetDoctorByUsername(username));
+
+
+            if (_unitOfWork.DoctorRepository.GetDoctorByUsername(username) != null)
+            {
+                return _doctorMapper.FromEntityToDomain(_unitOfWork.DoctorRepository.GetDoctorByUsername(username));
+            }
+            else 
+            {
+                return null;
+            }
         }
 
         public void AddClient(string username, string passwordHash, string clientName, int cityId) 
         {
-            if (GetClientByUserName(username)!=null) 
+            Client newCLient = new Client(_unitOfWork.ClientRepository.NextID(), clientName, cityId, passwordHash, username);
+            if (GetClientByUserName(username)==null) 
             {
-                _unitOfWork.ClientRepository.Add(_clientMapper.FromDomainToEntity(new Client(_unitOfWork.ClientRepository.NextID(), clientName, cityId, passwordHash, username)));
+                _unitOfWork.ClientRepository.Add(_clientMapper.NewExample(newCLient));
             }
         }
 
         public void AddDoctor(string username, string passwordHash, string clientName)
         {
-            if (GetDoctorByUserName(username) != null) 
+            if (GetDoctorByUserName(username) == null) 
             {
-                _unitOfWork.DoctorRepository.Add(_doctorMapper.FromDomainToEntity(new Doctor(_unitOfWork.DoctorRepository.NextID(), clientName, passwordHash, username)));
+                _unitOfWork.DoctorRepository.Add(_doctorMapper.NewExample(new Doctor(_unitOfWork.DoctorRepository.NextID(), clientName, passwordHash, username)));
             }
         }
 

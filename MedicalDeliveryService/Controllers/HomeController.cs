@@ -11,6 +11,10 @@ using Services.Abstract;
 using DataLayer.UnitOfWork;
 using Mappers;
 using BusinessLogic;
+using Microsoft.EntityFrameworkCore;
+using DataLayer;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
 namespace MedicalDeliveryService.Controllers
 {
     public class HomeController : Controller
@@ -22,12 +26,12 @@ namespace MedicalDeliveryService.Controllers
         IUserService _userService;
 
         ICityService _cityService;
-
-        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
+        
+        public HomeController(ILogger<HomeController> logger, ApplicationContext applicationContext)
         {
             _logger = logger;
 
-            _unitOfWork = unitOfWork;
+            _unitOfWork = new UnitOfWork(applicationContext);
 
             _userService = new UserService(_unitOfWork, new DoctorMapper(), new ClientMapper());
 
@@ -50,7 +54,7 @@ namespace MedicalDeliveryService.Controllers
 
             List<ClientsViewModel> models = new List<ClientsViewModel>();
 
-            _unitOfWork.ClientRepository.GetAll().ToList().ForEach(cl => models.Add(new ClientsViewModel(cl.ID, cl.ClientName, cl.LocationID, cl.PasswordHash, cl.UserName)));
+            _userService.GetAllClients().ForEach(cl => models.Add(new ClientsViewModel(cl.ID, cl.Name, cl.LocationID, cl.PasswordHash, cl.UserName)));
 
             models.Add(new ClientsViewModel(1, "sdgfdgsf", 1, "asdasd", "asfafg"));
             models.Add(new ClientsViewModel(2, "sdgfdgsf", 1, "asdasd", "asfafg"));
@@ -73,28 +77,36 @@ namespace MedicalDeliveryService.Controllers
 
             models.Add(new City(3, "Feodosia", 1, 2));
 
-            ViewData["SelectedCityIDStr"] = "1";
+            //ViewData["SelectedCityIDStr"] = "1";
 
-            ClientCreationViewModel cm = new ClientCreationViewModel(models);
+            ClientCreationViewModel cm = new ClientCreationViewModel();
+
+            cm.CityModels = models;
+
+            cm.AllCities = models.Select(ct => new SelectListItem(ct.CityName, ct.ID.ToString())).ToList();
+
 
             return View("ClientCreation", cm);
         }
 
         [HttpPost]
-        public IActionResult CreateClient(ClientCreationViewModel viewModel) 
+        public IActionResult CreateClient() 
         {
+            ClientCreationViewModel viewModel = new ClientCreationViewModel();
 
-            List<ClientsViewModel> models = new List<ClientsViewModel>();
+            viewModel.SelectedCityIDStr = Request.Form["SelectedCityIDStr"];
+            viewModel.InsertedPassword = Request.Form["InsertedPassword"];
+            viewModel.OfficialName = Request.Form["OfficialName"];
+            viewModel.UserName = Request.Form["UserName"];
+            _userService.AddClient(viewModel.UserName, _userService.GetHash(viewModel.InsertedPassword), viewModel.OfficialName, int.Parse(viewModel.SelectedCityIDStr));
+            //_userService.GetAllClients().ForEach(cl => models.Add(new ClientsViewModel(cl.ID, cl.Name, cl.LocationID, cl.PasswordHash, cl.UserName)));
+            _unitOfWork.Complete();
+            //models.Add(new ClientsViewModel(1, "sdgfdgsf", 1, "asdasd", "asfafg"));
+            //models.Add(new ClientsViewModel(2, "sdgfdgsf", 1, "asdasd", "asfafg"));
+            //models.Add(new ClientsViewModel(3, "sdgfdgsf", 1, "asdasd", "asfafg"));
+            //models.Add(new ClientsViewModel(4, "sdgfdgsf", 1, "asdasd", "asfafg"));
 
-            _userService.AddClient(viewModel.UserName, _userService.GetHash(viewModel.InsertedPassword), viewModel.OfficialName, viewModel.SelectedCity.ID);            
-            _unitOfWork.ClientRepository.GetAll().ToList().ForEach(cl => models.Add(new ClientsViewModel(cl.ID, cl.ClientName, cl.LocationID, cl.PasswordHash, cl.UserName)));
-
-            models.Add(new ClientsViewModel(1, "sdgfdgsf", 1, "asdasd", "asfafg"));
-            models.Add(new ClientsViewModel(2, "sdgfdgsf", 1, "asdasd", "asfafg"));
-            models.Add(new ClientsViewModel(3, "sdgfdgsf", 1, "asdasd", "asfafg"));
-            models.Add(new ClientsViewModel(4, "sdgfdgsf", 1, "asdasd", "asfafg"));
-
-            return View("AllClients");
+            return View("Index");
         }
 
 

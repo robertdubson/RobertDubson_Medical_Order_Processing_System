@@ -16,5 +16,10 @@ namespace Mappers
         {
             return new Receipt(example.ID, example.ClientID, example.AuthorID, example.AppointmentReview, example.OrderStatusID, example.ShipToTheIssuePoint, example.DestinationCityID);
         }
+
+        public ReceiptEntity NewExample(Receipt example)
+        {
+            return new ReceiptEntity(example.ClientID, example.AuthorID, example.AppointmentReview, example.OrderStatusID, example.ShipToTheIssuePoint, example.DestinationCityID);
+        }
     }
 }

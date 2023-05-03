@@ -16,5 +16,10 @@ namespace Mappers
         {
             return new Doctor(example.ID, example.Name, example.PasswordHash, example.UserName);
         }
+
+        public DoctorEntity NewExample(Doctor example)
+        {
+            return new DoctorEntity(example.Name, example.PasswordHash, example.UserName);
+        }
     }
 }

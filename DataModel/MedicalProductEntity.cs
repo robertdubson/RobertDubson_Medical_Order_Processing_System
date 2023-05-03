@@ -23,6 +23,16 @@ namespace DataModel
             InstructionToUse = instruction;
         }
 
+        public MedicalProductEntity(string prodName, string description, string instruction)
+        {
+
+            ProductName = prodName;
+
+            Description = description;
+
+            InstructionToUse = instruction;
+        }
+
         public MedicalProductEntity()
         {
 

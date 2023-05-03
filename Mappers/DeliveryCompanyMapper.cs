@@ -16,5 +16,10 @@ namespace Mappers
         {
             return new DeliveryCompany(example.ID, example.Name, example.PriceForKm);
         }
+
+        public DeliveryCompanyEntity NewExample(DeliveryCompany example)
+        {
+            return new DeliveryCompanyEntity( example.Name, example.PriceForKm);
+        }
     }
 }

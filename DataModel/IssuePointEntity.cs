@@ -19,6 +19,14 @@ namespace DataModel
             Address = address;
         }
 
+        public IssuePointEntity(int cityId, string address)
+        {
+
+            CityID = cityId;
+
+            Address = address;
+        }
+
         public IssuePointEntity()
         {
 

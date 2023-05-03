@@ -16,5 +16,10 @@ namespace Mappers
         {
             return new ProductAndFactory(example.ID, example.FactoryID, example.ProductID, example.UnitsInStorage);
         }
+
+        public ProductAndFactoryEntity NewExample(ProductAndFactory example)
+        {
+            return new ProductAndFactoryEntity(example.FactoryID, example.ProductID, example.UnitsInStorage);
+        }
     }
 }

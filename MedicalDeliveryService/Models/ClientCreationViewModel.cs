@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BusinessLogic;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -11,27 +13,29 @@ namespace MedicalDeliveryService.Models
     public class ClientCreationViewModel : PageModel
     {
 
+        [BindNever]
         public List<City> CityModels { get; set; }
 
         public string SelectedCityIDStr { get; set; }
 
-        public ClientCreationViewModel()
-        {
-
-        }
-        
-        public ClientCreationViewModel(List<City> allCities)
-        {
-            AllCities = new List<SelectListItem>();
+        //public ClientCreationViewModel()
+        //{
             
-            allCities.ForEach(c => AllCities.Add(new SelectListItem(c.CityName, c.ID.ToString())));
+        //}
+        
+        //public ClientCreationViewModel(List<City> allCities)
+        //{
 
-            CityModels = allCities;
-        }
+        //    AllCities = new List<SelectListItem>();
+            
+        //    allCities.ForEach(c => AllCities.Add(new SelectListItem(c.CityName, c.ID.ToString())));
 
+        //    CityModels = allCities;
+        //}
+        [BindNever]
         public List<SelectListItem> AllCities { get; set; }
 
-        public City SelectedCity { get { return CityModels.Find(c => c.ID == int.Parse(SelectedCityIDStr)); } }
+        //public City SelectedCity { get { return CityModels.Find(c => c.ID == int.Parse(SelectedCityIDStr)); } }
 
         public string InsertedPassword { get; set; }
 

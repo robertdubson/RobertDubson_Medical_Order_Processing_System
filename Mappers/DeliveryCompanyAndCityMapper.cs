@@ -17,5 +17,10 @@ namespace Mappers
         {
             return new DeliveryCompanyAndCity(example.ID, example.CompanyID, example.CityID, example.AvailableCouriers);
         }
+
+        public DeliveryCompanyAndCityEntity NewExample(DeliveryCompanyAndCity example)
+        {
+            return new DeliveryCompanyAndCityEntity(example.CompanyID, example.CityID, example.AvailableCouriers);
+        }
     }
 }

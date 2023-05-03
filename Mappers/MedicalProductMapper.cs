@@ -16,5 +16,10 @@ namespace Mappers
         {
             return new MedicalProduct(example.ID, example.ProductName, example.Description, example.InstructionToUse);
         }
+
+        public MedicalProductEntity NewExample(MedicalProduct example)
+        {
+            return new MedicalProductEntity(example.ProductName, example.Description, example.InstructionToUse);
+        }
     }
 }

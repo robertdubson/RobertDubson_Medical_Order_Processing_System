@@ -16,5 +16,10 @@ namespace Mappers
         {
             return new Status(example.ID, example.StatusName);
         }
+
+        public StatusEntity NewExample(Status example)
+        {
+            return new StatusEntity( example.StatusName);
+        }
     }
 }

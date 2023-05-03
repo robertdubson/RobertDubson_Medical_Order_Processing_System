@@ -19,6 +19,14 @@ namespace DataModel
             PriceForKm = priceKm;
         }
 
+        public DeliveryCompanyEntity(string name, double priceKm)
+        {
+
+            Name = name;
+
+            PriceForKm = priceKm;
+        }
+
         public DeliveryCompanyEntity()
         {
 

@@ -16,5 +16,10 @@ namespace Mappers
         {
             return new IssuePoint(example.ID, example.CityID, example.Address);
         }
+
+        public IssuePointEntity NewExample(IssuePoint example)
+        {
+            return new IssuePointEntity( example.CityID, example.Address);
+        }
     }
 }
