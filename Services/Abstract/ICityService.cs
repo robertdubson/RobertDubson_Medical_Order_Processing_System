@@ -9,6 +9,9 @@ namespace Services.Abstract
         public List<City> GetAllCities();
 
         public List<DeliveryCompanyAndCity> GetAllCompanyAndCity();
-        
+
+        public City GetCityById(int Id);
+
+
     }
 }

@@ -54,7 +54,7 @@ namespace MedicalDeliveryService.Controllers
 
             List<ClientsViewModel> models = new List<ClientsViewModel>();
 
-            _userService.GetAllClients().ForEach(cl => models.Add(new ClientsViewModel(cl.ID, cl.Name, cl.LocationID, cl.PasswordHash, cl.UserName)));
+            _userService.GetAllClients().ForEach(cl => models.Add(new ClientsViewModel(cl.ID, cl.Name, _cityService.GetCityById(cl.LocationID), cl.PasswordHash, cl.UserName)));
 
             return View("AllClients", models);
         }

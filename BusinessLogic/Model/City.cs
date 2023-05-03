@@ -37,5 +37,10 @@ namespace BusinessLogic
             CoordinateY = Y;            
 
         }
+
+        public override string ToString()
+        {
+            return CityName;
+        }
     }
 }

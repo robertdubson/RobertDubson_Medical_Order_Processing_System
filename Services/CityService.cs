@@ -35,5 +35,10 @@ namespace Services
         {
             return _unitOfWork.CompanyAndCityRepository.GetAll().Select(compAndCity => _deliveryCompanyAndCityMapper.FromEntityToDomain(compAndCity)).ToList();
         }
+
+        public City GetCityById(int Id) 
+        {
+            return _cityMapper.FromEntityToDomain(_unitOfWork.CityRepository.GetByID(Id));
+        }
     }
 }

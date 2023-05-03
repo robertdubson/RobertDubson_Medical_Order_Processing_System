@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using BusinessLogic;
 namespace MedicalDeliveryService.Models
 {
     public class ClientsViewModel
@@ -17,12 +17,14 @@ namespace MedicalDeliveryService.Models
 
         public int LocationID { get; set; }
 
+        public City Location { get; set; }
+
         public ClientsViewModel()
         {
 
         }
 
-        public ClientsViewModel(int id, string cname, int locationId, string passwordHash, string username)
+        public ClientsViewModel(int id, string cname, City city, string passwordHash, string username)
         {
             ID = id;
 
@@ -32,7 +34,7 @@ namespace MedicalDeliveryService.Models
 
             ClientName = cname;
 
-            LocationID = locationId;
+            Location = city;
         }
     }
 }
