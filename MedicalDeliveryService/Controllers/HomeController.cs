@@ -56,11 +56,6 @@ namespace MedicalDeliveryService.Controllers
 
             _userService.GetAllClients().ForEach(cl => models.Add(new ClientsViewModel(cl.ID, cl.Name, cl.LocationID, cl.PasswordHash, cl.UserName)));
 
-            //models.Add(new ClientsViewModel(1, "sdgfdgsf", 1, "asdasd", "asfafg"));
-            //models.Add(new ClientsViewModel(2, "sdgfdgsf", 1, "asdasd", "asfafg"));
-            //models.Add(new ClientsViewModel(3, "sdgfdgsf", 1, "asdasd", "asfafg"));
-            //models.Add(new ClientsViewModel(4, "sdgfdgsf", 1, "asdasd", "asfafg"));
-
             return View("AllClients", models);
         }
 
@@ -73,7 +68,7 @@ namespace MedicalDeliveryService.Controllers
             return View("ClientUpdate", new ClientCreationViewModel(_cityService.GetAllCities(), user.ID.ToString(), user.Name, user.UserName, user.LocationID, user.PasswordHash));
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult UpdateClient() 
         {
             ClientCreationViewModel viewModel = new ClientCreationViewModel();
@@ -82,12 +77,10 @@ namespace MedicalDeliveryService.Controllers
             viewModel.InsertedPassword = Request.Form["InsertedPassword"];
             viewModel.OfficialName = Request.Form["OfficialName"];
             viewModel.UserName = Request.Form["UserName"];
-            viewModel.StrId = Request.Form["Id"];
+            viewModel.StrId = Request.Form["StrId"];
 
             _userService.UpdateClient(new Client(int.Parse(viewModel.StrId), viewModel.OfficialName, int.Parse(viewModel.SelectedCityIDStr), _userService.GetHash(viewModel.InsertedPassword), viewModel.UserName));
-
-
-
+            _unitOfWork.Complete();
             return View("Index");
         }
 
@@ -108,12 +101,7 @@ namespace MedicalDeliveryService.Controllers
             viewModel.OfficialName = Request.Form["OfficialName"];
             viewModel.UserName = Request.Form["UserName"];
             _userService.AddClient(viewModel.UserName, _userService.GetHash(viewModel.InsertedPassword), viewModel.OfficialName, int.Parse(viewModel.SelectedCityIDStr));
-            //_userService.GetAllClients().ForEach(cl => models.Add(new ClientsViewModel(cl.ID, cl.Name, cl.LocationID, cl.PasswordHash, cl.UserName)));
             _unitOfWork.Complete();
-            //models.Add(new ClientsViewModel(1, "sdgfdgsf", 1, "asdasd", "asfafg"));
-            //models.Add(new ClientsViewModel(2, "sdgfdgsf", 1, "asdasd", "asfafg"));
-            //models.Add(new ClientsViewModel(3, "sdgfdgsf", 1, "asdasd", "asfafg"));
-            //models.Add(new ClientsViewModel(4, "sdgfdgsf", 1, "asdasd", "asfafg"));
 
             return View("Index");
         }
