@@ -19,7 +19,7 @@ namespace Mappers
 
         public ClientEntity NewExample(Client example)
         {
-            return new ClientEntity(example.Name, example.PasswordHash, example.UserName, example.LocationID );
+            return new ClientEntity(example.PasswordHash, example.Name, example.UserName, example.LocationID );
         }
     }
 }

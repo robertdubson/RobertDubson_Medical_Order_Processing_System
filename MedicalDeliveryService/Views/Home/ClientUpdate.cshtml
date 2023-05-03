@@ -1,0 +1,17 @@
+﻿@model ClientCreationViewModel
+
+<form method="post" action="UpdateClient">
+    <input type="hidden" name="Id" value="@Model.StrId" />
+    <label for="ClientName">First Name:</label>
+    <input type="text" id="OfficialName" name="OfficialName" value="@Model.OfficialName" />
+    <label for="Password">Password:</label>
+    <input type="password" id="InsertedPassword" name="InsertedPassword" value="@Model.InsertedPassword" />
+    <input type="text" id="UserName" name="UserName" value="@Model.UserName" />
+    <label for="myList">Select a value:</label>
+    @Html.DropDownListFor(model => model.SelectedCityIDStr, Model.AllCities, "Select an option", new { id = "SelectedCityIDStr" })
+
+
+
+
+    <button type="submit">Submit</button>
+</form>

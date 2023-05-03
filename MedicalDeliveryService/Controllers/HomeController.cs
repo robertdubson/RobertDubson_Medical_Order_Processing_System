@@ -56,37 +56,46 @@ namespace MedicalDeliveryService.Controllers
 
             _userService.GetAllClients().ForEach(cl => models.Add(new ClientsViewModel(cl.ID, cl.Name, cl.LocationID, cl.PasswordHash, cl.UserName)));
 
-            models.Add(new ClientsViewModel(1, "sdgfdgsf", 1, "asdasd", "asfafg"));
-            models.Add(new ClientsViewModel(2, "sdgfdgsf", 1, "asdasd", "asfafg"));
-            models.Add(new ClientsViewModel(3, "sdgfdgsf", 1, "asdasd", "asfafg"));
-            models.Add(new ClientsViewModel(4, "sdgfdgsf", 1, "asdasd", "asfafg"));
+            //models.Add(new ClientsViewModel(1, "sdgfdgsf", 1, "asdasd", "asfafg"));
+            //models.Add(new ClientsViewModel(2, "sdgfdgsf", 1, "asdasd", "asfafg"));
+            //models.Add(new ClientsViewModel(3, "sdgfdgsf", 1, "asdasd", "asfafg"));
+            //models.Add(new ClientsViewModel(4, "sdgfdgsf", 1, "asdasd", "asfafg"));
 
             return View("AllClients", models);
         }
 
         [HttpGet]
+        public IActionResult Edit(int id) 
+        {
+            Client user = _userService.GetClietnById(id);
+
+
+            return View("ClientUpdate", new ClientCreationViewModel(_cityService.GetAllCities(), user.ID.ToString(), user.Name, user.UserName, user.LocationID, user.PasswordHash));
+        }
+
+        [HttpGet]
+        public IActionResult UpdateClient() 
+        {
+            ClientCreationViewModel viewModel = new ClientCreationViewModel();
+
+            viewModel.SelectedCityIDStr = Request.Form["SelectedCityIDStr"];
+            viewModel.InsertedPassword = Request.Form["InsertedPassword"];
+            viewModel.OfficialName = Request.Form["OfficialName"];
+            viewModel.UserName = Request.Form["UserName"];
+            viewModel.StrId = Request.Form["Id"];
+
+            _userService.UpdateClient(new Client(int.Parse(viewModel.StrId), viewModel.OfficialName, int.Parse(viewModel.SelectedCityIDStr), _userService.GetHash(viewModel.InsertedPassword), viewModel.UserName));
+
+
+
+            return View("Index");
+        }
+
+        [HttpGet]
         public IActionResult StartClientCreation() 
         {
-            //return View("ClientCreation", new ClientCreationViewModel(_cityService.GetAllCities()));
+            return View("ClientCreation", new ClientCreationViewModel(_cityService.GetAllCities()));
 
-            List<City> models = new List<City>();
-
-            models.Add(new City(1, "Kyiv", 1, 2));
-
-            models.Add(new City(2, "Kryvyi Rih", 1, 2));
-
-            models.Add(new City(3, "Feodosia", 1, 2));
-
-            //ViewData["SelectedCityIDStr"] = "1";
-
-            ClientCreationViewModel cm = new ClientCreationViewModel();
-
-            cm.CityModels = models;
-
-            cm.AllCities = models.Select(ct => new SelectListItem(ct.CityName, ct.ID.ToString())).ToList();
-
-
-            return View("ClientCreation", cm);
         }
 
         [HttpPost]
@@ -109,7 +118,13 @@ namespace MedicalDeliveryService.Controllers
             return View("Index");
         }
 
+        public IActionResult DeleteClient(int id) 
+        {
+            _userService.RemoveClient(id);
+            _unitOfWork.Complete();
 
+            return View("Index");
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

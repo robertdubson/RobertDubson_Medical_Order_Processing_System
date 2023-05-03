@@ -4,7 +4,7 @@ using System.Text;
 using DataModel;
 namespace DataLayer.Repositories.Abstract
 {
-    public interface IDeliveryCompanyRepository
+    public interface IDeliveryCompanyRepository : IRepository<DeliveryCompanyEntity, int>
     {
     }
 }

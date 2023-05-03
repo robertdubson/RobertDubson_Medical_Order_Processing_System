@@ -27,6 +27,16 @@ namespace Services
             _unitOfWork = unitOfWork;
         }
 
+        public Client GetClietnById(int id) 
+        {
+            return _clientMapper.FromEntityToDomain(_unitOfWork.ClientRepository.GetByID(id));
+        }
+
+        public Doctor GetDoctorById(int id) 
+        {
+            return _doctorMapper.FromEntityToDomain(_unitOfWork.DoctorRepository.GetByID(id));
+        }
+
         public Client GetClientByUserName(string username) 
         {
             if (_unitOfWork.ClientRepository.GetClientByUsername(username) != null)

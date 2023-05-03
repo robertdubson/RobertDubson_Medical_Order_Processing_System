@@ -21,6 +21,9 @@ namespace Services.Abstract
         public void UpdateClient(Client client);
 
         public string GetHash(string word);
-        
+
+        public Client GetClietnById(int id);
+        public Doctor GetDoctorById(int id);
+
     }
 }

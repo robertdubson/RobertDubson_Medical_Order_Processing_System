@@ -39,8 +39,14 @@ namespace DataLayer
             base.OnModelCreating(modelBuilder);
 
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=medicalorderprocessingsystem;Trusted_Connection=True;MultipleActiveResultSets=true;");
+            }
+        }
 
-        
 
     }
 

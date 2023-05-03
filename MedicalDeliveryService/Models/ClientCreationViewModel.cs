@@ -18,20 +18,48 @@ namespace MedicalDeliveryService.Models
 
         public string SelectedCityIDStr { get; set; }
 
-        //public ClientCreationViewModel()
-        //{
-            
-        //}
-        
-        //public ClientCreationViewModel(List<City> allCities)
-        //{
+        public int CityID { get; set; }
 
-        //    AllCities = new List<SelectListItem>();
-            
-        //    allCities.ForEach(c => AllCities.Add(new SelectListItem(c.CityName, c.ID.ToString())));
+        public string PasswordHash { get; set; }
 
-        //    CityModels = allCities;
-        //}
+        public string StrId { get; set; }
+
+        public ClientCreationViewModel()
+        {
+
+        }
+
+        public ClientCreationViewModel(List<City> allCities,string strId,  string realName, string userName, int cityId, string pasHahs)
+        {
+            AllCities = new List<SelectListItem>();
+
+            allCities.ForEach(c => AllCities.Add(new SelectListItem(c.CityName, c.ID.ToString())));
+
+            CityModels = allCities;
+
+            OfficialName = realName;
+
+            UserName = userName;
+
+            CityID = cityId;
+
+            PasswordHash = pasHahs;
+
+            InsertedPassword = "";
+
+            StrId = strId;
+
+        }
+
+        public ClientCreationViewModel(List<City> allCities)
+        {
+
+            AllCities = new List<SelectListItem>();
+
+            allCities.ForEach(c => AllCities.Add(new SelectListItem(c.CityName, c.ID.ToString())));
+
+            CityModels = allCities;
+        }
         [BindNever]
         public List<SelectListItem> AllCities { get; set; }
 

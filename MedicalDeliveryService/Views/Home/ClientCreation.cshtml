@@ -1,6 +1,7 @@
 ﻿@model ClientCreationViewModel
 
 <form method="post" action="CreateClient">
+    
     <label for="ClientName">First Name:</label>
     <input type="text" id="OfficialName" name="OfficialName" value="@Model.OfficialName" />
     <label for="Password">Password:</label>
@@ -8,7 +9,7 @@
     <input type="text" id="UserName" name="UserName" value="@Model.UserName" />
     <label for="myList">Select a value:</label>
     @Html.DropDownListFor(model => model.SelectedCityIDStr, Model.AllCities, "Select an option", new { id = "SelectedCityIDStr" })
-    
+
 
 
 
