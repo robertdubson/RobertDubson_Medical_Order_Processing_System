@@ -1,0 +1,19 @@
+﻿@model FactoryViewModel
+
+<form method="post" action="AddFactory">
+
+
+    <label for="myList">Select Company:</label>
+    @Html.DropDownListFor(model => model.CompanyID, Model.SupplierItems, "Select an option", new { id = "SupplierId" })
+    <label for="myList">Select City:</label>
+    @Html.DropDownListFor(model => model.CityID, Model.CityItems, "Select an option", new { id = "CityId" })
+    <label for="UserName">Address:</label>
+    <input type="text" id="Address" name="Address" value="@Model.Address" />
+
+
+    <button type="submit">Submit</button>
+</form>
+
+<div>
+    <a asp-action="AllFactories">Back to List</a>
+</div>

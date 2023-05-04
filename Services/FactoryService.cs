@@ -5,9 +5,11 @@ using DataLayer.UnitOfWork;
 using BusinessLogic;
 using Mappers;
 using System.Linq;
+using Services.Abstract;
+
 namespace Services
 {
-    public class FactoryService
+    public class FactoryService : IFactoryService
     {
         IUnitOfWork _unitOfWork;
 
