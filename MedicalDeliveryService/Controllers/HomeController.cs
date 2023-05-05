@@ -289,6 +289,56 @@ namespace MedicalDeliveryService.Controllers
             dict.Keys.ToList().ForEach(prod => models.Add(new FactoryDetailsViewModel(int.Parse(strFactId), _factoryService.GetFactory(int.Parse(strFactId)), prod, dict[prod])));
             return View("FactoryDetails", models);
         }
+        [HttpGet]
+        public IActionResult AllProducts() 
+        {
+            return View("AllProducts", _productService.GetAllProducts().Select(prod => new MedicalProductViewModel(prod.ID, prod.ProductName, prod.Description, prod.InstructionToUse)).ToList());
+        }
+        [HttpGet]
+        public IActionResult CreateProduct() 
+        {
+            return View("CreateProduct");
+        }
+        [HttpPost]
+        public IActionResult AddProduct() 
+        {
+
+            string prodName = Request.Form["ProductName"];
+            string description = Request.Form["Description"];
+            string instructions = Request.Form["InstructionToUse"];
+            _productService.AddProduct(new MedicalProduct(prodName, description, instructions));
+            _unitOfWork.Complete();
+            
+
+            return View("AllProducts", _productService.GetAllProducts().Select(prod => new MedicalProductViewModel(prod.ID, prod.ProductName, prod.Description, prod.InstructionToUse)).ToList());
+        }
+        [HttpGet]
+        public IActionResult EditProduct(int Id) 
+        {
+            MedicalProduct currentProd = _productService.GetProduct(Id);
+
+            return View("EditProduct", new MedicalProductViewModel(currentProd.ID, currentProd.ProductName, currentProd.Description, currentProd.InstructionToUse));
+        }
+        [HttpPost]
+        public IActionResult UpdateProduct() 
+        {
+            string Idstr = Request.Form["ID"];
+            string prodName = Request.Form["ProductName"];
+            string description = Request.Form["Description"];
+            string instructions = Request.Form["InstructionToUse"];
+            _productService.UpdateProduct(new MedicalProduct(int.Parse(Idstr), prodName, description, instructions));
+            _unitOfWork.Complete();
+            return View("AllProducts", _productService.GetAllProducts().Select(prod => new MedicalProductViewModel(prod.ID, prod.ProductName, prod.Description, prod.InstructionToUse)).ToList());
+        }
+
+        [HttpGet]
+        public IActionResult DeleteProduct(int Id) 
+        {
+            _productService.DeleteProduct(Id);
+            _unitOfWork.Complete();
+
+            return View("AllProducts", _productService.GetAllProducts().Select(prod => new MedicalProductViewModel(prod.ID, prod.ProductName, prod.Description, prod.InstructionToUse)).ToList());
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

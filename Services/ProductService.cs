@@ -52,5 +52,9 @@ namespace Services
             _unitOfWork.ProductAndFactoryRepository.Add(_productAndFactoryMapper.NewExample(new ProductAndFactory(_unitOfWork.ProductAndFactoryRepository.NextID(), IdFactory, IdProduct, units)));
         }
 
+        public void AddProduct(MedicalProduct product)
+        {
+            _unitOfWork.MedicalProductRepository.Add(_productMapper.NewExample(product));
+        }
     }
 }
