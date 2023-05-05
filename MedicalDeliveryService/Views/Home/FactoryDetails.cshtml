@@ -1,0 +1,44 @@
+﻿@model IEnumerable<FactoryDetailsViewModel>
+
+@{
+    ViewData["Title"] = "FactoryDetails";
+}
+
+<h1>FactoryDetails</h1>
+
+<p>
+    <a asp-action="AddProductToStock" asp-route-id="@Model.First().FactoryID" >Add Product To Stock</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Product.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitsInStock)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitsInStock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductAndFactoryID)
+            </td>
+            <td>
+                <a asp-action="EditFactoryDetails" asp-route-id="@item.ProductAndFactoryID">Edit Factory Details</a> ||
+                <a asp-action="DeleteProducts" asp-route-id="@item.ID">Delete All Products</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

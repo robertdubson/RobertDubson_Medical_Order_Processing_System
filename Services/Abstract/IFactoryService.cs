@@ -15,5 +15,15 @@ namespace Services.Abstract
         public void UpdateFactory(Factory factory);
 
         public Factory GetFactory(int ID);
+
+        public Dictionary<MedicalProduct, int> AvailableProducts(int Id);
+
+        public List<ProductAndFactory> GetAllFactoryDetails();
+
+        public void AddFactoryDetails(int FactoryId, int ProdId, int units);
+
+        public void UpdateFactoryDetails(ProductAndFactory productAndFactory);
+
+        public ProductAndFactory GetFactoryDetails(int Id);
     }
 }

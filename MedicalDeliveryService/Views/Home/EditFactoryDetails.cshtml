@@ -1,0 +1,46 @@
+﻿@model AddingProductToStockViewModel
+
+@{
+    ViewData["Title"] = "EditFactoryDetails";
+}
+
+<h1>AddProductToStock</h1>
+
+<h4>ProductAndFactoryEntity</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" action="@Url.Action("UpdateFactoryDetails", "Home")">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FactoryID" class="control-label"></label>
+                <input type="hidden" name="FactoryIDStr" asp-for="FactoryID" class="form-control" />
+                <span asp-validation-for="FactoryID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product" class="control-label"></label>
+                @Html.DropDownListFor(model => model.Product, Model.PossibleProducts, "Select an option", new { id = "SelectedProduct" })
+                <span asp-validation-for="Product" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UnitsInStock" class="control-label"></label>
+                <input type="number" name="UnitsInStock" asp-for="UnitsInStock" class="form-control" min="0" step="1" />
+                <span asp-validation-for="UnitsInStock" class="text-danger"></span>
+            </div>
+            <input type="hidden" name="FactoryId" value=@Model.FactoryID>
+            <input type="hidden" name="ID" value="@Model.ProductAndFatoryID">
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

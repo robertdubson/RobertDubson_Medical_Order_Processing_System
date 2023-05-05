@@ -7,19 +7,24 @@ using Mappers;
 using BusinessLogic;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Services.Abstract;
 namespace Services
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
         private readonly IUnitOfWork _unitOfWork;
 
         private MedicalProductMapper _productMapper;
 
-        public ProductService(IUnitOfWork uof, MedicalProductMapper mapper)
+        private ProductAndFactoryMapper _productAndFactoryMapper;
+
+        public ProductService(IUnitOfWork uof, MedicalProductMapper mapper, ProductAndFactoryMapper productAndFactoryMapper )
         {
             _unitOfWork = uof;
 
             _productMapper = mapper;
+
+            _productAndFactoryMapper = productAndFactoryMapper;
         }
 
         public List<MedicalProduct> GetAllProducts() 
@@ -42,6 +47,10 @@ namespace Services
             return _productMapper.FromEntityToDomain(_unitOfWork.MedicalProductRepository.GetByID(ID));
         }
 
+        public void AddProductAndFactory(int IdProduct, int IdFactory, int units) 
+        {
+            _unitOfWork.ProductAndFactoryRepository.Add(_productAndFactoryMapper.NewExample(new ProductAndFactory(_unitOfWork.ProductAndFactoryRepository.NextID(), IdFactory, IdProduct, units)));
+        }
 
     }
 }

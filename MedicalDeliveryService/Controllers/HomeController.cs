@@ -31,6 +31,8 @@ namespace MedicalDeliveryService.Controllers
 
         IFactoryService _factoryService;
 
+        IProductService _productService;
+
         public HomeController(ILogger<HomeController> logger, ApplicationContext applicationContext)
         {
             _logger = logger;
@@ -44,6 +46,8 @@ namespace MedicalDeliveryService.Controllers
             _supplierService = new SupplierService(_unitOfWork, new SupplierMapper(), new SupplierAndProductMapper());
 
             _factoryService = new FactoryService(_unitOfWork, new FactoryMapper());
+
+            _productService = new ProductService(_unitOfWork, new MedicalProductMapper(), new ProductAndFactoryMapper());
         }
 
         public IActionResult Index()
@@ -124,10 +128,6 @@ namespace MedicalDeliveryService.Controllers
         [HttpGet]
         public IActionResult AllSuppliers()
         {
-            //List<SupplierViewModel> models = new List<SupplierViewModel>();
-            //_supplierService.GetAllSuppliers().
-
-
             return View("AllSuppliers", _supplierService.GetAllSuppliers().Select(sup => new SupplierViewModel(sup.ID, sup.Name)));
         }
         [HttpGet]
@@ -217,13 +217,65 @@ namespace MedicalDeliveryService.Controllers
 
             return View("AllFactories", _factoryService.GetAllFactories().Select(fac => new FactoryViewModel(fac.ID, _cityService.GetCityById(fac.CityID), _supplierService.GetById(fac.CompanyID), fac.Address)));
         }
-
+        [HttpGet]
         public IActionResult DeleteFactory(int Id) 
         {
             _factoryService.DeleteFactory(Id);
             _unitOfWork.Complete();
             
             return View("AllFactories", _factoryService.GetAllFactories().Select(fac => new FactoryViewModel(fac.ID, _cityService.GetCityById(fac.CityID), _supplierService.GetById(fac.CompanyID), fac.Address)));
+        }
+        [HttpGet]
+        public IActionResult FactoryDetails(int Id) 
+        {
+
+            List<FactoryDetailsViewModel> models = new List<FactoryDetailsViewModel>();
+            //Dictionary<MedicalProduct, int> dict = _factoryService.AvailableProducts(Id);
+            //dict.Keys.ToList().ForEach(prod => models.Add(new FactoryDetailsViewModel(Id, _factoryService.GetFactory(Id), prod, dict[prod])));
+            _factoryService.GetAllFactoryDetails().ForEach(pf => models.Add(new FactoryDetailsViewModel(pf.ID, _factoryService.GetFactory(Id), _productService.GetProduct(pf.ProductID), pf.UnitsInStorage)));
+            return View("FactoryDetails", models);
+        }
+        [HttpGet]
+        public IActionResult AddProductToStock(int Id) 
+        {
+            return View("AddProductToStock", new AddingProductToStockViewModel(Id, _productService.GetAllProducts()));
+        }
+        [HttpPost]
+        public IActionResult CreateProductToStock() 
+        {
+            string strId = Request.Form["FactoryID"];
+            int Id = int.Parse(strId);
+            string prodIdStr = Request.Form["Product"];
+            string UnitsInStockStr = Request.Form["UnitsInStock"];
+            int unitsInStock = int.Parse(UnitsInStockStr);
+            int ProdId = int.Parse(prodIdStr);
+            _factoryService.AddFactoryDetails(Id, ProdId, unitsInStock);
+            _unitOfWork.Complete();
+
+            List<FactoryDetailsViewModel> models = new List<FactoryDetailsViewModel>();
+            Dictionary<MedicalProduct, int> dict = _factoryService.AvailableProducts(Id);
+            dict.Keys.ToList().ForEach(prod => models.Add(new FactoryDetailsViewModel(Id, _factoryService.GetFactory(Id), prod, dict[prod])));
+            return View("FactoryDetails", models);
+        }
+        [HttpGet]
+        public IActionResult EditFactoryDetails(int Id) 
+        {
+            ProductAndFactory pF = _factoryService.GetFactoryDetails(Id);           
+            return View("EditFactoryDetails", new AddingProductToStockViewModel(pF.ID, _productService.GetProduct(pF.ProductID), pF.FactoryID, _productService.GetAllProducts(), pF.UnitsInStorage));
+        }
+        public IActionResult UpdateFactoryDetails() 
+        {
+            string strId = Request.Form["ID"];
+            string strFactId = Request.Form["FactoryID"];
+            int FactoryId = int.Parse(strFactId);
+            string prodIdStr = Request.Form["Product"];
+            string UnitsInStockStr = Request.Form["UnitsInStock"];
+            _factoryService.UpdateFactoryDetails(new ProductAndFactory(int.Parse(strId), int.Parse(strFactId), int.Parse(prodIdStr), int.Parse(UnitsInStockStr)));
+
+            List<FactoryDetailsViewModel> models = new List<FactoryDetailsViewModel>();
+            Dictionary<MedicalProduct, int> dict = _factoryService.AvailableProducts(int.Parse(strFactId));
+            dict.Keys.ToList().ForEach(prod => models.Add(new FactoryDetailsViewModel(int.Parse(strFactId), _factoryService.GetFactory(int.Parse(strFactId)), prod, dict[prod])));
+            return View("FactoryDetails", models);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
