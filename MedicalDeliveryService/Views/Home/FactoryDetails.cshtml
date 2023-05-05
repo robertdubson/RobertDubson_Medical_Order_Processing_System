@@ -35,8 +35,13 @@
                 @Html.DisplayFor(modelItem => item.ProductAndFactoryID)
             </td>
             <td>
-                <a asp-action="EditFactoryDetails" asp-route-id="@item.ProductAndFactoryID">Edit Factory Details</a> ||
-                <a asp-action="DeleteProducts" asp-route-id="@item.ID">Delete All Products</a>
+                <a asp-action="EditFactoryDetails" asp-route-id="@item.ProductAndFactoryID">Edit Factory Details</a>
+                <form method="post" action="@Url.Action("DeleteFactoryDetails", "Home")">
+                    <input type="hidden" name="FactoryId" value="@Model.First().FactoryID">
+                    <input type="hidden" name="ID" value="@item.ProductAndFactoryID">
+                    <button type="submit">Clear The Stock</button>
+                </form>
+                
             </td>
         </tr>
 }

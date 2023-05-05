@@ -232,7 +232,7 @@ namespace MedicalDeliveryService.Controllers
             List<FactoryDetailsViewModel> models = new List<FactoryDetailsViewModel>();
             //Dictionary<MedicalProduct, int> dict = _factoryService.AvailableProducts(Id);
             //dict.Keys.ToList().ForEach(prod => models.Add(new FactoryDetailsViewModel(Id, _factoryService.GetFactory(Id), prod, dict[prod])));
-            _factoryService.GetAllFactoryDetails().ForEach(pf => models.Add(new FactoryDetailsViewModel(pf.ID, _factoryService.GetFactory(Id), _productService.GetProduct(pf.ProductID), pf.UnitsInStorage)));
+            _factoryService.GetAllFactoryDetails().FindAll(fac => fac.FactoryID==Id).ForEach(pf => models.Add(new FactoryDetailsViewModel(pf.ID, _factoryService.GetFactory(Id), _productService.GetProduct(pf.ProductID), pf.UnitsInStorage)));
             return View("FactoryDetails", models);
         }
         [HttpGet]
@@ -253,8 +253,7 @@ namespace MedicalDeliveryService.Controllers
             _unitOfWork.Complete();
 
             List<FactoryDetailsViewModel> models = new List<FactoryDetailsViewModel>();
-            Dictionary<MedicalProduct, int> dict = _factoryService.AvailableProducts(Id);
-            dict.Keys.ToList().ForEach(prod => models.Add(new FactoryDetailsViewModel(Id, _factoryService.GetFactory(Id), prod, dict[prod])));
+            _factoryService.GetAllFactoryDetails().FindAll(fac => fac.FactoryID == Id).ForEach(pf => models.Add(new FactoryDetailsViewModel(pf.ID, _factoryService.GetFactory(Id), _productService.GetProduct(pf.ProductID), pf.UnitsInStorage)));
             return View("FactoryDetails", models);
         }
         [HttpGet]
@@ -263,6 +262,7 @@ namespace MedicalDeliveryService.Controllers
             ProductAndFactory pF = _factoryService.GetFactoryDetails(Id);           
             return View("EditFactoryDetails", new AddingProductToStockViewModel(pF.ID, _productService.GetProduct(pF.ProductID), pF.FactoryID, _productService.GetAllProducts(), pF.UnitsInStorage));
         }
+        [HttpPost]
         public IActionResult UpdateFactoryDetails() 
         {
             string strId = Request.Form["ID"];
@@ -271,7 +271,19 @@ namespace MedicalDeliveryService.Controllers
             string prodIdStr = Request.Form["Product"];
             string UnitsInStockStr = Request.Form["UnitsInStock"];
             _factoryService.UpdateFactoryDetails(new ProductAndFactory(int.Parse(strId), int.Parse(strFactId), int.Parse(prodIdStr), int.Parse(UnitsInStockStr)));
+            _unitOfWork.Complete();
+            List<FactoryDetailsViewModel> models = new List<FactoryDetailsViewModel>();
+            _factoryService.GetAllFactoryDetails().FindAll(fac => fac.FactoryID == int.Parse(strFactId)).ForEach(pf => models.Add(new FactoryDetailsViewModel(pf.ID, _factoryService.GetFactory(int.Parse(strFactId)), _productService.GetProduct(pf.ProductID), pf.UnitsInStorage)));
+            return View("FactoryDetails", models);
+        }
+        [HttpPost]
+        public IActionResult DeleteFactoryDetails() 
+        {
 
+            string productAndFactoryId = Request.Form["ID"];
+            _factoryService.DeleteFactoryDetail(int.Parse(productAndFactoryId));
+            _unitOfWork.Complete();
+            string strFactId = Request.Form["FactoryID"];
             List<FactoryDetailsViewModel> models = new List<FactoryDetailsViewModel>();
             Dictionary<MedicalProduct, int> dict = _factoryService.AvailableProducts(int.Parse(strFactId));
             dict.Keys.ToList().ForEach(prod => models.Add(new FactoryDetailsViewModel(int.Parse(strFactId), _factoryService.GetFactory(int.Parse(strFactId)), prod, dict[prod])));

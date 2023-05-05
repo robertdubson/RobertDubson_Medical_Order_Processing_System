@@ -98,5 +98,10 @@ namespace Services
         {
             return _productAndFactoryMapper.FromEntityToDomain(_unitOfWork.ProductAndFactoryRepository.GetByID(Id));
         }
+
+        public void DeleteFactoryDetail(int Id)
+        {
+            _unitOfWork.ProductAndFactoryRepository.Delete(Id);
+        }
     }
 }

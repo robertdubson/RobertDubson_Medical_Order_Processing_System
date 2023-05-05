@@ -25,5 +25,7 @@ namespace Services.Abstract
         public void UpdateFactoryDetails(ProductAndFactory productAndFactory);
 
         public ProductAndFactory GetFactoryDetails(int Id);
+
+        public void DeleteFactoryDetail(int Id);
     }
 }
