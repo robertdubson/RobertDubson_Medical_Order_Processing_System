@@ -93,9 +93,19 @@ namespace Services
 
         }
 
+        public void RemoveDoctor(int ID) 
+        {
+            _unitOfWork.DoctorRepository.Delete(ID);
+        }
+
         public void UpdateClient(Client client) 
         {
             _unitOfWork.ClientRepository.Update(_clientMapper.FromDomainToEntity(client));
+        }
+
+        public void UpdateDoctor(Doctor doctor) 
+        {
+            _unitOfWork.DoctorRepository.Update(_doctorMapper.FromDomainToEntity(doctor));
         }
 
         public string GetHash(string word) 
@@ -118,6 +128,10 @@ namespace Services
             return sb.ToString();
         }
 
+        public List<Doctor> GetAllDoctors() 
+        {
+            return _unitOfWork.DoctorRepository.GetAll().Select(dc => _doctorMapper.FromEntityToDomain(dc)).ToList();
+        }
 
     }
 }

@@ -19,11 +19,16 @@ namespace Services.Abstract
         public void RemoveClient(int ID);
 
         public void UpdateClient(Client client);
+        public void UpdateDoctor(Doctor doctor);
 
         public string GetHash(string word);
 
         public Client GetClietnById(int id);
         public Doctor GetDoctorById(int id);
+
+        public List<Doctor> GetAllDoctors();
+
+        public void RemoveDoctor(int ID);
 
     }
 }

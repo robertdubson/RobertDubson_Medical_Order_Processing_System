@@ -340,6 +340,62 @@ namespace MedicalDeliveryService.Controllers
             return View("AllProducts", _productService.GetAllProducts().Select(prod => new MedicalProductViewModel(prod.ID, prod.ProductName, prod.Description, prod.InstructionToUse)).ToList());
         }
 
+        [HttpGet]
+        public IActionResult AllDoctors() 
+        {
+            return View("AllDoctors", _userService.GetAllDoctors().Select(dc => new DoctorViewModel(dc.ID, dc.Name, dc.PasswordHash, dc.UserName)).ToList());
+        }
+
+        [HttpGet]
+        public IActionResult CreateDoctor() 
+        {
+            return View("CreateDoctor");
+        }
+
+        [HttpPost]
+        public IActionResult AddDoctor() 
+        {
+            string Name = Request.Form["Name"];
+            string UserName = Request.Form["UserName"];
+            string Password = Request.Form["Password"];
+            string passwordHash = _userService.GetHash(Password);
+            _userService.AddDoctor(UserName, passwordHash, Name);
+            _unitOfWork.Complete();
+
+            return View("AllDoctors", _userService.GetAllDoctors().Select(dc => new DoctorViewModel(dc.ID, dc.Name, dc.PasswordHash, dc.UserName)).ToList());
+        }
+
+        [HttpGet]
+        public IActionResult EditDoctor(int Id) 
+        {
+            Doctor currentDoctor = _userService.GetDoctorById(Id);
+
+            return View("EditDoctor", new DoctorViewModel(Id, currentDoctor.Name, currentDoctor.PasswordHash, currentDoctor.UserName));
+        }
+        [HttpPost]
+        public IActionResult UpdateDoctor() 
+        {
+            string IdStr = Request.Form["ID"];
+            int Id = int.Parse(IdStr);
+            string Name = Request.Form["Name"];
+            string UserName = Request.Form["UserName"];
+            string Password = Request.Form["Password"];
+            string passwordHash = _userService.GetHash(Password);
+            _userService.UpdateDoctor(new Doctor(Id, Name, passwordHash, UserName));
+            _unitOfWork.Complete();
+
+            return View("AllDoctors", _userService.GetAllDoctors().Select(dc => new DoctorViewModel(dc.ID, dc.Name, dc.PasswordHash, dc.UserName)).ToList());
+        }
+
+        [HttpGet]
+        public IActionResult DeleteDoctor(int Id) 
+        {
+            _userService.RemoveDoctor(Id);
+            _unitOfWork.Complete();
+
+            return View("AllDoctors", _userService.GetAllDoctors().Select(dc => new DoctorViewModel(dc.ID, dc.Name, dc.PasswordHash, dc.UserName)).ToList());
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
