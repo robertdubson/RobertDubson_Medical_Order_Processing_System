@@ -396,6 +396,11 @@ namespace MedicalDeliveryService.Controllers
             return View("AllDoctors", _userService.GetAllDoctors().Select(dc => new DoctorViewModel(dc.ID, dc.Name, dc.PasswordHash, dc.UserName)).ToList());
         }
 
+        public IActionResult CreateReceipt() 
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

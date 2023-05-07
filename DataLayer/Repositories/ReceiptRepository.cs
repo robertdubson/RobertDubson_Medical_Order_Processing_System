@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using DataModel;
 using DataLayer.Repositories.Abstract;
+using System.Linq;
 namespace DataLayer.Repositories
 {
     public class ReceiptRepository : GenericRepository<ReceiptEntity, int>, IReceiptRepository
@@ -11,6 +12,11 @@ namespace DataLayer.Repositories
         public ReceiptRepository(DbContext context) : base(context)
         {
 
+        }
+
+        public IEnumerable<ReceiptEntity> GetReceiptsByDoctorId(int doctorId)
+        {
+            return _DbSet.ToList().FindAll(rec => rec.AuthorID == doctorId);
         }
     }
 }
