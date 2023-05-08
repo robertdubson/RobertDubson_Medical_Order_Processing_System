@@ -14,21 +14,76 @@ namespace Services
 
         ReceiptMapper _receiptMapper;
 
+        CityMapper _cityMapper;
+
+        DeliveryCompanyMapper _deliveryCompanyMapper;
+
+        DeliveryCompanyAndCityMapper _deliveryCompanyAndCityMapper;
+
+        ProductAndFactoryMapper _productAndFactoryMapper;
+
+        FactoryMapper _factoryMapper;
+
+        SupplierAndProductMapper _supplierAndProductMapper;
+
+        ReceiptAndProductMapper _receiptAndProductMapper;
+
         public ReceiptService(IUnitOfWork uof)
         {
             _unitOfWork = uof;
 
             _receiptMapper = new ReceiptMapper();
+
+            _cityMapper = new CityMapper();
+
+            _deliveryCompanyMapper = new DeliveryCompanyMapper();
+
+            _deliveryCompanyAndCityMapper = new DeliveryCompanyAndCityMapper();
+
+            _productAndFactoryMapper = new ProductAndFactoryMapper();
+
+            _factoryMapper = new FactoryMapper();
+
+            _supplierAndProductMapper = new SupplierAndProductMapper();
+
+            _receiptAndProductMapper = new ReceiptAndProductMapper();
         }
 
-        //public Receipt GenerateOptimizedrReceipt() 
-        //{
-        //    return new Receipt();
-        //}
+        public void AddChainOfSolutions(City destination, List<MedicalProduct> purchasedProducts) 
+        {
+            foreach (ReceiptAndProduct rp in GenerateOptimizedReceipt(destination, purchasedProducts)) 
+            {
+                _unitOfWork.ReceiptAndProductRepository.Add(_receiptAndProductMapper.NewExample(rp));
+            }
+        }
+
+        public List<ReceiptAndProduct> GenerateOptimizedReceipt(City destination, List<MedicalProduct> purchasedProducts)
+        {
+            List<ReceiptAndProduct> solutions = new List<ReceiptAndProduct>();
+
+            foreach (MedicalProduct prod in purchasedProducts)
+            {
+                CityGeneGenerator cityGeneGenrator = new CityGeneGenerator(_unitOfWork.CityRepository.GetAll().ToList().Select(ct => _cityMapper.FromEntityToDomain(ct)).ToList(), destination);
+
+                DeliveryCompanyGeneGenerator companyGenrator = new DeliveryCompanyGeneGenerator(_unitOfWork.DeliveryCompanyRepository.GetAll().Select(comp => _deliveryCompanyMapper.FromEntityToDomain(comp)).ToList(), _unitOfWork.CompanyAndCityRepository.GetAll().Select(cc => _deliveryCompanyAndCityMapper.FromEntityToDomain(cc)).ToList(), _unitOfWork.CityRepository.GetAll().ToList().Select(ct => _cityMapper.FromEntityToDomain(ct)).ToList(), destination);
+
+                FactoryGeneGenerator factoryGenerator = new FactoryGeneGenerator(_unitOfWork.FactoryRepository.GetAll().Select(fc => _factoryMapper.FromEntityToDomain(fc)).ToList(), _unitOfWork.CityRepository.GetAll().ToList().Select(ct => _cityMapper.FromEntityToDomain(ct)).ToList(), _unitOfWork.ProductAndFactoryRepository.GetAll().Select(fp => (_productAndFactoryMapper.FromEntityToDomain(fp))).ToList(), _unitOfWork.SupplierAndProductRepository.GetAll().Select(sp => _supplierAndProductMapper.FromEntityToDomain(sp)).ToList(), prod, destination);
+
+                ReceiptGeneticAlgorithm receiptGeneticAlgorithm = new ReceiptGeneticAlgorithm(prod, cityGeneGenrator, factoryGenerator, companyGenrator);
+
+                ReceiptSolution solution = receiptGeneticAlgorithm.GetSolution();
+                
+                solutions.Add(new ReceiptAndProduct(_unitOfWork.ReceiptRepository.NextID(), prod.ID, solution.CityGene.GetCity().ID, solution.FactoryGene.GetFactory().ID, solution.CompanyGene.GetCompany().ID));
+
+            }
+
+            return new List<ReceiptAndProduct>();
+        }
 
         public void AddReceipt(Receipt receipt) 
         {
             _unitOfWork.ReceiptRepository.Add(_receiptMapper.NewExample(receipt));
+
         }
 
         public void DeleteReceipt(int Id)

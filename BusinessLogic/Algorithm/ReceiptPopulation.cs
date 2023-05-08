@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.Linq;
 namespace BusinessLogic
 {
     public class ReceiptPopulation : IPopulation
@@ -50,6 +50,37 @@ namespace BusinessLogic
         public void RemoveChromosome(IChromosome chromosome)
         {
             _chromosomes.Remove(chromosome);
+        }
+
+        public ReceiptSolution GetChromosomeWithSameCity(ReceiptSolution bestChromosome) 
+        {
+            List<ReceiptSolution> candidates = new List<ReceiptSolution>();
+
+            candidates = _chromosomes.ToList().Select(ch => (ReceiptSolution)ch).ToList().FindAll(ch => ch.CityGene == bestChromosome.CityGene);
+
+            if (candidates.Count != 0)
+            {
+                var randomIndex = new Random();
+
+                int index = randomIndex.Next(candidates.Count);
+
+                ReceiptSolution bestCandidate = candidates[index];
+
+                foreach (ReceiptSolution solution in candidates)
+                {
+                    if (bestCandidate.CalculateFitness() < solution.CalculateFitness())
+                    {
+                        bestCandidate = solution;
+                    }
+                }
+
+                return bestCandidate;
+            }
+            else 
+            {
+                return null;
+            }
+            
         }
 
         public IChromosome GetRandomChromosome() 

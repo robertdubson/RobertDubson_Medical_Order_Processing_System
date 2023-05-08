@@ -17,5 +17,9 @@ namespace Services.Abstract
         public void DeleteReceipt(int Id);
 
         public void AddReceipt(Receipt receipt);
+
+        public void AddChainOfSolutions(City destination, List<MedicalProduct> purchasedProducts);
+
+        public List<ReceiptAndProduct> GenerateOptimizedReceipt(City destination, List<MedicalProduct> purchasedProducts);
     }
 }

@@ -73,13 +73,15 @@ namespace BusinessLogic
                     _cityGenes.RemoveAt(cityIndex);
                 }
 
-                int factoryIndex = randFactory.Next(_factoryGenes.Count);
+                List<FactoryGene> possibleFactories = _factoryGenes.FindAll(gene => gene.GetFactory().CityID == selectedCityGene.GetCity().ID);
 
-                FactoryGene selectedFactory = _factoryGenes[factoryIndex];
+                int factoryIndex = randFactory.Next(possibleFactories.Count);
+
+                FactoryGene selectedFactory = possibleFactories[factoryIndex];
 
                 if (_factoryGenes.Count != 0) 
                 {
-                    _factoryGenes.RemoveAt(factoryIndex);
+                    _factoryGenes.Remove(selectedFactory);
                 }
 
                 int companyIndex = randCompany.Next(_companyGenes.Count);
@@ -189,7 +191,14 @@ namespace BusinessLogic
 
             population.RemoveChromosome(firstParent);
 
+            ReceiptPopulation castedpopulation = (ReceiptPopulation)population;
+
             IChromosome secondParent = population.GetRandomChromosome();
+
+            if (castedpopulation.GetChromosomeWithSameCity((ReceiptSolution)firstParent)!=null) 
+            {
+                secondParent = castedpopulation.GetChromosomeWithSameCity((ReceiptSolution)firstParent);
+            }
 
             ReceiptSolution child = Mating((ReceiptSolution)firstParent, (ReceiptSolution)secondParent);
 
