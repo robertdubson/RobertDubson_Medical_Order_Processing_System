@@ -426,14 +426,17 @@ namespace MedicalDeliveryService.Controllers
                 int prodId = int.Parse(IdProdStr);
                 selectedProducts.Add(_productService.GetProduct(prodId));
             }
-            //_receiptService.AddChainOfSolutions(destination, selectedProducts);
-            //_unitOfWork.Complete();
             List<ReceiptAndProduct> solutions = _receiptService.GenerateOptimizedReceipt(destination, selectedProducts);
             solutions.ForEach(solution => _receiptService.AddSolution(solution));
             _unitOfWork.Complete();
             _receiptService.AddReceipt(new Receipt(clientId, doctorId, review, 2, true, destination.ID));
             _unitOfWork.Complete();
             return View("Index");
+        }
+
+        public IActionResult ConfirmReceipt() 
+        {
+            return View("");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
