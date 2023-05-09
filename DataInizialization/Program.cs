@@ -26,6 +26,9 @@ namespace DataInizialization
 
             List<int> productInStock = new List<int>() {110, 120, 130, 140, 145, 150, 160, 200, 210, 250, 260, 300, 450, 460, 500, 1000, 2000, 3000, 4000, 5500, 5469, 5674, 65743, 86959, 548549, 13435, 56278, 345738, 2472753 };
 
+            //uof.StatusRepository.Add(new StatusEntity("Shipped"));
+            //uof.StatusRepository.Add(new StatusEntity("Is Being Processed"));
+            //uof.Complete();
             //uof.DoctorRepository.Add(new DoctorEntity("Robert Dubson", "1234567", "rodubson"));
             //uof.DoctorRepository.Add(new DoctorEntity("Willy Wonka", "1234567", "wonkawi"));
             //uof.DoctorRepository.Add(new DoctorEntity("Otto Octavius", "1234567", "octopus"));

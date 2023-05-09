@@ -64,14 +64,31 @@ namespace BusinessLogic
 
                 Random randCompany = new Random();
 
+                List<int> idsForRemove = new List<int>();
+
+                foreach (CityGene citygene in _cityGenes) 
+                {
+                    if (_factoryGenes.FindAll(gene => gene.GetFactory().CityID == citygene.GetCity().ID).Count==0) 
+                    {
+                        idsForRemove.Add(citygene.GetCity().ID);
+                    }
+                }
+
+
+                foreach (int id in idsForRemove) 
+                {
+                    CityGene geneForDeletion = _cityGenes.Find(gene => gene.GetCity().ID==id);
+                    _cityGenes.Remove(geneForDeletion);
+                }
+
                 int cityIndex = randCity.Next(_cityGenes.Count);
 
                 CityGene selectedCityGene = _cityGenes[cityIndex];
 
-                if (_cityGenes.Count != 0) 
-                {
-                    _cityGenes.RemoveAt(cityIndex);
-                }
+                //if (_cityGenes.Count != 0) 
+                //{
+                //    _cityGenes.RemoveAt(cityIndex);
+                //}
 
                 List<FactoryGene> possibleFactories = _factoryGenes.FindAll(gene => gene.GetFactory().CityID == selectedCityGene.GetCity().ID);
 
@@ -79,19 +96,19 @@ namespace BusinessLogic
 
                 FactoryGene selectedFactory = possibleFactories[factoryIndex];
 
-                if (_factoryGenes.Count != 0) 
-                {
-                    _factoryGenes.Remove(selectedFactory);
-                }
+                //if (_factoryGenes.Count != 0) 
+                //{
+                //    _factoryGenes.Remove(selectedFactory);
+                //}
 
                 int companyIndex = randCompany.Next(_companyGenes.Count);
 
                 DeliveryCompanyGene selectedCompany = _companyGenes[companyIndex];
 
-                if (_companyGenes.Count != 0) 
-                {
-                    _companyGenes.RemoveAt(companyIndex);
-                }
+                //if (_companyGenes.Count != 0) 
+                //{
+                //    _companyGenes.RemoveAt(companyIndex);
+                //}
 
                 initializedChromosomes.Add(new ReceiptSolution(selectedCityGene, selectedFactory, selectedCompany));
 
@@ -249,9 +266,9 @@ namespace BusinessLogic
 
                 population.AddChromosome(selectedChromosome);
 
-                _factoryGenes.RemoveAt(factoryIndex);
+                //_factoryGenes.RemoveAt(factoryIndex);
 
-                _companyGenes.RemoveAt(companyIndex);
+                //_companyGenes.RemoveAt(companyIndex);
 
             }
 

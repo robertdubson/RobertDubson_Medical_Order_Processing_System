@@ -15,23 +15,7 @@ namespace BusinessLogic
 
         public int FactoryID { get; set; }
 
-        public int DeliveryCompanyID { get; set; }
-
-        public ReceiptAndProduct(int id, int receiptId, int productId)
-        {
-            ID = id;
-
-            ReceiptID = receiptId;
-
-            ProductID = productId;
-        }
-
-        public ReceiptAndProduct(int receiptId, int productId)
-        {
-            ReceiptID = receiptId;
-
-            ProductID = productId;
-        }
+        public int DeliveryCompanyID { get; set; }       
 
         public ReceiptAndProduct(int Id, int receiptID, int productID, int cityID, int factoryID, int deliveryCompanyID)
         {

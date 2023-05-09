@@ -9,17 +9,17 @@ namespace Mappers
     {
         public ReceiptEntity FromDomainToEntity(Receipt example)
         {
-            return new ReceiptEntity(example.ID, example.ClientID, example.AuthorID, example.AppointmentReview, example.OrderStatusID, example.ShipToTheIssuePoint, example.DestinationCityID);
+            return new ReceiptEntity(example.ID, example.ClientID, example.AuthorID, example.AppointmentReview, example.OrderStatusID, example.ShipToTheIssuePoint, example.DestinationCityID, example.CreationDate);
         }
 
         public Receipt FromEntityToDomain(ReceiptEntity example)
         {
-            return new Receipt(example.ID, example.ClientID, example.AuthorID, example.AppointmentReview, example.OrderStatusID, example.ShipToTheIssuePoint, example.DestinationCityID);
+            return new Receipt(example.ID, example.ClientID, example.AuthorID, example.AppointmentReview, example.OrderStatusID, example.ShipToTheIssuePoint, example.DestinationCityID, example.CreationDate);
         }
 
         public ReceiptEntity NewExample(Receipt example)
         {
-            return new ReceiptEntity(example.ClientID, example.AuthorID, example.AppointmentReview, example.OrderStatusID, example.ShipToTheIssuePoint, example.DestinationCityID);
+            return new ReceiptEntity(example.ClientID, example.AuthorID, example.AppointmentReview, example.OrderStatusID, example.ShipToTheIssuePoint, example.DestinationCityID, example.CreationDate);
         }
     }
 }

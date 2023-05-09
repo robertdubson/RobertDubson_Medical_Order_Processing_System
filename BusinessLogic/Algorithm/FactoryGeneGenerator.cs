@@ -80,9 +80,15 @@ namespace BusinessLogic
             {
                 Dictionary<City, double> distances = new Dictionary<City, double>();
 
+                foreach (Factory f in factories) 
+                {
+                    if (!distances.ContainsKey(cities.Find(c => c.ID == f.CityID))) 
+                    {
+                        distances.Add(cities.Find(c => c.ID == f.CityID), GetDistanceBetween(cities.Find(c => c.ID == f.CityID), destination));
+                    }
+                }
 
-
-                factories.ForEach(f => distances.Add(cities.Find(c => c.ID == f.CityID), GetDistanceBetween(cities.Find(c => c.ID == f.CityID), destination)));
+                //factories.ForEach(f => distances.Add(cities.Find(c => c.ID == f.CityID), GetDistanceBetween(cities.Find(c => c.ID == f.CityID), destination)));
 
                 var random = new Random();
 
@@ -149,6 +155,11 @@ namespace BusinessLogic
                 SupplierAndProduct sAndP = _priceInfo.Find(pI => pI.ProductID == _selectedProduct.ID & pI.SupplierID == f.CompanyID);
 
                 ProductAndFactory pAndF = _pAndFs.Find(pF => pF.ProductID == _selectedProduct.ID & f.ID == pF.FactoryID);
+
+                if (pAndF==null) 
+                {
+                    pAndF = new ProductAndFactory(f.ID, _selectedProduct.ID, 0);
+                }
 
                 City factoryCity = _factoryCities.Find(c => c.ID == f.CityID);
 

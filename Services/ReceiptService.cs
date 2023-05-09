@@ -28,6 +28,8 @@ namespace Services
 
         ReceiptAndProductMapper _receiptAndProductMapper;
 
+        MedicalProductMapper _medicalProductMapper;
+
         public ReceiptService(IUnitOfWork uof)
         {
             _unitOfWork = uof;
@@ -47,6 +49,13 @@ namespace Services
             _supplierAndProductMapper = new SupplierAndProductMapper();
 
             _receiptAndProductMapper = new ReceiptAndProductMapper();
+
+            _medicalProductMapper = new MedicalProductMapper();
+        }
+
+        public void AddSolution(ReceiptAndProduct solution) 
+        {
+            _unitOfWork.ReceiptAndProductRepository.Add(_receiptAndProductMapper.NewExample(solution));
         }
 
         public void AddChainOfSolutions(City destination, List<MedicalProduct> purchasedProducts) 
@@ -54,7 +63,9 @@ namespace Services
             foreach (ReceiptAndProduct rp in GenerateOptimizedReceipt(destination, purchasedProducts)) 
             {
                 _unitOfWork.ReceiptAndProductRepository.Add(_receiptAndProductMapper.NewExample(rp));
+                _unitOfWork.Complete();
             }
+            
         }
 
         public List<ReceiptAndProduct> GenerateOptimizedReceipt(City destination, List<MedicalProduct> purchasedProducts)
@@ -77,13 +88,14 @@ namespace Services
 
             }
 
-            return new List<ReceiptAndProduct>();
+            return solutions;
         }
 
         public void AddReceipt(Receipt receipt) 
         {
+            receipt.CreationDate = DateTime.Today;
             _unitOfWork.ReceiptRepository.Add(_receiptMapper.NewExample(receipt));
-
+            //_unitOfWork.Complete();
         }
 
         public void DeleteReceipt(int Id)
@@ -109,6 +121,11 @@ namespace Services
         public void UpdateReceipt(Receipt receipt)
         {
             _unitOfWork.ReceiptRepository.Update(_receiptMapper.FromDomainToEntity(receipt));
+        }
+
+        public List<MedicalProduct> GetPrescriptedProducts(int receiptId) 
+        {
+            return _unitOfWork.ReceiptAndProductRepository.GetPrescriptedProducts(receiptId).Select(pr => _medicalProductMapper.FromEntityToDomain(_unitOfWork.MedicalProductRepository.GetByID(pr.ProductID))).ToList();
         }
     }
 }

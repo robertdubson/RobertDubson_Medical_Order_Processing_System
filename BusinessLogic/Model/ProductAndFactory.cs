@@ -23,5 +23,15 @@ namespace BusinessLogic
 
             UnitsInStorage = unitsInStorage;
         }
+
+        public ProductAndFactory(int factoryId, int productId, int unitsInStorage)
+        {
+
+            FactoryID = factoryId;
+
+            ProductID = productId;
+
+            UnitsInStorage = unitsInStorage;
+        }
     }
 }

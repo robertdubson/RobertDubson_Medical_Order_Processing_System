@@ -20,6 +20,8 @@ namespace Services.Abstract
 
         public void AddChainOfSolutions(City destination, List<MedicalProduct> purchasedProducts);
 
+        public void AddSolution(ReceiptAndProduct solution);
+
         public List<ReceiptAndProduct> GenerateOptimizedReceipt(City destination, List<MedicalProduct> purchasedProducts);
     }
 }

@@ -8,7 +8,7 @@ namespace DataLayer.Repositories
 {
     public class GenericRepository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : BaseEntity
     {
-        private readonly DbContext Context;
+        protected DbContext Context;
 
         public DbSet<TEntity> _DbSet;
 
@@ -56,7 +56,7 @@ namespace DataLayer.Repositories
         public int NextID() 
         {
 
-            if (_DbSet.ToList().Count != 0)
+            if (_DbSet.Any())
             {
                 return _DbSet.ToList().OrderByDescending(example => example.ID).FirstOrDefault().ID + 1;
             }

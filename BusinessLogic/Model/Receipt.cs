@@ -19,7 +19,9 @@ namespace BusinessLogic
 
         public int DestinationCityID { get; set; }
 
-        public Receipt(int id, int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId)
+        public DateTime CreationDate { get; set; }
+
+        public Receipt(int id, int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId, DateTime creationDate)
         {
             ID = id;
 
@@ -34,6 +36,8 @@ namespace BusinessLogic
             ShipToTheIssuePoint = shipToPoint;
 
             DestinationCityID = destinationId;
+
+            CreationDate = creationDate;
 
 
         }

@@ -33,6 +33,8 @@ namespace MedicalDeliveryService.Controllers
 
         IProductService _productService;
 
+        IReceiptService _receiptService;
+
         public HomeController(ILogger<HomeController> logger, ApplicationContext applicationContext)
         {
             _logger = logger;
@@ -48,6 +50,8 @@ namespace MedicalDeliveryService.Controllers
             _factoryService = new FactoryService(_unitOfWork, new FactoryMapper());
 
             _productService = new ProductService(_unitOfWork, new MedicalProductMapper(), new ProductAndFactoryMapper());
+
+            _receiptService = new ReceiptService(_unitOfWork);
         }
 
         public IActionResult Index()
@@ -395,10 +399,41 @@ namespace MedicalDeliveryService.Controllers
 
             return View("AllDoctors", _userService.GetAllDoctors().Select(dc => new DoctorViewModel(dc.ID, dc.Name, dc.PasswordHash, dc.UserName)).ToList());
         }
-
-        public IActionResult CreateReceipt() 
+        [HttpGet]
+        public IActionResult CreateNewReceipt() 
         {
-            return View();
+            ReceiptPreparationViewModel viewModel = new ReceiptPreparationViewModel(_productService.GetAllProducts(), _userService.GetAllClients(), _userService.GetAllDoctors());
+
+            return View("ReceiptCreationView", viewModel);
+        }
+        [HttpPost]
+        public IActionResult ProcessReceipt() 
+        {
+            string countStr = Request.Form["ProductCount"];
+            int count = int.Parse(countStr);
+            string authorIdStr = Request.Form["AuthorID"];
+            string clientIdStr = Request.Form["ClientID"];
+            string review = Request.Form["AppointmentReview"];
+            //string IsShippingInPoint = Re
+            int clientId = int.Parse(clientIdStr);
+            int doctorId = int.Parse(authorIdStr);
+            Client client = _userService.GetClietnById(clientId);
+            City destination = _cityService.GetCityById(client.LocationID);
+            List<MedicalProduct> selectedProducts = new List<MedicalProduct>();
+            for (int i=0; i<count; i++) 
+            {
+                string IdProdStr = Request.Form["PrescriptedProducts[" + i.ToString() + "].ID"];
+                int prodId = int.Parse(IdProdStr);
+                selectedProducts.Add(_productService.GetProduct(prodId));
+            }
+            //_receiptService.AddChainOfSolutions(destination, selectedProducts);
+            //_unitOfWork.Complete();
+            List<ReceiptAndProduct> solutions = _receiptService.GenerateOptimizedReceipt(destination, selectedProducts);
+            solutions.ForEach(solution => _receiptService.AddSolution(solution));
+            _unitOfWork.Complete();
+            _receiptService.AddReceipt(new Receipt(clientId, doctorId, review, 2, true, destination.ID));
+            _unitOfWork.Complete();
+            return View("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
