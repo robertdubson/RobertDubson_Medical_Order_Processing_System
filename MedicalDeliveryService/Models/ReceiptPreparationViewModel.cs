@@ -57,7 +57,7 @@ namespace MedicalDeliveryService.Models
 
             PossibleProductModels.ForEach(prod => PossibleProducts.Add(new SelectListItem(prod.ProductName, prod.ID.ToString())));
 
-            PossibleClientModels.ForEach(cl => PossibleClients.Add(new SelectListItem(cl.Name, cl.ID.ToString())));
+            PossibleClientModels.ForEach(cl => PossibleClients.Add(new SelectListItem(cl.UserName, cl.ID.ToString())));
 
             PossibleDoctorModels.ForEach(dc => PossibleDoctors.Add(new SelectListItem(dc.Name, dc.ID.ToString())));
         }
