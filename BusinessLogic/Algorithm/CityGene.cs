@@ -50,7 +50,7 @@ namespace BusinessLogic
 
         public double CalculateRank()
         {
-            return minDistance / Math.Sqrt(Math.Pow((destinationCity.CoordinateX - currentCity.CoordinateX), 2d) - Math.Pow((destinationCity.CoordinateY - currentCity.CoordinateY), 2d));
+            return minDistance / Math.Sqrt(Math.Pow((destinationCity.CoordinateX - currentCity.CoordinateX), 2d) + Math.Pow((destinationCity.CoordinateY - currentCity.CoordinateY), 2d));
         }
     }
 }

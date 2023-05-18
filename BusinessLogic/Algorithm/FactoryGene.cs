@@ -72,7 +72,7 @@ namespace BusinessLogic
 
         public double CalculateRank()
         {
-            double distance = Math.Sqrt(Math.Pow(_factoryCity.CoordinateX - _destination.CoordinateX, 2) - Math.Pow(_factoryCity.CoordinateY - _destination.CoordinateY, 2));
+            double distance = Math.Sqrt(Math.Pow(_factoryCity.CoordinateX - _destination.CoordinateX, 2) + Math.Pow(_factoryCity.CoordinateY - _destination.CoordinateY, 2));
             
             double distance_rate = _minDistance / distance;
             

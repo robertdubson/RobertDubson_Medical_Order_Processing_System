@@ -66,7 +66,7 @@ namespace BusinessLogic
         public double CalculateRank()
         {
 
-            double currentDistance = Math.Sqrt(Math.Pow(_destination.CoordinateX - _currentCity.CoordinateX, 2) - Math.Pow(_destination.CoordinateY - _currentCity.CoordinateY, 2));
+            double currentDistance = Math.Sqrt(Math.Pow(_destination.CoordinateX - _currentCity.CoordinateX, 2) + Math.Pow(_destination.CoordinateY - _currentCity.CoordinateY, 2));
 
             double distanceRank = _minDistance / currentDistance;
 
