@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -26,6 +26,7 @@
   <ItemGroup>
     <PackageReference Include="MathNet.Numerics" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
+    <PackageReference Include="Microsoft.PowerBI.AspNet.Mvc" Version="1.1.11" />
   </ItemGroup>
 
   <ItemGroup>

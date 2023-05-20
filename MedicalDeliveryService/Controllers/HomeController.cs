@@ -15,6 +15,9 @@ using Microsoft.EntityFrameworkCore;
 using DataLayer;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.Extensions.FileProviders;
+
 namespace MedicalDeliveryService.Controllers
 {
     public class HomeController : Controller
@@ -52,6 +55,22 @@ namespace MedicalDeliveryService.Controllers
             _productService = new ProductService(_unitOfWork, new MedicalProductMapper(), new ProductAndFactoryMapper());
 
             _receiptService = new ReceiptService(_unitOfWork);
+        }
+
+        public ActionResult Report()
+        {
+            var reportPath = Path.Combine(Directory.GetCurrentDirectory(), "Reports", "MedicalREport.pbix");
+            var fileProvider = new PhysicalFileProvider("C://Users//Robert//source//repos//RobertDubson_Medical_Order_Processing_System//MedicalDeliveryService//Reports//");
+            using (var stream = fileProvider.GetFileInfo(reportPath).CreateReadStream())
+            using (var memoryStream = new MemoryStream())
+            {
+                stream.CopyTo(memoryStream);
+                byte[] reportBytes = memoryStream.ToArray();
+
+                string base64String = Convert.ToBase64String(reportBytes);
+                ViewData["ReportBytes"] = base64String;
+            }
+            return View("AdminReport");
         }
 
         public IActionResult Index()
