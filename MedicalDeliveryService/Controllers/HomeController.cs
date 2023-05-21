@@ -59,17 +59,7 @@ namespace MedicalDeliveryService.Controllers
 
         public ActionResult Report()
         {
-            var reportPath = Path.Combine(Directory.GetCurrentDirectory(), "Reports", "MedicalREport.pbix");
-            var fileProvider = new PhysicalFileProvider("C://Users//Robert//source//repos//RobertDubson_Medical_Order_Processing_System//MedicalDeliveryService//Reports//");
-            using (var stream = fileProvider.GetFileInfo(reportPath).CreateReadStream())
-            using (var memoryStream = new MemoryStream())
-            {
-                stream.CopyTo(memoryStream);
-                byte[] reportBytes = memoryStream.ToArray();
-
-                string base64String = Convert.ToBase64String(reportBytes);
-                ViewData["ReportBytes"] = base64String;
-            }
+            
             return View("AdminReport");
         }
 
