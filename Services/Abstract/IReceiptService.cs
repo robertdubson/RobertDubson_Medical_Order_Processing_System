@@ -12,6 +12,8 @@ namespace Services.Abstract
 
         public List<Receipt> GetAllReceiptsByDoctorId(int doctorId);
 
+        public List<Receipt> GetAllReceiptsByClientId(int clientId);
+
         public void UpdateReceipt(Receipt receipt);
 
         public void DeleteReceipt(int Id);

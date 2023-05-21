@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ReceiptViewModel>
+
+@{
+    ViewData["Title"] = "ClientDetails";
+}
+
+<h1>ClientDetails</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.DoctorName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppointmentReview)
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.OrderStatusID)*@
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Receipt.CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+
+            <td>
+                @Html.DisplayNameFor(model => model.DoctorName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppointmentReview)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.OrderStatusID)*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Receipt.CreationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Receipt.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Receipt.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Receipt.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

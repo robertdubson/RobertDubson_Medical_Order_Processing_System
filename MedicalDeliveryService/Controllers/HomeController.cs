@@ -138,6 +138,14 @@ namespace MedicalDeliveryService.Controllers
 
             return View("Index");
         }
+
+        [HttpGet]
+        public IActionResult ClientDetails(int id) 
+        {
+            
+            
+            return View();
+        }
         [HttpGet]
         public IActionResult AllSuppliers()
         {

@@ -127,5 +127,10 @@ namespace Services
         {
             return _unitOfWork.ReceiptAndProductRepository.GetPrescriptedProducts(receiptId).Select(pr => _medicalProductMapper.FromEntityToDomain(_unitOfWork.MedicalProductRepository.GetByID(pr.ProductID))).ToList();
         }
+
+        public List<Receipt> GetAllReceiptsByClientId(int clientId)
+        {
+            return _unitOfWork.ReceiptRepository.GetReceiptByClientId(clientId).Select(r => _receiptMapper.FromEntityToDomain(r)).ToList();
+        }
     }
 }
