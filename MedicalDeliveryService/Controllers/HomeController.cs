@@ -415,6 +415,7 @@ namespace MedicalDeliveryService.Controllers
 
             return View("ReceiptCreationView", viewModel);
         }
+        
         [HttpPost]
         public IActionResult ProcessReceipt() 
         {
@@ -438,9 +439,23 @@ namespace MedicalDeliveryService.Controllers
             List<ReceiptAndProduct> solutions = _receiptService.GenerateOptimizedReceipt(destination, selectedProducts);
             solutions.ForEach(solution => _receiptService.AddSolution(solution));
             _unitOfWork.Complete();
-            _receiptService.AddReceipt(new Receipt(clientId, doctorId, review, 2, true, destination.ID));
+            double cost = 0;
+            solutions.ForEach(solution => cost+=_productService.GetPrice(solution.FactoryID));
+            Receipt receipt = new Receipt(clientId, doctorId, review, 2, true, destination.ID);
+            receipt.Cost = cost;
+            _receiptService.AddReceipt(receipt);
             _unitOfWork.Complete();
-            return View("Index");
+            List<MedicalProduct> productsToConfirm = new List<MedicalProduct>();
+
+            foreach (ReceiptAndProduct solution in solutions) 
+            {
+                double price = _productService.GetPrice(solution.FactoryID);
+                MedicalProduct prod = _productService.GetProduct(solution.ProductID);
+                prod.Price = price;
+                productsToConfirm.Add(prod);
+            }
+
+            return View("ReceiptConfirmationView", new ReceiptViewModel(productsToConfirm, receipt, _userService.GetDoctorById(doctorId)));
         }
 
         public IActionResult ConfirmReceipt() 

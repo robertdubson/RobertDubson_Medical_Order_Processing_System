@@ -20,6 +20,8 @@ namespace DataModel
 
         public DateTime CreationDate { get; set; }
 
+        public double Cost { get; set; }
+
         public ReceiptEntity(int id, int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId, DateTime creationDate)
         {
             ID = id;
@@ -37,6 +39,8 @@ namespace DataModel
             DestinationCityID = destinationId;
 
             CreationDate = creationDate;
+
+            Cost = 0;
 
 
         }
@@ -57,6 +61,8 @@ namespace DataModel
             DestinationCityID = destinationId;
 
             CreationDate = CreationDate;
+
+            Cost = 0;
 
 
         }

@@ -248,6 +248,9 @@ namespace DataLayer.Migrations
                     b.Property<int>("ClientID")
                         .HasColumnType("int");
 
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
+
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 

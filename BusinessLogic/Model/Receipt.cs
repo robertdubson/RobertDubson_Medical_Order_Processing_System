@@ -21,6 +21,8 @@ namespace BusinessLogic
 
         public DateTime CreationDate { get; set; }
 
+        public double Cost { get; set; }
+
         public Receipt(int id, int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId, DateTime creationDate)
         {
             ID = id;
@@ -39,6 +41,8 @@ namespace BusinessLogic
 
             CreationDate = creationDate;
 
+            Cost = 0;
+
 
         }
 
@@ -55,6 +59,8 @@ namespace BusinessLogic
             ShipToTheIssuePoint = shipToPoint;
 
             DestinationCityID = destinationId;
+
+            Cost = 0;
         }
 
     }

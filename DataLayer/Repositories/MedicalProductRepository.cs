@@ -14,5 +14,9 @@ namespace DataLayer.Repositories
 
         }
 
+        public double GetPrice(int FactoryId)
+        {
+            return Context.Set<SupplierAndProductEntity>().Find(Context.Set<FactoryEntity>().Find(FactoryId).CompanyID).Price;
+        }
     }
 }

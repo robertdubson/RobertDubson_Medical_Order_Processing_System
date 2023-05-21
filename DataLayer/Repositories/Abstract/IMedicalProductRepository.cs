@@ -6,5 +6,6 @@ namespace DataLayer.Repositories.Abstract
 {
     public interface IMedicalProductRepository : IRepository<MedicalProductEntity, int>
     {
+        double GetPrice(int FactoryId);
     }
 }

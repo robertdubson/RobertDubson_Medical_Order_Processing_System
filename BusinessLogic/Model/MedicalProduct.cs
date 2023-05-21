@@ -13,6 +13,8 @@ namespace BusinessLogic
 
         public string InstructionToUse { get; set; }
 
+        public double Price { get; set; }
+
         public MedicalProduct(int id, string prodName, string description, string instruction)
         {
             ID = id;

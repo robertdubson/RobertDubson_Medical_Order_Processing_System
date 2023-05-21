@@ -1,0 +1,35 @@
+﻿@model MedicalDeliveryService.Models.ReceiptViewModel
+<h1>Receipt Confirmation</h1>
+<p>
+    <a asp-action="Index">Back</a>
+
+</p>
+<h2>Receipt Details</h2>
+<p>Receipt ID: @Model.Receipt.ID</p>
+<p>Date: @Model.Receipt.CreationDate</p>
+<p>Appointment Review: @Model.AppointmentReview</p>
+
+<h2>Prescripted Products</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.PrescriptedProducts)
+        {
+            <tr>
+                <td>@product.ProductName </td>
+                <td>@product.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Total Cost</h2>
+<p>Total Cost: @Model.Cost</p>
+
+<h2>Doctor</h2>
+<p>Doctor Name: @Model.DoctorName</p>
