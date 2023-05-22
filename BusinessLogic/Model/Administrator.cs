@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataModel
+namespace BusinessLogic.Model
 {
-    public class ClientEntity : BaseEntity
+    public class Administrator  : BaseModel
     {
-        
         public string ClientName { get; set; }
-        
+
         public string UserName { get; set; }
 
         public string PasswordHash { get; set; }
@@ -19,12 +18,12 @@ namespace DataModel
 
         public string EMail { get; set; }
 
-        public ClientEntity()
+        public Administrator()
         {
 
         }
 
-        public ClientEntity(int id, string cname, int locationId, string passwordHash, string username, string phone, string mail)
+        public Administrator(int id, string cname, int locationId, string passwordHash, string username, string phone, string mail)
         {
             ID = id;
 
@@ -41,7 +40,7 @@ namespace DataModel
             EMail = mail;
         }
 
-        public ClientEntity(string passwordHash, string username, string clienName, int locationId, string phone, string mail)
+        public Administrator(string passwordHash, string username, string clienName, int locationId, string phone, string mail)
         {
             UserName = username;
 

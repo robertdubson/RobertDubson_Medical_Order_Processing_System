@@ -10,7 +10,11 @@ namespace BusinessLogic
 
         public string Name { get; set; }
 
-        public Client(int id, string name, int locationID, string passwordHash, string username) : base(passwordHash, username)
+        public string Phone { get; set; }
+
+        public string EMail { get; set; }
+
+        public Client(int id, string name, string phone, string email, int locationID, string passwordHash, string username) : base(passwordHash, username)
         {
             ID = id;
 
@@ -21,6 +25,10 @@ namespace BusinessLogic
             UserName = username;
 
             PasswordHash = passwordHash;
+
+            Phone = phone;
+
+            EMail = email;
 
         }
 

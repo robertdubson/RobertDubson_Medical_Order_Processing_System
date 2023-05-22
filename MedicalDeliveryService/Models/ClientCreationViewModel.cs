@@ -24,12 +24,16 @@ namespace MedicalDeliveryService.Models
 
         public string StrId { get; set; }
 
+        public string Phone { get; set; }
+
+        public string EMail { get; set; }
+
         public ClientCreationViewModel()
         {
 
         }
 
-        public ClientCreationViewModel(List<City> allCities,string strId,  string realName, string userName, int cityId, string pasHahs)
+        public ClientCreationViewModel(List<City> allCities,string strId,  string realName, string userName, int cityId, string pasHahs, string phone, string mail)
         {
             AllCities = new List<SelectListItem>();
 
@@ -49,6 +53,9 @@ namespace MedicalDeliveryService.Models
 
             StrId = strId;
 
+            Phone = phone;
+
+            EMail = mail;
         }
 
         public ClientCreationViewModel(List<City> allCities)

@@ -33,6 +33,7 @@ namespace DataLayer
         public DbSet<StatusEntity> Statuses { get; set; }
         public DbSet<SupplierAndProductEntity> SuppliersAndProducts { get; set; }
         public DbSet<SupplierEntity> Suppliers { get; set; }
+        public DbSet<AdministratorEntity> Administrators { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

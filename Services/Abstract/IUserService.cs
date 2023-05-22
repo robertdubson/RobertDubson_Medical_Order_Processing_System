@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using BusinessLogic;
+using BusinessLogic.Model;
 namespace Services.Abstract
 {
     public interface IUserService
@@ -10,7 +11,7 @@ namespace Services.Abstract
 
         public Doctor GetDoctorByUserName(string username);
 
-        public void AddClient(string username, string passwordHash, string clientName, int cityId);
+        public void AddClient(string username, string phone, string email, string passwordHash, string clientName, int cityId);
 
         public void AddDoctor(string username, string passwordHash, string clientName);
 
@@ -29,6 +30,8 @@ namespace Services.Abstract
         public List<Doctor> GetAllDoctors();
 
         public void RemoveDoctor(int ID);
+
+        public Administrator GetAdminByUserName(string username);
 
     }
 }

@@ -19,11 +19,11 @@ namespace BusinessLogic
 
         public int DestinationCityID { get; set; }
 
-        public DateTime CreationDate { get; set; }
+        public string CreationDate { get; set; }
 
         public double Cost { get; set; }
 
-        public Receipt(int id, int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId, DateTime creationDate, double cost)
+        public Receipt(int id, int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId, string creationDate, double cost)
         {
             ID = id;
 

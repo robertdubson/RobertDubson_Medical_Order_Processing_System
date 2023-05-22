@@ -1,0 +1,23 @@
+﻿@model MedicalDeliveryService.Models.LoginViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+
+<form method="post" action="/Account/Login">
+    <div class="form-group">
+        <label for="UserName">Username:</label>
+        <input type="text" id="UserName" name="UserName" value="@Model.UserName" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="Password">Password:</label>
+        <input type="password" id="Password" name="Password" value="@Model.Password" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+
+<p>
+    <a asp-action="SignUp">Sign Up</a>
+</p>

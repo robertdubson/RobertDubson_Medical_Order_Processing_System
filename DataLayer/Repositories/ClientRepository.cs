@@ -18,5 +18,16 @@ namespace DataLayer.Repositories
         {
             return _DbSet.ToList().Find(user => user.UserName==username);
         }
+
+        public IEnumerable<AdministratorEntity> GetAdministrators() 
+        {
+            return Context.Set<AdministratorEntity>().ToList();
+        }
+
+        public AdministratorEntity GetAdminByUserName(string username) 
+        {
+            return Context.Set<AdministratorEntity>().ToList().Find(user => user.UserName == username);
+        }
+
     }
 }

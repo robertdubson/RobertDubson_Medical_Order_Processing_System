@@ -7,6 +7,7 @@ using BusinessLogic;
 using System.Linq;
 using Services.Abstract;
 using System.Security.Cryptography;
+using BusinessLogic.Model;
 
 namespace Services
 {
@@ -18,6 +19,8 @@ namespace Services
 
         private ClientMapper _clientMapper;
 
+        private AdminMapper _adminMapper;
+
         public UserService(IUnitOfWork unitOfWork, DoctorMapper doctorMapper, ClientMapper clientMapper)
         {
             _doctorMapper = doctorMapper;
@@ -25,6 +28,8 @@ namespace Services
             _clientMapper = clientMapper;
 
             _unitOfWork = unitOfWork;
+
+            _adminMapper = new AdminMapper();
         }
 
         public Client GetClietnById(int id) 
@@ -35,6 +40,11 @@ namespace Services
         public Doctor GetDoctorById(int id) 
         {
             return _doctorMapper.FromEntityToDomain(_unitOfWork.DoctorRepository.GetByID(id));
+        }
+
+        public Administrator GetAdminByUserName(string username) 
+        {
+            return _adminMapper.FromEntityToDomain(_unitOfWork.ClientRepository.GetAdminByUserName(username));
         }
 
         public Client GetClientByUserName(string username) 
@@ -65,9 +75,9 @@ namespace Services
             }
         }
 
-        public void AddClient(string username, string passwordHash, string clientName, int cityId) 
+        public void AddClient(string username, string phone, string email, string passwordHash, string clientName, int cityId) 
         {
-            Client newCLient = new Client(_unitOfWork.ClientRepository.NextID(), clientName, cityId, passwordHash, username);
+            Client newCLient = new Client(_unitOfWork.ClientRepository.NextID(), clientName, phone, email, cityId, passwordHash, username);
             if (GetClientByUserName(username)==null) 
             {
                 _unitOfWork.ClientRepository.Add(_clientMapper.NewExample(newCLient));

@@ -19,12 +19,16 @@ namespace MedicalDeliveryService.Models
 
         public City Location { get; set; }
 
+        public string Phone { get; set; }
+
+        public string EMail { get; set; }
+
         public ClientsViewModel()
         {
 
         }
 
-        public ClientsViewModel(int id, string cname, City city, string passwordHash, string username)
+        public ClientsViewModel(int id, string cname, City city, string passwordHash, string username, string phone, string email)
         {
             ID = id;
 
@@ -35,6 +39,10 @@ namespace MedicalDeliveryService.Models
             ClientName = cname;
 
             Location = city;
+
+            Phone = phone;
+
+            EMail = email;
         }
     }
 }

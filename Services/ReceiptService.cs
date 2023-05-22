@@ -93,7 +93,7 @@ namespace Services
 
         public void AddReceipt(Receipt receipt) 
         {
-            receipt.CreationDate = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"));
+            receipt.CreationDate = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
             _unitOfWork.ReceiptRepository.Add(_receiptMapper.NewExample(receipt));
             //_unitOfWork.Complete();
         }

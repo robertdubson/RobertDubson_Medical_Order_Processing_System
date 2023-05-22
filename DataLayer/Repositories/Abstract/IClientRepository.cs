@@ -7,5 +7,7 @@ namespace DataLayer.Repositories.Abstract
     public interface IClientRepository : IRepository<ClientEntity, int>
     {
         ClientEntity GetClientByUsername(string username);
+        IEnumerable<AdministratorEntity> GetAdministrators();
+        AdministratorEntity GetAdminByUserName(string username);
     }
 }

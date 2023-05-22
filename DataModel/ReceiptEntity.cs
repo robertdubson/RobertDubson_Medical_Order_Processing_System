@@ -18,11 +18,11 @@ namespace DataModel
 
         public int DestinationCityID { get; set; }
 
-        public DateTime CreationDate { get; set; }
+        public string CreationDate { get; set; }
 
         public double Cost { get; set; }
 
-        public ReceiptEntity(int id, int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId, DateTime creationDate, double cost)
+        public ReceiptEntity(int id, int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId, string creationDate, double cost)
         {
             ID = id;
 
@@ -47,7 +47,7 @@ namespace DataModel
 
         }
 
-        public ReceiptEntity(int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId, DateTime creationDate, double cost)
+        public ReceiptEntity(int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId, string creationDate, double cost)
         {
 
             ClientID = clientid;

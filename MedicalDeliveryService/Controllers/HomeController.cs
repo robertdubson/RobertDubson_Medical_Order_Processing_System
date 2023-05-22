@@ -79,7 +79,7 @@ namespace MedicalDeliveryService.Controllers
 
             List<ClientsViewModel> models = new List<ClientsViewModel>();
 
-            _userService.GetAllClients().ForEach(cl => models.Add(new ClientsViewModel(cl.ID, cl.Name, _cityService.GetCityById(cl.LocationID), cl.PasswordHash, cl.UserName)));
+            _userService.GetAllClients().ForEach(cl => models.Add(new ClientsViewModel(cl.ID, cl.Name, _cityService.GetCityById(cl.LocationID), cl.PasswordHash, cl.UserName, cl.Phone, cl.EMail)));
 
             return View("AllClients", models);
         }
@@ -90,7 +90,7 @@ namespace MedicalDeliveryService.Controllers
             Client user = _userService.GetClietnById(id);
 
 
-            return View("ClientUpdate", new ClientCreationViewModel(_cityService.GetAllCities(), user.ID.ToString(), user.Name, user.UserName, user.LocationID, user.PasswordHash));
+            return View("ClientUpdate", new ClientCreationViewModel(_cityService.GetAllCities(), user.ID.ToString(), user.Name, user.UserName, user.LocationID, user.PasswordHash, user.Phone, user.EMail));
         }
 
         [HttpPost]
@@ -103,8 +103,10 @@ namespace MedicalDeliveryService.Controllers
             viewModel.OfficialName = Request.Form["OfficialName"];
             viewModel.UserName = Request.Form["UserName"];
             viewModel.StrId = Request.Form["StrId"];
+            viewModel.EMail = Request.Form["Email"];
+            viewModel.Phone = Request.Form["Number"];
 
-            _userService.UpdateClient(new Client(int.Parse(viewModel.StrId), viewModel.OfficialName, int.Parse(viewModel.SelectedCityIDStr), _userService.GetHash(viewModel.InsertedPassword), viewModel.UserName));
+            _userService.UpdateClient(new Client(int.Parse(viewModel.StrId), viewModel.OfficialName, viewModel.Phone, viewModel.EMail, int.Parse(viewModel.SelectedCityIDStr), _userService.GetHash(viewModel.InsertedPassword), viewModel.UserName));
             _unitOfWork.Complete();
             return View("Index");
         }
@@ -125,7 +127,9 @@ namespace MedicalDeliveryService.Controllers
             viewModel.InsertedPassword = Request.Form["InsertedPassword"];
             viewModel.OfficialName = Request.Form["OfficialName"];
             viewModel.UserName = Request.Form["UserName"];
-            _userService.AddClient(viewModel.UserName, _userService.GetHash(viewModel.InsertedPassword), viewModel.OfficialName, int.Parse(viewModel.SelectedCityIDStr));
+            viewModel.EMail = Request.Form["Email"];
+            viewModel.Phone = Request.Form["Number"];
+            _userService.AddClient(viewModel.UserName, viewModel.Phone, viewModel.EMail, _userService.GetHash(viewModel.InsertedPassword), viewModel.OfficialName, int.Parse(viewModel.SelectedCityIDStr));
             _unitOfWork.Complete();
 
             return View("Index");
@@ -181,7 +185,7 @@ namespace MedicalDeliveryService.Controllers
 
             List<ClientsViewModel> models = new List<ClientsViewModel>();
 
-            _userService.GetAllClients().ForEach(cl => models.Add(new ClientsViewModel(cl.ID, cl.Name, _cityService.GetCityById(cl.LocationID), cl.PasswordHash, cl.UserName)));
+            _userService.GetAllClients().ForEach(cl => models.Add(new ClientsViewModel(cl.ID, cl.Name, _cityService.GetCityById(cl.LocationID), cl.PasswordHash, cl.UserName, cl.Phone, cl.EMail)));
 
             return View("AllClients", models);
         }
