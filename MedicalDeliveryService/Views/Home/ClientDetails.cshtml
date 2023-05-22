@@ -6,9 +6,7 @@
 
 <h1>ClientDetails</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -20,7 +18,7 @@
                 @Html.DisplayNameFor(model => model.AppointmentReview)
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.OrderStatusID)*@
+                @Html.DisplayNameFor(model => model.StatusStr)
             </th>
 
             <th>
@@ -37,13 +35,13 @@
         <tr>
 
             <td>
-                @Html.DisplayNameFor(model => model.DoctorName)
+                @Html.DisplayFor(modelItem => item.DoctorName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AppointmentReview)
             </td>
             <td>
-                @*@Html.DisplayFor(modelItem => item.OrderStatusID)*@
+                @Html.DisplayFor(modelItem => item.StatusStr)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Receipt.CreationDate)
@@ -52,9 +50,7 @@
                 @Html.DisplayFor(modelItem => item.Cost)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Receipt.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Receipt.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Receipt.ID">Delete</a>
+                <a asp-action="ReceiptConfirmation" asp-route-id="@item.Receipt.ID">ReceiptDetails</a> |                
             </td>
         </tr>
 }

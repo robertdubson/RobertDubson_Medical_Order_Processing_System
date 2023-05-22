@@ -142,10 +142,51 @@ namespace MedicalDeliveryService.Controllers
         [HttpGet]
         public IActionResult ClientDetails(int id) 
         {
+            List<ReceiptViewModel> viewModels = new List<ReceiptViewModel>();
+            _receiptService.GetAllReceiptsByClientId(id).ForEach(r => viewModels.Add(new ReceiptViewModel(_receiptService.GetPrescriptedProducts(r.ID), r, _userService.GetDoctorById(r.AuthorID))));
             
-            
-            return View();
+            return View("ClientDetails", viewModels);
         }
+        [HttpGet]
+        public IActionResult ReceiptConfirmation(int id) 
+        {
+            Receipt r = _receiptService.GetReceiptById(id);
+            List<MedicalProduct> productsToConfirm = new List<MedicalProduct>();
+
+            
+
+            foreach (ReceiptAndProduct solution in _receiptService.GetReceiptDetails(id))
+            {
+                double price = _productService.GetPrice(solution.FactoryID, solution.ProductID);
+                MedicalProduct prod = _productService.GetProduct(solution.ProductID);
+                prod.Price = price;
+                productsToConfirm.Add(prod);
+            }
+
+            return View("ReceiptStatus", new ReceiptViewModel(productsToConfirm, r, _userService.GetDoctorById(r.AuthorID)));
+        }
+        [HttpPost]
+        public IActionResult ConfirmReceipt() 
+        {
+            string strId = Request.Form["receiptId"];
+            int id = int.Parse(strId);
+            Receipt r = _receiptService.GetReceiptById(id);
+            r.OrderStatusID = 1;
+            Receipt newRec = new Receipt(id, r.ClientID, r.AuthorID, r.AppointmentReview, r.OrderStatusID, r.ShipToTheIssuePoint, r.DestinationCityID, r.CreationDate, r.Cost);
+            newRec.Cost = r.Cost;
+            UnitOfWork unitOfWork = new UnitOfWork(new ApplicationContext());
+            unitOfWork.ReceiptRepository.Update(new DataModel.ReceiptEntity(id, r.ClientID, r.AuthorID, r.AppointmentReview, r.OrderStatusID, r.ShipToTheIssuePoint, r.DestinationCityID, r.CreationDate, r.Cost));
+            //_receiptService.UpdateReceipt(r);
+            unitOfWork.Complete();
+
+            List<ClientsViewModel> models = new List<ClientsViewModel>();
+
+            _userService.GetAllClients().ForEach(cl => models.Add(new ClientsViewModel(cl.ID, cl.Name, _cityService.GetCityById(cl.LocationID), cl.PasswordHash, cl.UserName)));
+
+            return View("AllClients", models);
+        }
+
+
         [HttpGet]
         public IActionResult AllSuppliers()
         {
@@ -448,8 +489,8 @@ namespace MedicalDeliveryService.Controllers
             solutions.ForEach(solution => _receiptService.AddSolution(solution));
             _unitOfWork.Complete();
             double cost = 0;
-            solutions.ForEach(solution => cost+=_productService.GetPrice(solution.FactoryID));
-            Receipt receipt = new Receipt(clientId, doctorId, review, 2, true, destination.ID);
+            solutions.ForEach(solution => cost+=_productService.GetPrice(solution.FactoryID, solution.ProductID));
+            Receipt receipt = new Receipt(clientId, doctorId, review, 2, true, destination.ID, cost);
             receipt.Cost = cost;
             _receiptService.AddReceipt(receipt);
             _unitOfWork.Complete();
@@ -457,18 +498,13 @@ namespace MedicalDeliveryService.Controllers
 
             foreach (ReceiptAndProduct solution in solutions) 
             {
-                double price = _productService.GetPrice(solution.FactoryID);
+                double price = _productService.GetPrice(solution.FactoryID, solution.ProductID);
                 MedicalProduct prod = _productService.GetProduct(solution.ProductID);
                 prod.Price = price;
                 productsToConfirm.Add(prod);
             }
 
             return View("ReceiptConfirmationView", new ReceiptViewModel(productsToConfirm, receipt, _userService.GetDoctorById(doctorId)));
-        }
-
-        public IActionResult ConfirmReceipt() 
-        {
-            return View("");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

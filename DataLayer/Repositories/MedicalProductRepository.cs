@@ -14,9 +14,33 @@ namespace DataLayer.Repositories
 
         }
 
-        public double GetPrice(int FactoryId)
+        public double GetPrice(int FactoryId, int ProductId)            
         {
-            return Context.Set<SupplierAndProductEntity>().Find(Context.Set<FactoryEntity>().Find(FactoryId).CompanyID).Price;
+            SupplierEntity supplier = Context.Set<SupplierEntity>().Find(Context.Set<FactoryEntity>().Find(FactoryId).CompanyID);
+
+            SupplierAndProductEntity priceItem = new SupplierAndProductEntity();
+            
+            foreach (SupplierAndProductEntity sp in Context.Set<SupplierAndProductEntity>()) 
+            {
+                if (sp.ProductID == ProductId && sp.SupplierID == supplier.ID)
+                {
+                    return sp.Price;
+                }
+                else 
+                {
+                    priceItem=null;
+                }
+            }
+            if (priceItem == null)
+            {
+                return Context.Set<SupplierAndProductEntity>().Find(Context.Set<FactoryEntity>().Find(FactoryId).CompanyID).Price;
+            }
+            else 
+            {
+                return priceItem.Price;
+            }
+
+            
         }
     }
 }

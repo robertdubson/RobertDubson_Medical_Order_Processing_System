@@ -132,5 +132,10 @@ namespace Services
         {
             return _unitOfWork.ReceiptRepository.GetReceiptByClientId(clientId).Select(r => _receiptMapper.FromEntityToDomain(r)).ToList();
         }
+
+        public List<ReceiptAndProduct> GetReceiptDetails(int id)
+        {
+            return _unitOfWork.ReceiptAndProductRepository.GetPrescriptedProducts(id).Select(rp => _receiptAndProductMapper.FromEntityToDomain(rp)).ToList();
+        }
     }
 }

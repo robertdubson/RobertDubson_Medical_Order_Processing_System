@@ -10,6 +10,8 @@ namespace Services.Abstract
 
         public Receipt GetReceiptById(int id);
 
+        public List<ReceiptAndProduct> GetReceiptDetails(int id);
+
         public List<Receipt> GetAllReceiptsByDoctorId(int doctorId);
 
         public List<Receipt> GetAllReceiptsByClientId(int clientId);
@@ -25,5 +27,7 @@ namespace Services.Abstract
         public void AddSolution(ReceiptAndProduct solution);
 
         public List<ReceiptAndProduct> GenerateOptimizedReceipt(City destination, List<MedicalProduct> purchasedProducts);
+
+        public List<MedicalProduct> GetPrescriptedProducts(int receiptId);
     }
 }

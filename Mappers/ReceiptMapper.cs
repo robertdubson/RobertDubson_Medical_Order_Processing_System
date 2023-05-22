@@ -9,7 +9,7 @@ namespace Mappers
     {
         public ReceiptEntity FromDomainToEntity(Receipt example)
         {
-            ReceiptEntity receiptEntity = new ReceiptEntity(example.ID, example.ClientID, example.AuthorID, example.AppointmentReview, example.OrderStatusID, example.ShipToTheIssuePoint, example.DestinationCityID, example.CreationDate);
+            ReceiptEntity receiptEntity = new ReceiptEntity(example.ID, example.ClientID, example.AuthorID, example.AppointmentReview, example.OrderStatusID, example.ShipToTheIssuePoint, example.DestinationCityID, example.CreationDate, example.Cost);
 
             receiptEntity.Cost = example.Cost;
 
@@ -19,7 +19,7 @@ namespace Mappers
 
         public Receipt FromEntityToDomain(ReceiptEntity example)
         {
-            Receipt receipt = new Receipt(example.ID, example.ClientID, example.AuthorID, example.AppointmentReview, example.OrderStatusID, example.ShipToTheIssuePoint, example.DestinationCityID, example.CreationDate);
+            Receipt receipt = new Receipt(example.ID, example.ClientID, example.AuthorID, example.AppointmentReview, example.OrderStatusID, example.ShipToTheIssuePoint, example.DestinationCityID, example.CreationDate, example.Cost);
 
             receipt.Cost = example.Cost;
 
@@ -28,7 +28,7 @@ namespace Mappers
 
         public ReceiptEntity NewExample(Receipt example)
         {
-            ReceiptEntity receiptEntity = new ReceiptEntity(example.ClientID, example.AuthorID, example.AppointmentReview, example.OrderStatusID, example.ShipToTheIssuePoint, example.DestinationCityID, example.CreationDate);
+            ReceiptEntity receiptEntity = new ReceiptEntity(example.ClientID, example.AuthorID, example.AppointmentReview, example.OrderStatusID, example.ShipToTheIssuePoint, example.DestinationCityID, example.CreationDate, example.Cost);
 
             receiptEntity.Cost = example.Cost;
 

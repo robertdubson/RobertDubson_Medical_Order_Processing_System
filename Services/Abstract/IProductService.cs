@@ -17,7 +17,7 @@ namespace Services.Abstract
 
         public void AddProduct(MedicalProduct product);
 
-        public double GetPrice(int factoryId);
+        public double GetPrice(int factoryId, int productId);
 
     }
 }

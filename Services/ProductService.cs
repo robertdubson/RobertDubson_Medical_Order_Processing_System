@@ -57,9 +57,9 @@ namespace Services
             _unitOfWork.MedicalProductRepository.Add(_productMapper.NewExample(product));
         }
 
-        public double GetPrice(int factoryId)
+        public double GetPrice(int factoryId, int prodId)
         {
-            return _unitOfWork.MedicalProductRepository.GetPrice(factoryId);
+            return _unitOfWork.MedicalProductRepository.GetPrice(factoryId, prodId);
         }
     }
 }

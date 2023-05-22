@@ -16,7 +16,7 @@ namespace DataLayer.Repositories
 
         public IEnumerable<ReceiptEntity> GetReceiptByClientId(int clientId) 
         {
-            return _DbSet.ToList().FindAll(rec => rec.AuthorID == clientId);
+            return _DbSet.ToList().FindAll(rec => rec.ClientID == clientId);
         }
 
         public IEnumerable<ReceiptEntity> GetReceiptsByDoctorId(int doctorId)

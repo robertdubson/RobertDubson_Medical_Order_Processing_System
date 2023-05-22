@@ -23,7 +23,7 @@ namespace BusinessLogic
 
         public double Cost { get; set; }
 
-        public Receipt(int id, int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId, DateTime creationDate)
+        public Receipt(int id, int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId, DateTime creationDate, double cost)
         {
             ID = id;
 
@@ -41,12 +41,14 @@ namespace BusinessLogic
 
             CreationDate = creationDate;
 
-            Cost = 0;
+            Cost = cost;
+
+            //Cost = 0;
 
 
         }
 
-        public Receipt(int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId)
+        public Receipt(int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId, double cost)
         {
             ClientID = clientid;
 
@@ -60,7 +62,8 @@ namespace BusinessLogic
 
             DestinationCityID = destinationId;
 
-            Cost = 0;
+            Cost = cost;
+            //Cost = 0;
         }
 
     }

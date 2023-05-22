@@ -22,7 +22,7 @@ namespace DataModel
 
         public double Cost { get; set; }
 
-        public ReceiptEntity(int id, int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId, DateTime creationDate)
+        public ReceiptEntity(int id, int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId, DateTime creationDate, double cost)
         {
             ID = id;
 
@@ -40,12 +40,14 @@ namespace DataModel
 
             CreationDate = creationDate;
 
-            Cost = 0;
+            Cost = cost;
+
+            //Cost = 0;
 
 
         }
 
-        public ReceiptEntity(int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId, DateTime creationDate)
+        public ReceiptEntity(int clientid, int authorId, string review, int statusId, bool shipToPoint, int destinationId, DateTime creationDate, double cost)
         {
 
             ClientID = clientid;
@@ -62,7 +64,9 @@ namespace DataModel
 
             CreationDate = CreationDate;
 
-            Cost = 0;
+            Cost = cost;
+
+            //Cost = 0;
 
 
         }

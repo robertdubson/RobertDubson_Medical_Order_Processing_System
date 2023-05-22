@@ -19,6 +19,8 @@ namespace MedicalDeliveryService.Models
 
         public string AppointmentReview { get; set; }
 
+        public string StatusStr { get; set; }
+
         public ReceiptViewModel(List<MedicalProduct> products, Receipt receipt, Doctor doctor)
         {
             PrescriptedProducts = products;
@@ -32,6 +34,16 @@ namespace MedicalDeliveryService.Models
             DoctorName = Doctor.Name;
 
             AppointmentReview = receipt.AppointmentReview;
+
+            if (receipt.OrderStatusID == 1)
+            {
+                StatusStr = "Shipped";
+
+            }
+            else if (receipt.OrderStatusID == 2) 
+            {
+                StatusStr = "In Process";
+            }
 
         }
 
