@@ -15,6 +15,8 @@ using DataLayer;
 using Services;
 using BusinessLogic;
 using DataLayer.UnitOfWork;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace MedicalDeliveryService
 {
     public class Startup
@@ -34,6 +36,14 @@ namespace MedicalDeliveryService
             //services.AddIdentity<IdentityUser, IdentityRole>( a => { }).AddEntityFrameworkStores<ApplicationContext>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddRazorPages();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie(options =>
+        {
+            options.Cookie.Name = "Cookie";
+            options.AccessDeniedPath = "/Account/AccessDenied";
+            // Configure other cookie options if needed
+        });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,14 +64,14 @@ namespace MedicalDeliveryService
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-            
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Login}/{action=Hello}/{id?}");
             });
         }
     }

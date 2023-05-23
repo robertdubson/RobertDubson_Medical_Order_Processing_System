@@ -32,36 +32,36 @@ namespace Services
             _adminMapper = new AdminMapper();
         }
 
-        public Client GetClietnById(int id) 
+        public Client GetClietnById(int id)
         {
             return _clientMapper.FromEntityToDomain(_unitOfWork.ClientRepository.GetByID(id));
         }
 
-        public Doctor GetDoctorById(int id) 
+        public Doctor GetDoctorById(int id)
         {
             return _doctorMapper.FromEntityToDomain(_unitOfWork.DoctorRepository.GetByID(id));
         }
 
-        public Administrator GetAdminByUserName(string username) 
+        public Administrator GetAdminByUserName(string username)
         {
             return _adminMapper.FromEntityToDomain(_unitOfWork.ClientRepository.GetAdminByUserName(username));
         }
 
-        public Client GetClientByUserName(string username) 
+        public Client GetClientByUserName(string username)
         {
             if (_unitOfWork.ClientRepository.GetClientByUsername(username) != null)
             {
                 return _clientMapper.FromEntityToDomain(_unitOfWork.ClientRepository.GetClientByUsername(username));
             }
-            else 
+            else
             {
                 return null;
             }
-            
-            
+
+
         }
 
-        public Doctor GetDoctorByUserName(string username) 
+        public Doctor GetDoctorByUserName(string username)
         {
 
 
@@ -69,28 +69,50 @@ namespace Services
             {
                 return _doctorMapper.FromEntityToDomain(_unitOfWork.DoctorRepository.GetDoctorByUsername(username));
             }
-            else 
+            else
             {
                 return null;
             }
         }
 
-        public void AddClient(string username, string phone, string email, string passwordHash, string clientName, int cityId) 
+        public void AddClient(string username, string phone, string email, string passwordHash, string clientName, int cityId)
         {
             Client newCLient = new Client(_unitOfWork.ClientRepository.NextID(), clientName, phone, email, cityId, passwordHash, username);
-            if (GetClientByUserName(username)==null) 
+            if (GetClientByUserName(username) == null)
             {
                 _unitOfWork.ClientRepository.Add(_clientMapper.NewExample(newCLient));
             }
         }
 
-        public void AddDoctor(string username, string passwordHash, string clientName)
+        public void AddDoctor(string username, string passwordHash, string clientName, int locationId, string phone, string email)
         {
-            if (GetDoctorByUserName(username) == null) 
+            if (GetDoctorByUserName(username) == null)
             {
-                _unitOfWork.DoctorRepository.Add(_doctorMapper.NewExample(new Doctor(_unitOfWork.DoctorRepository.NextID(), clientName, passwordHash, username)));
+                _unitOfWork.DoctorRepository.Add(_doctorMapper.NewExample(new Doctor(_unitOfWork.DoctorRepository.NextID(), clientName, phone, email, locationId, passwordHash, username)));
             }
         }
+
+        public void AddAministrator(string pasHash, string username, string fullname, int locationId, string phone, string mail)
+        {
+            _unitOfWork.ClientRepository.AddAdmin(_adminMapper.NewExample(new Administrator(pasHash, username, fullname, locationId, phone, mail)));
+        }
+
+        public void DeleteAdmin(int Id)
+        {
+            _unitOfWork.ClientRepository.DeleteAdmin(Id);
+        }
+
+        public List<Administrator> GetAllAdministrators() 
+        {
+            return _unitOfWork.ClientRepository.GetAllAdmins().Select(adm => _adminMapper.FromEntityToDomain(adm)).ToList();
+        }
+
+        public void UpdateAdmin(Administrator admin) 
+        {
+            _unitOfWork.ClientRepository.UpdateAdmin(_adminMapper.FromDomainToEntity(admin));
+        }
+
+
 
         public List<Client> GetAllClients() 
         {
@@ -143,5 +165,9 @@ namespace Services
             return _unitOfWork.DoctorRepository.GetAll().Select(dc => _doctorMapper.FromEntityToDomain(dc)).ToList();
         }
 
+        public Administrator GetAdminById(int Id)
+        {
+            return _adminMapper.FromEntityToDomain(_unitOfWork.ClientRepository.GetAdminById(Id));
+        }
     }
 }

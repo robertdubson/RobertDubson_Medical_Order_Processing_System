@@ -17,6 +17,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
+using MedicalDeliveryService.Models.LoginViewModels;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+
 namespace MedicalDeliveryService.Controllers
 {
     public class LoginController : Controller
@@ -38,34 +43,76 @@ namespace MedicalDeliveryService.Controllers
         [HttpGet]
         public IActionResult Hello() 
         {
-            return View("Login");
+            return View("Login", new LoginViewModel("", ""));
         }
 
         [HttpPost]
-        public IActionResult LogIn() 
+        public async Task<IActionResult> LogIn() 
         {
             string pas = Request.Form["Password"];
 
             string name = Request.Form["UserName"];
 
-            if (_userService.GetAdminByUserName(name) != null)
+            var user = _userService.GetAdminByUserName(name);
+
+            var claims = new List<Claim>();
+
+            if (user != null && user.PasswordHash==_userService.GetHash(pas))
             {
-                return View("Index", "Home");
-            }
-            else if (_userService.GetClientByUserName(name) != null)
-            {
-                return View("WelcomeCLient", "Client");
-            }
-            else if (_userService.GetDoctorByUserName(name) != null)
-            {
-                return View("WelcomeDoctor", "Doctor");
+                claims.Add(new Claim(ClaimTypes.Name, user.UserName));
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                return RedirectToAction("Index", "Home");
             }
             else 
             {
-                return View("Login");
+                var cluser = _userService.GetClientByUserName(name);
+                if (cluser != null)
+                {
+                    if (_userService.GetHash(pas) == cluser.PasswordHash)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Name, cluser.UserName));
+                        claims.Add(new Claim(ClaimTypes.Role, "Client"));
+
+                        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var principal = new ClaimsPrincipal(identity);
+
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+
+                        return RedirectToAction("WelcomeClient", "Client");
+                    }
+                }
+                else 
+                {
+                    var doctor = _userService.GetDoctorByUserName(name);
+                    if (doctor != null) 
+                    {
+                        if (_userService.GetHash(pas)==doctor.PasswordHash) 
+                        {
+                            claims.Add(new Claim(ClaimTypes.Name, doctor.UserName));
+                            claims.Add(new Claim(ClaimTypes.Role, "Doctor"));
+
+                            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                            var principal = new ClaimsPrincipal(identity);
+
+                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                            return RedirectToAction("WelcomeDoctor", "Doctor");
+                        }
+                        
+                    }
+                    return View("Error");
+                }
+                return View("Error");
             }
 
         }
+        
 
         public IActionResult SignUp() 
         {

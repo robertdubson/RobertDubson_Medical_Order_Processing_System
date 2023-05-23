@@ -9,17 +9,23 @@ namespace Mappers
     {
         public DoctorEntity FromDomainToEntity(Doctor example)
         {
-            return new DoctorEntity(example.ID, example.Name, example.PasswordHash, example.UserName);
+
+            return new DoctorEntity(example.ID, example.Name, example.PasswordHash, example.UserName, example.LocationID, example.Phone, example.EMail);
         }
 
         public Doctor FromEntityToDomain(DoctorEntity example)
         {
-            return new Doctor(example.ID, example.Name, example.PasswordHash, example.UserName);
+            if (example!=null) 
+            {
+                return new Doctor(example.ID, example.Name, example.Phone, example.EMail, example.LocationID, example.PasswordHash, example.UserName);
+            }
+            return null;
+            
         }
 
         public DoctorEntity NewExample(Doctor example)
         {
-            return new DoctorEntity(example.Name, example.PasswordHash, example.UserName);
+            return new DoctorEntity(example.Name, example.PasswordHash, example.UserName, example.LocationID, example.Phone, example.EMail);
         }
     }
 }

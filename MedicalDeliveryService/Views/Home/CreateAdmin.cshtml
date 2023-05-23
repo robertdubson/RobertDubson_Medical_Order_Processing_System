@@ -1,0 +1,40 @@
+﻿@model AdminCreationViewModel
+
+<form method="post" action="AddAdmin">
+    <div class="form-group">
+        <label for="OfficialName">First Name:</label>
+        <input type="text" id="OfficialName" name="OfficialName" value="@Model.OfficialName" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="Number">Phone Number:</label>
+        <input type="text" id="Number" name="Number" value="@Model.Phone" pattern="[0-9+]+" title="Please enter numbers and the plus sign (+) only" required class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Email">Email:</label>
+        <input type="email" id="Email" name="Email" value="@Model.EMail" pattern="[a-zA-Z0-9._%+-]+&#64;[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Please enter a valid email address in the format username@domain.com" required class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="InsertedPassword">Password:</label>
+        <input type="password" id="InsertedPassword" name="InsertedPassword" value="@Model.InsertedPassword" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="UserName">UserName:</label>
+        <input type="text" id="UserName" name="UserName" value="@Model.UserName" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="SelectedCityIDStr">Select a value:</label>
+        <select id="SelectedCityIDStr" name="SelectedCityIDStr" class="form-control">
+            <option value="">Select an option</option>
+            @foreach (var city in Model.AllCities)
+            {
+                <option value="@city.Value">@city.Text</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<div>
+    <button type="button" onclick="location.href='@Url.Action("AllAdmins", "Home")'" class="btn btn-secondary">Back to List</button>
+</div>

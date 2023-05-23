@@ -8,14 +8,12 @@ using System.Threading.Tasks;
 
 namespace MedicalDeliveryService.Controllers
 {
-    public class DoctorController : Controller
+    public class AccountController : Controller
     {
-        [HttpGet]
-        public IActionResult WelcomeDoctor()
+        public IActionResult AccessDenied()
         {
-            return View("WelcomeDoctor");
+            return View();
         }
-
         [HttpGet]
         public async Task<IActionResult> Logout()
         {

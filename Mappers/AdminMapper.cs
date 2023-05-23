@@ -23,16 +23,21 @@ namespace Mappers
 
         public Administrator FromEntityToDomain(AdministratorEntity example)
         {
-            Administrator admin = new Administrator();
+            if (example!=null) {
+                Administrator admin = new Administrator();
 
-            admin.ClientName = example.ClientName;
-            admin.EMail = example.EMail;
-            admin.ID = example.ID;
-            admin.LocationID = example.LocationID;
-            admin.Phone = example.Phone;
-            admin.UserName = example.UserName;
-            admin.PasswordHash = example.PasswordHash;
-            return admin;
+                admin.ClientName = example.ClientName;
+                admin.EMail = example.EMail;
+                admin.ID = example.ID;
+                admin.LocationID = example.LocationID;
+                admin.Phone = example.Phone;
+                admin.UserName = example.UserName;
+                admin.PasswordHash = example.PasswordHash;
+                return admin;
+
+            }
+            return null;
+            
         }
 
         public AdministratorEntity NewExample(Administrator example)

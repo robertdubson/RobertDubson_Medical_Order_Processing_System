@@ -1,43 +1,48 @@
 ﻿@model DoctorViewModel
 
-@{
-    ViewData["Title"] = "CreateDoctor";
-}
-
 <h1>CreateDoctor</h1>
 
 <h4>DoctorEntity</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateDoctor">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form action="AddDoctor" method="post">
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" name="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label for="Name">Name:</label>
+                <input type="text" id="Name" name="Name" class="form-control" required />
             </div>
             <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" name="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
+                <label for="UserName">UserName:</label>
+                <input type="text" id="UserName" name="UserName" class="form-control" required />
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" name="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+                <label for="Password">Password:</label>
+                <input type="password" id="Password" name="Password" class="form-control" required />
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label for="Email">Email:</label>
+                <input type="email" id="Email" name="Email" pattern="[a-zA-Z0-9._%+-]+&#64;[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="Phone">Phone:</label>
+                <input type="text" id="Phone" name="Phone" class="form-control" required pattern="[0-9+]+" title="Please enter numbers and the plus sign (+) only" />
+            </div>
+            <div class="form-group">
+                <label for="LocationID">City:</label>
+                <select id="LocationID" name="LocationID" class="form-control" required>
+                    @foreach (var city in Model.PossibleCities)
+                    {
+                        <option value="@city.Value">@city.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Create Doctor</button>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a href="@Url.Action("Index")">Back to List</a>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

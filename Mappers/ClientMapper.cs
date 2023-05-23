@@ -14,7 +14,12 @@ namespace Mappers
 
         public Client FromEntityToDomain(ClientEntity example)
         {
-            return new Client(example.ID, example.ClientName, example.Phone, example.EMail, example.LocationID, example.PasswordHash, example.UserName);
+            if (example != null) 
+            {
+                return new Client(example.ID, example.ClientName, example.Phone, example.EMail, example.LocationID, example.PasswordHash, example.UserName);
+            }
+            return null;
+            
         }
 
         public ClientEntity NewExample(Client example)

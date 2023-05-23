@@ -12,7 +12,13 @@ namespace DataModel
 
         public string PasswordHash { get; set; }
 
-        public DoctorEntity(int id, string cname, string passwordHash, string username)
+        public int LocationID { get; set; }
+
+        public string Phone { get; set; }
+
+        public string EMail { get; set; }
+
+        public DoctorEntity(int id, string cname, string passwordHash, string username, int locationId, string phone, string email)
         {
             ID = id;
 
@@ -21,9 +27,15 @@ namespace DataModel
             PasswordHash = passwordHash;
 
             Name = cname;
+
+            Phone = phone;
+
+            EMail = email;
+
+            LocationID = locationId;
         }
 
-        public DoctorEntity(string cname, string passwordHash, string username)
+        public DoctorEntity(string cname, string passwordHash, string username, int locationId, string phone, string email)
         {
 
             UserName = username;
@@ -31,6 +43,13 @@ namespace DataModel
             PasswordHash = passwordHash;
 
             Name = cname;
+
+            Phone = phone;
+
+            EMail = email;
+
+            LocationID = locationId;
+
         }
 
         public DoctorEntity()

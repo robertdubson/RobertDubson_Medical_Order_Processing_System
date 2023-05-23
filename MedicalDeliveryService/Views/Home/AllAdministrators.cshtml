@@ -1,19 +1,20 @@
-﻿@model IEnumerable<DoctorViewModel>
+﻿@model IEnumerable<AdminCreationViewModel>
 
 @{
-    ViewData["Title"] = "AllDoctors";
+    ViewData["Title"] = "AllAdministrators";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>AllDoctors</h1>
+<h1>AllAdministrators</h1>
 
 <p>
-    <a asp-action="CreateDoctor">Create New</a>
+    <a asp-action="CreateAdmin">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.OfficialName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.UserName)
@@ -31,7 +32,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.OfficialName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserName)
@@ -43,8 +44,8 @@
                 @Html.DisplayFor(modelItem => item.EMail)
             </td>
             <td>
-                <a asp-action="EditDoctor" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="DeleteDoctor" asp-route-id="@item.ID">Delete</a>
+                <a asp-action="EditAdmin" asp-route-id="@item.ID">Edit Amin</a> |
+                <a asp-action="DeleteAdmin" asp-route-id="@item.ID">Delete Admin</a>
             </td>
         </tr>
 }

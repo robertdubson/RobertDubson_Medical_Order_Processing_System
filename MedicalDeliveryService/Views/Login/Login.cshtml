@@ -6,7 +6,7 @@
 
 <h1>Login</h1>
 
-<form method="post" action="/Account/Login">
+<form method="post" action="@Url.Action("LogIn", "Login")">
     <div class="form-group">
         <label for="UserName">Username:</label>
         <input type="text" id="UserName" name="UserName" value="@Model.UserName" class="form-control" required />
