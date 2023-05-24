@@ -4,15 +4,20 @@
     ViewData["Title"] = "FactoryDetails";
 }
 
+<style>
+    .white-table {
+        background-color: white;
+    }
+</style>
+
 <h1>FactoryDetails</h1>
 
 <p>
-    <a asp-action="AddProductToStock" asp-route-id="@Model.First().FactoryID" >Add Product To Stock</a>
+    <a asp-action="AddProductToStock" asp-route-id="@Model.First().FactoryID" class="btn btn-primary">Add Product To Stock</a>
 </p>
-<table class="table">
+<table class="table standout-table white-table">
     <thead>
         <tr>
-
             <th>
                 @Html.DisplayNameFor(model => model.Product.ProductName)
             </th>
@@ -23,27 +28,27 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UnitsInStock)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductAndFactoryID)
-            </td>
-            <td>
-                <a asp-action="EditFactoryDetails" asp-route-id="@item.ProductAndFactoryID">Edit Factory Details</a>
-                <form method="post" action="@Url.Action("DeleteFactoryDetails", "Home")">
-                    <input type="hidden" name="FactoryId" value="@Model.First().FactoryID">
-                    <input type="hidden" name="ID" value="@item.ProductAndFactoryID">
-                    <button type="submit">Clear The Stock</button>
-                </form>
-                
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitsInStock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductAndFactoryID)
+                </td>
+                <td>
+                    <a asp-action="EditFactoryDetails" asp-route-id="@item.ProductAndFactoryID" class="btn btn-primary">Edit Factory Details</a>
+                    <form method="post" action="@Url.Action("DeleteFactoryDetails", "Home")" class="delete-form">
+                        <input type="hidden" name="FactoryId" value="@Model.First().FactoryID">
+                        <input type="hidden" name="ID" value="@item.ProductAndFactoryID">                        
+                        <button type="submit" class="btn btn-danger">Clear The Stock</button>
+                    </form>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -5,12 +5,24 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .standout-table {
+        background-color: #f5f5f5;
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+        .standout-table th, .standout-table td {
+            border: none;
+        }
+</style>
+
 <h1>AllAdministrators</h1>
 
 <p>
-    <a asp-action="CreateAdmin">Create New</a>
+    <button onclick="window.location.href='@Url.Action("CreateAdmin")'" class="btn btn-primary">Create New</button>
 </p>
-<table class="table">
+<table class="table standout-table">
     <thead>
         <tr>
             <th>
@@ -29,25 +41,26 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OfficialName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EMail)
-            </td>
-            <td>
-                <a asp-action="EditAdmin" asp-route-id="@item.ID">Edit Amin</a> |
-                <a asp-action="DeleteAdmin" asp-route-id="@item.ID">Delete Admin</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OfficialName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EMail)
+                </td>
+                <td>
+                    <button onclick="window.location.href='@Url.Action("EditAdmin", new { id = item.ID })'" class="btn btn-primary">Edit Admin</button> |
+                    <button onclick="window.location.href='@Url.Action("DeleteAdmin", new { id = item.ID })'" class="btn btn-danger">Delete Admin</button>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -5,47 +5,125 @@
 }
 @model MedicalDeliveryService.Models.ReceiptViewModel
 
+<style>
+    .page-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .back-link {
+        font-size: 14px;
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .receipt-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+        .receipt-table th,
+        .receipt-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .receipt-table th {
+            background-color: #f8f9fa;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .receipt-table td:last-child {
+            border-bottom: none;
+        }
+
+    .section-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .confirm-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+</style>
+
 <h1 class="page-title">Receipt Status</h1>
 <p>
     <a asp-action="Index" class="back-link">Back</a>
 </p>
 
-<div class="section">
-    <h2 class="section-title">Receipt Details</h2>
-    <p><strong>Date:</strong> @Model.Receipt.CreationDate</p>
-    <p><strong>Appointment Review:</strong> @Model.AppointmentReview</p>
-</div>
+<table class="receipt-table">
+    <thead>
+        <tr>
+            <th colspan="2">Receipt Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="section-title">Date</td>
+            <td style="background-color: white;">@Model.Receipt.CreationDate</td>
+        </tr>
+        <tr>
+            <td class="section-title">Appointment Review</td>
+            <td style="background-color: white;">@Model.AppointmentReview</td>
+        </tr>
+    </tbody>
+</table>
 
-<div class="section">
-    <h2 class="section-title">Prescripted Products</h2>
-    <table class="product-table">
-        <thead>
+<table class="receipt-table">
+    <thead>
+        <tr>
+            <th>Prescripted Products</th>
+            <th>Cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.PrescriptedProducts)
+        {
             <tr>
-                <th>Product</th>
-                <th>Cost</th>
+                <td style="background-color: white;">@product.ProductName</td>
+                <td style="background-color: white;">@product.Price</td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var product in Model.PrescriptedProducts)
-            {
-                <tr>
-                    <td>@product.ProductName</td>
-                    <td>@product.Price</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+        }
+    </tbody>
+</table>
 
-<div class="section">
-    <h2 class="section-title">Total Cost</h2>
-    <p><strong>Total Cost:</strong> @Model.Cost</p>
-</div>
+<table class="receipt-table">
+    <thead>
+        <tr>
+            <th>Total Cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="background-color: white;">@Model.Cost</td>
+        </tr>
+    </tbody>
+</table>
 
-<div class="section">
-    <h2 class="section-title">Doctor</h2>
-    <p><strong>Doctor Name:</strong> @Model.DoctorName</p>
-</div>
+<table class="receipt-table">
+    <thead>
+        <tr>
+            <th>Doctor</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="background-color: white;">@Model.DoctorName</td>
+        </tr>
+    </tbody>
+</table>
 
 <form method="post" action="@Url.Action("ConfirmReceipt", "Home")">
     <input type="hidden" name="receiptId" value="@Model.Receipt.ID" />

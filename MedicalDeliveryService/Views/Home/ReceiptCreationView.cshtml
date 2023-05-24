@@ -3,6 +3,12 @@
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/receipt-preparation.js"></script>
+
+    <style>
+        .white-table {
+            background-color: white;
+        }
+    </style>
 </head>
 
 <h1>Create Receipt</h1>
@@ -29,12 +35,10 @@
         <input asp-for="ShipToTheIssuePoint" type="checkbox" />
     </div>
 
-
-
     <div class="form-group">
         <label asp-for="PrescriptedProducts" class="control-label">Prescripted Products:</label>
         <div id="prescripted-products">
-            <table>
+            <table class="table white-table">
                 <thead>
                     <tr>
                         <th>Product</th>
@@ -45,45 +49,18 @@
                     {
                         <tr>
                             <td>
-                                <select asp-for="@Model.PrescriptedProducts[i].ID" asp-items="Model.PossibleProducts"></select>
+                                <select asp-for="@Model.PrescriptedProducts[i].ID" asp-items="Model.PossibleProducts" class="form-control"></select>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-        <button type="button" id="add-product">Add Product</button>
+        <button type="button" id="add-product" class="btn btn-primary">Add Product</button>
     </div>
 
-    @*<div>
-            <label for="prescripted-product-select">Select product:</label>
-            <select id="prescripted-product-select">
-                @foreach (var product in Model.PossibleProducts)
-                {
-                    <option value="@product.Value">@product.Text</option>
-                }
-            </select>
-        </div>
-        <div>
-
-            <button type="button" id="add-product">Add</button>
-        </div>
-        <div id="prescripted-product-list">
-            @if (Model.PrescriptedProducts != null)
-            {
-                @for (int i = 0; i < Model.PrescriptedProducts.Count; i++)
-                {
-                    <div class="product-item">
-                        <input type="hidden" name="PrescriptedProducts.Index" value="@i" />
-                        <input type="hidden" name="PrescriptedProducts[@i].Product.ID" value="@Model.PrescriptedProducts[i].ID" />
-                        <input type="hidden" name="PrescriptedProducts[@i].Product.ProductName" value="@Model.PrescriptedProducts[i].ProductName" />
-                    </div>
-                }
-            }
-        </div>*@
-
     <input type="hidden" name="ProductCount" id="product-count" value="0" />
-    <button type="submit">Create</button>
+    <button type="submit" class="btn btn-primary">Create</button>
 
 </form>
 
@@ -96,12 +73,11 @@
                 var table = $("#prescripted-products tbody");
                 var newRow = $("<tr>");
 
-                
                 var select = $('<select>').attr('name', 'PrescriptedProducts[' + productIndex + '].ID').attr('id', 'PrescriptedProducts_' + productIndex + '__ID').addClass('form-control');
-$.each(@Html.Raw(Json.Serialize(Model.PossibleProducts)), function (index, item) {
-    select.append($('<option>').val(item.value).text(item.text));
-});
-newRow.append($('<td>').append(select));
+                $.each(@Html.Raw(Json.Serialize(Model.PossibleProducts)), function (index, item) {
+                    select.append($('<option>').val(item.value).text(item.text));
+                });
+                newRow.append($('<td>').append(select));
 
                 table.append(newRow);
 
@@ -111,4 +87,4 @@ newRow.append($('<td>').append(select));
             });
         });
     </script>
-}    
+}
