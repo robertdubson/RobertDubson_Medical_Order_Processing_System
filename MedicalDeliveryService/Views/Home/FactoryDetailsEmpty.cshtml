@@ -1,0 +1,12 @@
+﻿@model FactoryDetailsEmptyViewModel
+
+@{
+    ViewData["Title"] = "FactoryDetailsEmpty";
+}
+
+<h1>FactoryDetails</h1>
+
+<p>
+    <a asp-action="AddProductToStock" asp-route-id="@Model.FactoryID">Add Product To Stock</a>
+</p>
+<p>Seems like the factory is empty. But you can add new products to the stock!</p>

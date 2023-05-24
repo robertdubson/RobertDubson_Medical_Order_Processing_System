@@ -311,7 +311,15 @@ namespace MedicalDeliveryService.Controllers
             //Dictionary<MedicalProduct, int> dict = _factoryService.AvailableProducts(Id);
             //dict.Keys.ToList().ForEach(prod => models.Add(new FactoryDetailsViewModel(Id, _factoryService.GetFactory(Id), prod, dict[prod])));
             _factoryService.GetAllFactoryDetails().FindAll(fac => fac.FactoryID==Id).ForEach(pf => models.Add(new FactoryDetailsViewModel(pf.ID, _factoryService.GetFactory(Id), _productService.GetProduct(pf.ProductID), pf.UnitsInStorage)));
-            return View("FactoryDetails", models);
+            if (models.Count != 0)
+            {
+                return View("FactoryDetails", models);
+            }
+            else 
+            {
+                return View("FactoryDetailsEmpty", new FactoryDetailsEmptyViewModel(Id));
+            }
+            
         }
         [HttpGet]
         public IActionResult AddProductToStock(int Id) 

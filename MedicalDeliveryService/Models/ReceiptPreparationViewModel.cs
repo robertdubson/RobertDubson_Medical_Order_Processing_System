@@ -85,5 +85,27 @@ namespace MedicalDeliveryService.Models
             PossibleProductModels.ForEach(prod => PossibleProducts.Add(new SelectListItem(prod.ProductName, prod.ID.ToString())));
 
         }
+
+        public ReceiptPreparationViewModel(List<MedicalProduct> products, List<Client> clients, Doctor doctor)
+        {
+            PossibleClients = new List<SelectListItem>();
+
+            PossibleDoctors = new List<SelectListItem>();
+
+            PossibleProducts = new List<SelectListItem>();
+
+            PrescriptedProducts = new List<MedicalProduct>();
+
+            PossibleClientModels = clients;
+
+            PossibleProductModels = products;
+
+            PossibleProductModels.ForEach(prod => PossibleProducts.Add(new SelectListItem(prod.ProductName, prod.ID.ToString())));
+
+            PossibleClientModels.ForEach(cl => PossibleClients.Add(new SelectListItem(cl.UserName, cl.ID.ToString())));
+
+            Doctor = doctor;
+
+        }
     }
 }
