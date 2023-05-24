@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 namespace MedicalDeliveryService.Controllers
 {
 
+    [Authorize(Roles = "Doctor")]
     public class DoctorController : Controller
     {
 

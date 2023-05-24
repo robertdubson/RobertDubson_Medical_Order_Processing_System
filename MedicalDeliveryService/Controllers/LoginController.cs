@@ -32,6 +32,8 @@ namespace MedicalDeliveryService.Controllers
 
         IUserService _userService;
 
+        ICityService _cityService;
+
         [HttpGet]
         public IActionResult AccessDenied()
         {
@@ -46,9 +48,8 @@ namespace MedicalDeliveryService.Controllers
 
             _userService = new UserService(_unitOfWork, new DoctorMapper(), new ClientMapper());
 
-            
-
-            
+            _cityService = new CityService(_unitOfWork, new CityMapper(), new DeliveryCompanyAndCityMapper());
+   
         }
 
 
@@ -138,10 +139,36 @@ namespace MedicalDeliveryService.Controllers
 
         }
         
-
+        [HttpGet]
         public IActionResult SignUp() 
         {
-            return View("SignUp");
+            return View("SignUp", new ClientCreationViewModel(_cityService.GetAllCities()));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SignUpClient() 
+        {
+            ClientCreationViewModel viewModel = new ClientCreationViewModel();
+
+            viewModel.SelectedCityIDStr = Request.Form["SelectedCityIDStr"];
+            viewModel.InsertedPassword = Request.Form["InsertedPassword"];
+            viewModel.OfficialName = Request.Form["OfficialName"];
+            viewModel.UserName = Request.Form["UserName"];
+            viewModel.EMail = Request.Form["Email"];
+            viewModel.Phone = Request.Form["Number"];
+            _userService.AddClient(viewModel.UserName, viewModel.Phone, viewModel.EMail, _userService.GetHash(viewModel.InsertedPassword), viewModel.OfficialName, int.Parse(viewModel.SelectedCityIDStr));
+            _unitOfWork.Complete();
+            List<Claim> claims = new List<Claim>();
+
+            claims.Add(new Claim(ClaimTypes.Name, "Aynonymus"));
+            claims.Add(new Claim(ClaimTypes.Role, "Aynonymus"));
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+            return View("Login", new LoginViewModel("", ""));
+
         }
     }
 }

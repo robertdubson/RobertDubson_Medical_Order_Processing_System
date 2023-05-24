@@ -77,7 +77,7 @@ namespace Services
 
         public void AddClient(string username, string phone, string email, string passwordHash, string clientName, int cityId)
         {
-            Client newCLient = new Client(_unitOfWork.ClientRepository.NextID(), clientName, phone, email, cityId, passwordHash, username);
+            Client newCLient = new Client(_unitOfWork.ClientRepository.NextID(), username, phone, email, cityId, passwordHash, clientName);
             if (GetClientByUserName(username) == null)
             {
                 _unitOfWork.ClientRepository.Add(_clientMapper.NewExample(newCLient));
