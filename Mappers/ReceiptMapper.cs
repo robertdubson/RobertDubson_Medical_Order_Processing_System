@@ -13,6 +13,7 @@ namespace Mappers
 
             receiptEntity.Cost = example.Cost;
 
+            receiptEntity.CreationDate = example.CreationDate;
 
             return receiptEntity;
         }
@@ -23,6 +24,8 @@ namespace Mappers
 
             receipt.Cost = example.Cost;
 
+            receipt.CreationDate = example.CreationDate;
+
             return receipt;
         }
 
@@ -31,6 +34,8 @@ namespace Mappers
             ReceiptEntity receiptEntity = new ReceiptEntity(example.ClientID, example.AuthorID, example.AppointmentReview, example.OrderStatusID, example.ShipToTheIssuePoint, example.DestinationCityID, example.CreationDate, example.Cost);
 
             receiptEntity.Cost = example.Cost;
+
+            receiptEntity.CreationDate = example.CreationDate;
 
             return receiptEntity;
         }

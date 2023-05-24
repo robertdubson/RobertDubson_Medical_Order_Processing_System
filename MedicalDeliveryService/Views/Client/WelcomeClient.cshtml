@@ -1,1 +1,59 @@
-﻿<p>Hello, Client!</p>
+﻿@model IEnumerable<ReceiptViewModel>
+
+@{
+    ViewData["Title"] = "ClientDetails";
+}
+
+<h1>Welcome!</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.DoctorName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppointmentReview)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusStr)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Receipt.CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.DoctorName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppointmentReview)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StatusStr)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Receipt.CreationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                <td>
+                    <a asp-action="ReceiptConfirmation" asp-route-id="@item.Receipt.ID">ReceiptDetails</a> |
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

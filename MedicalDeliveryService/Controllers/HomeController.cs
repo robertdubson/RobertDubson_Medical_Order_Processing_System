@@ -77,7 +77,7 @@ namespace MedicalDeliveryService.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
-            return View();
+            return View("Index");
         }
 
         public IActionResult Privacy()
@@ -461,14 +461,14 @@ namespace MedicalDeliveryService.Controllers
             int Id = int.Parse(IdStr);
             string Name = Request.Form["Name"];
             string UserName = Request.Form["UserName"];
-            string Password = Request.Form["Password"];
+            //string Password = Request.Form["Password"];
+            string PasswordHash = Request.Form["PasswordHash"];
             string Phone = Request.Form["Phone"];
             string Email = Request.Form["EMail"];
             string locationIdStr = Request.Form["LocationID"];
             int cityId = int.Parse(locationIdStr);
 
-            string passwordHash = _userService.GetHash(Password);
-            _userService.UpdateDoctor(new Doctor(Id, Name, passwordHash, UserName, cityId, _userService.GetHash(Password), Email));
+            _userService.UpdateDoctor(new Doctor(Id, Name, Phone, Email, cityId, PasswordHash, UserName ));
             _unitOfWork.Complete();
 
             return View("AllDoctors", _userService.GetAllDoctors().Select(dc => new DoctorViewModel(dc.ID, dc.Name, dc.PasswordHash, dc.UserName, dc.Phone, dc.EMail, _cityService.GetAllCities())).ToList());
@@ -528,16 +528,26 @@ namespace MedicalDeliveryService.Controllers
         [HttpPost]
         public IActionResult UpdateAdmin() 
         {
+            string IdStr = Request.Form["ID"];
             string SelectedCityIDStr = Request.Form["SelectedCityIDStr"];
-            string InsertedPassword = Request.Form["InsertedPassword"];
+            //string InsertedPassword = Request.Form["InsertedPassword"];
+            string PasswordHash = Request.Form["PasswordHash"];
             string OfficialName = Request.Form["OfficialName"];
             string UserName = Request.Form["UserName"];
             string EMail = Request.Form["Email"];
             string Phone = Request.Form["Number"];
 
+            Administrator admin = new Administrator(int.Parse(IdStr), OfficialName, int.Parse(SelectedCityIDStr), PasswordHash, UserName, Phone, EMail);
+            _userService.UpdateAdmin(admin);
+            _unitOfWork.Complete();
 
-
-            return View();
+            List<AdminCreationViewModel> list = new List<AdminCreationViewModel>();
+            List<City> cities = _cityService.GetAllCities();
+            foreach (Administrator adm in _userService.GetAllAdministrators())
+            {
+                list.Add(new AdminCreationViewModel(adm.ID, cities, adm.ID.ToString(), admin.ClientName, adm.UserName, admin.LocationID, adm.PasswordHash, adm.Phone, adm.EMail));
+            }
+            return View("AllAdministrators", list);
         }
         [HttpGet]
         public IActionResult DeleteAdmin(int Id) 
@@ -590,6 +600,7 @@ namespace MedicalDeliveryService.Controllers
             solutions.ForEach(solution => cost+=_productService.GetPrice(solution.FactoryID, solution.ProductID));
             Receipt receipt = new Receipt(clientId, doctorId, review, 2, true, destination.ID, cost);
             receipt.Cost = cost;
+            receipt.CreationDate = DateTime.Now.ToString();
             _receiptService.AddReceipt(receipt);
             _unitOfWork.Complete();
             List<MedicalProduct> productsToConfirm = new List<MedicalProduct>();

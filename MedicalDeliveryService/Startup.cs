@@ -36,6 +36,12 @@ namespace MedicalDeliveryService
             //services.AddIdentity<IdentityUser, IdentityRole>( a => { }).AddEntityFrameworkStores<ApplicationContext>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddRazorPages();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(options =>
@@ -66,6 +72,8 @@ namespace MedicalDeliveryService
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

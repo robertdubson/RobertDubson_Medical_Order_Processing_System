@@ -243,26 +243,36 @@ namespace BusinessLogic
                 ReceiptSolution selectedChromosome = (ReceiptSolution)population.GetChromosomes()[chIndex];
 
                 List<FactoryGene> possibleFactories = _factoryGenes.FindAll(gene => gene.GetFactory().CityID == selectedChromosome.CityGene.GetCity().ID & gene.GetFactory() != selectedChromosome.FactoryGene.GetFactory());
-
-                Random randFactory = new Random();
-
-                int factoryIndex = randFactory.Next(possibleFactories.Count);
-
-                FactoryGene selectedFactoryGene = possibleFactories[factoryIndex];
-
-                List<DeliveryCompanyGene> possibleCompanies = _companyGenes.FindAll(gene => gene.GetCompany() != selectedChromosome.CompanyGene.GetCompany()); 
                 
-                Random randCompany = new Random();
+                if (possibleFactories.Count!=0) {
+                    
+                    Random randFactory = new Random();
 
-                int companyIndex = randCompany.Next(possibleCompanies.Count);
+                    int factoryIndex = randFactory.Next(possibleFactories.Count);
 
-                DeliveryCompanyGene selectedCompany = possibleCompanies[companyIndex];
+                    FactoryGene selectedFactoryGene = possibleFactories[factoryIndex];
 
-                selectedChromosome.CompanyGene = selectedCompany;
+                    selectedChromosome.FactoryGene = selectedFactoryGene;
+                }
 
-                population.RemoveChromosome(selectedChromosome);
+                List<DeliveryCompanyGene> possibleCompanies = _companyGenes.FindAll(gene => gene.GetCompany() != selectedChromosome.CompanyGene.GetCompany());
 
-                selectedChromosome.FactoryGene = selectedFactoryGene;
+                if (possibleCompanies.Count!=0) 
+                {
+                    Random randCompany = new Random();
+
+                    int companyIndex = randCompany.Next(possibleCompanies.Count);
+
+                    DeliveryCompanyGene selectedCompany = possibleCompanies[companyIndex];
+
+                    selectedChromosome.CompanyGene = selectedCompany;
+
+                    population.RemoveChromosome(selectedChromosome);
+                }
+
+                
+
+                
 
                 population.AddChromosome(selectedChromosome);
 

@@ -32,6 +32,12 @@ namespace MedicalDeliveryService.Controllers
 
         IUserService _userService;
 
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
         public LoginController(ILogger<LoginController> logger, IUnitOfWork uof)
         {
             _unitOfWork = uof;
@@ -39,10 +45,26 @@ namespace MedicalDeliveryService.Controllers
             _logger = logger;
 
             _userService = new UserService(_unitOfWork, new DoctorMapper(), new ClientMapper());
+
+            
+
+            
         }
+
+
+
         [HttpGet]
-        public IActionResult Hello() 
+        public async Task<IActionResult> Hello() 
         {
+            List<Claim> claims = new List<Claim>();
+
+            claims.Add(new Claim(ClaimTypes.Name, "Aynonymus"));
+            claims.Add(new Claim(ClaimTypes.Role, "Aynonymus"));
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
             return View("Login", new LoginViewModel("", ""));
         }
 
@@ -66,6 +88,7 @@ namespace MedicalDeliveryService.Controllers
                 var principal = new ClaimsPrincipal(identity);
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                HttpContext.Session.SetInt32("UserId", user.ID);
 
                 return RedirectToAction("Index", "Home");
             }
@@ -83,7 +106,7 @@ namespace MedicalDeliveryService.Controllers
                         var principal = new ClaimsPrincipal(identity);
 
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
+                        HttpContext.Session.SetInt32("UserId", cluser.ID);
 
                         return RedirectToAction("WelcomeClient", "Client");
                     }
@@ -102,13 +125,15 @@ namespace MedicalDeliveryService.Controllers
                             var principal = new ClaimsPrincipal(identity);
 
                             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                            HttpContext.Session.SetInt32("UserId", doctor.ID);
+
                             return RedirectToAction("WelcomeDoctor", "Doctor");
                         }
                         
                     }
-                    return View("Error");
+                    return View("Error", new ErrorViewModel("Sorry, we did not authenticate user"));
                 }
-                return View("Error");
+                return View("Error", new ErrorViewModel("Sorry, we did not authenticate user"));
             }
 
         }

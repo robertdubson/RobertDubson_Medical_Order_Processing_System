@@ -11,35 +11,37 @@
 <div class="row">
     <div class="col-md-4">
         <form method="post" action="@Url.Action("UpdateDoctor", "Home")">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" name="Name" class="form-control" required />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label for="Name">Name:</label>
+                <input type="text" id="Name" name="Name" value="@Model.Name" class="form-control" required />
             </div>
             <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" name="UserName" class="form-control" required />
-                <span asp-validation-for="UserName" class="text-danger"></span>
+                <label for="UserName">UserName:</label>
+                <input type="text" id="UserName" name="UserName" value="@Model.UserName" class="form-control" required />
+            </div>
+            @*<div class="form-group">
+            <label for="Password">Password:</label>
+            <input type="password" id="Password" name="Password" value="@Model.Password" class="form-control" required />
+        </div>*@
+            <input type="hidden" id="PasswordHash" name="PasswordHash" value="@Model.PasswordHash" class="form-control" />
+            <div class="form-group">
+                <label for="Email">Email:</label>
+                <input type="email" id="Email" name="Email" value="@Model.EMail" pattern="[a-zA-Z0-9._%+-]+&#64;[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control" required />
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" name="Password" type="password" class="form-control" required />
-                <span asp-validation-for="Password" class="text-danger"></span>
+                <label for="Phone">Phone:</label>
+                <input type="text" id="Phone" name="Phone" value="@Model.Phone" class="form-control" required pattern="[0-9+]+" title="Please enter numbers and the plus sign (+) only" />
             </div>
+            <input type="hidden" asp-for="ID" value="@Model.ID" />
             <div class="form-group">
-                <label asp-for="EMail" class="control-label"></label>
-                <input asp-for="EMail" name="Email" class="form-control" required />
-                <span asp-validation-for="EMail" class="text-danger"></span>
-                <span class="text-danger" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                <label for="LocationID">City:</label>
+                <select id="LocationID" name="LocationID" class="form-control" required>
+                    @foreach (var city in Model.PossibleCities)
+                    {
+                        <option value="@city.Value">@city.Text</option>
+                    }
+                </select>
             </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" name="Phone" class="form-control" required data-val-phone="Please enter a valid phone number." />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-                <span class="text-danger" data-valmsg-for="Phone" data-valmsg-replace="true"></span>
-            </div>
-            <input type="hidden" asp-for="ID" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

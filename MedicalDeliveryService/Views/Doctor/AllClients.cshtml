@@ -1,0 +1,62 @@
+﻿@model IEnumerable<MedicalDeliveryService.Models.ClientsViewModel>
+
+@{
+    ViewData["Title"] = "AllClients";
+}
+
+<h1>AllClients</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ClientName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EMail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="highlight-row">
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EMail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location.CityName)
+                </td>
+                <td>
+                    <a asp-action="ReceiptForClient" asp-route-id="@item.ID" class="btn btn-primary">New Receipt</a>
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    .highlight-row {
+        background-color: #f5f5f5;
+    }
+</style>

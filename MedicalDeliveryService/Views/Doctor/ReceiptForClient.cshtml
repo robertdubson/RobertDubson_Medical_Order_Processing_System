@@ -1,0 +1,80 @@
+﻿@model MedicalDeliveryService.Models.ReceiptPreparationViewModel
+<!-- Rest of the view code -->
+<form asp-action="AddReceipt" method="post">
+    <div class="form-group">
+        <label asp-for="ClientID" class="control-label">Client:</label>
+        <p><strong>Client:</strong> @Model.Client.UserName</p>
+        <input type="hidden" name="ClientID" class="form-control" value="@Model.Client.ID">
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AuthorID" class="control-label">Doctor:</label>       
+        <p><strong>Doctor:</strong> @Model.Doctor.Name</p>
+        <input type="hidden" name="AuthorID" class="form-control" value="@Model.Doctor.ID">
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AppointmentReview" class="control-label">Appointment Review:</label>
+        <input asp-for="AppointmentReview" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ShipToTheIssuePoint" class="control-label">Ship to issue point:</label>
+        <input asp-for="ShipToTheIssuePoint" type="checkbox" />
+    </div>
+
+
+
+    <div class="form-group">
+        <label asp-for="PrescriptedProducts" class="control-label">Prescripted Products:</label>
+        <div id="prescripted-products">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.PrescriptedProducts.Count(); i++)
+                    {
+                        <tr>
+                            <td>
+                                <select asp-for="@Model.PrescriptedProducts[i].ID" asp-items="Model.PossibleProducts"></select>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <button type="button" id="add-product">Add Product</button>
+    </div>
+    <input type="hidden" name="ProductCount" id="product-count" value="0" />
+    <button type="submit">Create</button>
+
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var productIndex = 0;
+
+            $("#add-product").click(function () {
+                var table = $("#prescripted-products tbody");
+                var newRow = $("<tr>");
+
+
+                var select = $('<select>').attr('name', 'PrescriptedProducts[' + productIndex + '].ID').attr('id', 'PrescriptedProducts_' + productIndex + '__ID').addClass('form-control');
+$.each(@Html.Raw(Json.Serialize(Model.PossibleProducts)), function (index, item) {
+    select.append($('<option>').val(item.value).text(item.text));
+});
+newRow.append($('<td>').append(select));
+
+                table.append(newRow);
+
+                productIndex++;
+
+                $("#product-count").val(productIndex);
+            });
+        });
+    </script>
+}

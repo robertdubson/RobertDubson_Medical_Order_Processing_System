@@ -39,6 +39,10 @@ namespace MedicalDeliveryService.Models
 
         public Status OrderStatus { get; set; }
 
+        public Doctor Doctor { get; set; }
+
+        public Client Client { get; set; }
+
         public ReceiptPreparationViewModel(List<MedicalProduct> products, List<Client> clients, List<Doctor> doctors) 
         {
             PossibleClients = new List<SelectListItem>();
@@ -60,6 +64,26 @@ namespace MedicalDeliveryService.Models
             PossibleClientModels.ForEach(cl => PossibleClients.Add(new SelectListItem(cl.UserName, cl.ID.ToString())));
 
             PossibleDoctorModels.ForEach(dc => PossibleDoctors.Add(new SelectListItem(dc.Name, dc.ID.ToString())));
+        }
+
+        public ReceiptPreparationViewModel(List<MedicalProduct> products, Client client, Doctor doctor)
+        {
+            PossibleClients = new List<SelectListItem>();
+
+            PossibleDoctors = new List<SelectListItem>();
+
+            PossibleProducts = new List<SelectListItem>();
+
+            PrescriptedProducts = new List<MedicalProduct>();
+
+            PossibleProductModels = products;
+
+            Doctor = doctor;
+
+            Client = client;
+
+            PossibleProductModels.ForEach(prod => PossibleProducts.Add(new SelectListItem(prod.ProductName, prod.ID.ToString())));
+
         }
     }
 }
