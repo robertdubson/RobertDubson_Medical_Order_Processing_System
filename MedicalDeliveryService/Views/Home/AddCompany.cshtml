@@ -1,0 +1,22 @@
+﻿@model DeliveryCompanyViewModel
+
+@{
+    ViewData["Title"] = "Create New Company";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create New Company</h1>
+
+<form method="post" action="@Url.Action("AddCompany", "Home")">
+    <div class="form-group">
+        <label for="name">Company Name:</label>
+        <input type="text" id="name" name="Name" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="price">Price per Km:</label>
+        <input type="number" step="0.01" id="price" name="Price" class="form-control" min="0" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

@@ -1,0 +1,23 @@
+﻿@model DeliveryCompanyViewModel
+
+@{
+    ViewData["Title"] = "Update Company Info";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Update Company Info</h1>
+
+<form method="post" action="@Url.Action("UpdateCompany", "Home")">
+    <div class="form-group">
+        <label for="name">Company Name:</label>
+        <input type="text" id="name" name="Name" class="form-control" value="@Model.Name" required />
+    </div>
+
+    <div class="form-group">
+        <label for="price">Price per Km:</label>
+        <input type="number" step="0.01" id="price" name="Price" class="form-control" value="@Model.PriceForKm" min="0" required />
+    </div>
+    <input type="hidden" name="ID" value="@Model.ID">
+
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>

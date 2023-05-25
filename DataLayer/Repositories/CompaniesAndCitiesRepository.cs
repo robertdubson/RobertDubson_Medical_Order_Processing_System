@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using DataModel;
 using DataLayer.Repositories.Abstract;
-
+using System.Linq;
 namespace DataLayer.Repositories
 {
     public class CompaniesAndCitiesRepository : GenericRepository<DeliveryCompanyAndCityEntity, int>, ICompanyAndCityRepository
@@ -13,5 +13,11 @@ namespace DataLayer.Repositories
         {
 
         }
+
+        public IEnumerable<DeliveryCompanyAndCityEntity> GetCompanyDetails(int id)
+        {
+            return _DbSet.ToList().FindAll(cmpndt => cmpndt.CompanyID==id);
+        }
+
     }
 }

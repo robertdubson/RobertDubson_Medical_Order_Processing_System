@@ -1,0 +1,93 @@
+﻿@model IEnumerable<DeliveryCompanyViewModel>
+
+@{
+    ViewData["Title"] = "AllCompanies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .page-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .create-link {
+        font-size: 14px;
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .styled-table th {
+            background-color: #f8f9fa;
+            text-align: left;
+            font-weight: bold;
+        }
+
+    .edit-link,
+    .details-link,
+    .delete-link {
+        font-size: 14px;
+        text-decoration: none;
+        color: #007bff;
+        margin-right: 8px;
+    }
+
+        .edit-link:hover,
+        .details-link:hover,
+        .delete-link:hover {
+            color: #0056b3;
+        }
+</style>
+
+<h1 class="page-title">All Companies</h1>
+
+<p>
+    <a asp-action="CreateCompany" class="create-link">Create New</a>
+</p>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PriceForKm)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PriceForKm)
+                </td>
+                <td>
+                    <a asp-action="EditCompany" asp-route-id="@item.ID" class="edit-link">Edit Company</a> |
+                    <a asp-action="CompanyDetails" asp-route-id="@item.ID" class="details-link">Company Details</a> |
+                    <a asp-action="DeleteCompany" asp-route-id="@item.ID" class="delete-link">Delete Company</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

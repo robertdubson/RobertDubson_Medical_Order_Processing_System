@@ -43,6 +43,8 @@ namespace MedicalDeliveryService.Controllers
 
         IReceiptService _receiptService;
 
+        IDeliveryCompanyService _deliveryCompanyService;
+
         public HomeController(ILogger<HomeController> logger, ApplicationContext applicationContext)
         {
             _logger = logger;
@@ -60,6 +62,8 @@ namespace MedicalDeliveryService.Controllers
             _productService = new ProductService(_unitOfWork, new MedicalProductMapper(), new ProductAndFactoryMapper());
 
             _receiptService = new ReceiptService(_unitOfWork);
+
+            _deliveryCompanyService = new DeliveryCompanyService(_unitOfWork);
         }
 
         public ActionResult Report()
@@ -624,7 +628,149 @@ namespace MedicalDeliveryService.Controllers
 
             return View("ReceiptConfirmationView", new ReceiptViewModel(productsToConfirm, receipt, _userService.GetDoctorById(doctorId)));
         }
+        [HttpGet]
+        public IActionResult AllCompanies() 
+        {
+            return View("AllCompanies", _deliveryCompanyService.GetAllCompanies().Select(cp => new DeliveryCompanyViewModel(cp.ID, cp.Name, cp.PriceForKm, _deliveryCompanyService.GetCompanyDetails(cp.ID).Select(dt => new CompanyDetailsViewModel(dt, _cityService.GetCityById(dt.CityID).CityName, cp.Name)).ToList())).ToList());
+        }
+        [HttpGet]
+        public IActionResult CompanyDetails(int Id) 
+        {
+            List<DeliveryCompanyAndCity> companyDetails = _deliveryCompanyService.GetCompanyDetails(Id);
 
+            DeliveryCompany company = _deliveryCompanyService.GetById(Id);
+
+            return View("CompanyDetails", new DeliveryCompanyViewModel(Id, company.Name, company.PriceForKm, _deliveryCompanyService.GetCompanyDetails(Id).Select(dt => new CompanyDetailsViewModel(dt, _cityService.GetCityById(dt.CityID).CityName, company.Name)).ToList()));
+        }
+
+        [HttpGet]
+        public IActionResult CreateCompany() 
+        {
+            return View("AddCompany");
+        }
+
+        public IActionResult DeleteCompany(int Id) 
+        {
+            _deliveryCompanyService.DeletDeliveryCompany(Id);
+            _unitOfWork.Complete();
+
+            return View("AllCompanies", _deliveryCompanyService.GetAllCompanies().Select(cp => new DeliveryCompanyViewModel(cp.ID, cp.Name, cp.PriceForKm, _deliveryCompanyService.GetCompanyDetails(cp.ID).Select(dt => new CompanyDetailsViewModel(dt, _cityService.GetCityById(dt.CityID).CityName, cp.Name)).ToList())).ToList());
+        }
+
+        [HttpPost]
+        public IActionResult AddCompany() 
+        {
+            string Name = Request.Form["Name"];
+            string priceStr = Request.Form["Price"];
+            string priceStrNew = priceStr.Replace(".", ",");
+            double price = double.Parse(priceStrNew);
+            _deliveryCompanyService.AddCompany(new DeliveryCompany(Name, price));
+            _unitOfWork.Complete();
+            
+            return View("AllCompanies", _deliveryCompanyService.GetAllCompanies().Select(cp => new DeliveryCompanyViewModel(cp.ID, cp.Name, cp.PriceForKm, _deliveryCompanyService.GetCompanyDetails(cp.ID).Select(dt => new CompanyDetailsViewModel(dt, _cityService.GetCityById(dt.CityID).CityName, cp.Name)).ToList())).ToList());
+        }
+        [HttpGet]
+        public IActionResult EditCompany(int Id) 
+        {
+            DeliveryCompany company = _deliveryCompanyService.GetById(Id);
+
+            return View("EditCompany", new DeliveryCompanyViewModel(Id, company.Name, company.PriceForKm, _deliveryCompanyService.GetCompanyDetails(company.ID).Select(dt => new CompanyDetailsViewModel(dt, _cityService.GetCityById(dt.CityID).CityName, company.Name)).ToList()));
+        }
+
+
+        [HttpPost]
+        public IActionResult UpdateCompany() 
+        {
+            string IdStr = Request.Form["ID"];
+            int Id = int.Parse(IdStr);
+            string Name = Request.Form["Name"];
+            string priceStr = Request.Form["Price"];
+            string priceStrNew = priceStr.Replace(".", ",");
+            double price = double.Parse(priceStrNew);
+            _deliveryCompanyService.UpdateDeliveryCompany(new DeliveryCompany(Id, Name, price));
+            _unitOfWork.Complete();
+
+            return View("AllCompanies", _deliveryCompanyService.GetAllCompanies().Select(cp => new DeliveryCompanyViewModel(cp.ID, cp.Name, cp.PriceForKm, _deliveryCompanyService.GetCompanyDetails(cp.ID).Select(dt => new CompanyDetailsViewModel(dt, _cityService.GetCityById(dt.CityID).CityName, cp.Name)).ToList())).ToList());
+
+        }
+
+        [HttpPost]
+        public IActionResult CreateCompanyDetails() 
+        {
+            string companyIdStr = Request.Form["CompanyID"];
+            int companyId = int.Parse(companyIdStr);
+            return View("CompanyDetailsCreation", new CompanyDetailsViewModel(companyId, _cityService.GetAllCities()));
+        }
+        [HttpPost]
+        public IActionResult AddCompanyDetails() 
+        {
+            string cityIdStr = Request.Form["City"];
+            int cityId = int.Parse(cityIdStr);
+            string companyIdStr = Request.Form["CompanyID"];
+            int companyId = int.Parse(companyIdStr);
+            string workersStr = Request.Form["WorkersAvailable"];
+            int workers = int.Parse(workersStr);
+            _deliveryCompanyService.AddWorkersToCity(new DeliveryCompanyAndCity(companyId, cityId, workers));
+            _unitOfWork.Complete();
+
+            DeliveryCompany company = _deliveryCompanyService.GetById(companyId);
+
+            return View("CompanyDetails", new DeliveryCompanyViewModel(companyId, company.Name, company.PriceForKm, _deliveryCompanyService.GetCompanyDetails(companyId).Select(dt => new CompanyDetailsViewModel(dt, _cityService.GetCityById(dt.CityID).CityName, company.Name)).ToList()));
+        }
+
+        [HttpGet]
+        public IActionResult EditCompanyDetails(int Id) 
+        {
+            DeliveryCompanyAndCity details = _deliveryCompanyService.GetDetailsById(Id);
+
+            return View("EditCompanyDetails", new CompanyDetailsViewModel(details.ID, details.CompanyID, details.CityID, details.AvailableCouriers, _cityService.GetAllCities()));
+        }
+
+
+        [HttpPost]
+        public IActionResult UpdateCompanyDetails() 
+        {
+
+            string detaildIdStr = Request.Form["DetailsID"];
+            int detailsId = int.Parse(detaildIdStr);
+            string cityIdStr = Request.Form["City"];
+            int cityId = int.Parse(cityIdStr);
+            string companyIdStr = Request.Form["CompanyID"];
+            int companyId = int.Parse(companyIdStr);
+            string workersStr = Request.Form["WorkersAvailable"];
+            int workers = int.Parse(workersStr);
+
+            UnitOfWork uof = new UnitOfWork(new ApplicationContext());
+            uof.CompanyAndCityRepository.Update(new DataModel.DeliveryCompanyAndCityEntity(detailsId, companyId, cityId, workers));
+            uof.Complete();
+            //DeliveryCompanyService service = new DeliveryCompanyService(uof);
+            //service.UpdateCompanyDetail(new DeliveryCompanyAndCity(companyId, cityId, workers));
+            //uof.Complete();
+            //_deliveryCompanyService.UpdateFactoryDetail();
+            //_unitOfWork.Complete();
+            
+            DeliveryCompany company = _deliveryCompanyService.GetById(companyId);
+
+            return View("CompanyDetails", new DeliveryCompanyViewModel(companyId, company.Name, company.PriceForKm, _deliveryCompanyService.GetCompanyDetails(companyId).Select(dt => new CompanyDetailsViewModel(dt, _cityService.GetCityById(dt.CityID).CityName, company.Name)).ToList()));
+        }
+        
+        [HttpPost]
+        public IActionResult DeleteWorkers() 
+        {
+            string IdStr = Request.Form["CompanyDetailsID"];
+            int Id = int.Parse(IdStr);
+            string compIdStr = Request.Form["CompanyID"];
+            int companyId = int.Parse(compIdStr);
+
+            _deliveryCompanyService.DeleteAllWorkersFromCity(Id);
+            _unitOfWork.Complete();
+
+            DeliveryCompany company = _deliveryCompanyService.GetById(companyId);
+
+            return View("CompanyDetails", new DeliveryCompanyViewModel(companyId, company.Name, company.PriceForKm, _deliveryCompanyService.GetCompanyDetails(companyId).Select(dt => new CompanyDetailsViewModel(dt, _cityService.GetCityById(dt.CityID).CityName, company.Name)).ToList()));
+
+
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

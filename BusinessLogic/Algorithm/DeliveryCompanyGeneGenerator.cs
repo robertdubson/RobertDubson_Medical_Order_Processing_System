@@ -146,6 +146,11 @@ namespace BusinessLogic
                 {
                     DeliveryCompanyAndCity currentCompanyCity = _deliveryCompanyAndCities.Find(dc => dc.CompanyID == c.ID & dc.CityID == city.ID);
 
+                    if (currentCompanyCity == null) 
+                    {
+                        currentCompanyCity = new DeliveryCompanyAndCity(c.ID, city.ID, 0);
+                    }
+
                     _genes.Add(new DeliveryCompanyGene(c, currentCompanyCity, city, _destination, _maxCouriers, _minPrice, _minDistance));
                 }
                 

@@ -1,0 +1,56 @@
+﻿@model DeliveryCompanyViewModel
+
+@{
+    ViewData["Title"] = "Company Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Company Details</h1>
+
+<div>
+    <h2>Company Information</h2>
+    <p><strong>Name:</strong> @Model.Name</p>
+    <p><strong>Price per Km:</strong> @Model.PriceForKm</p>
+</div>
+
+<form method="post" action="@Url.Action("CreateCompanyDetails", "Home")">
+    <input type="hidden" name="CompanyID" value="@Model.ID" />
+    <button type="submit" class="btn btn-danger">Add Workers</button>
+</form>
+
+<div>
+    <h2>Company Details</h2>
+    @if (Model.CompanyDetails.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>City</th>
+                    <th>Workers Available</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detail in Model.CompanyDetails)
+                {
+                    <tr>
+                        <td>@detail.CityName</td>
+                        <td>@detail.WorkersAvailable</td>
+                        <td>
+                            <a asp-action="EditCompanyDetails" asp-route-id="@detail.ID" class="btn btn-primary">Edit Company Details</a>
+                            <form method="post" action="@Url.Action("DeleteWorkers", "Home")">
+                                <input type="hidden" name="CompanyDetailsID" value="@detail.ID" />
+                                <input type="hidden" name="CompanyID" value="@Model.ID" />
+                                <button type="submit" class="btn btn-danger">Delete Workers</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No company details available.</p>
+    }
+</div>
