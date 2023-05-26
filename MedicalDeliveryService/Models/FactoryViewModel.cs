@@ -65,5 +65,20 @@ namespace MedicalDeliveryService.Models
             CityID = City.ID;
             FactoryId = iD.ToString();
         }
+
+        public FactoryViewModel(int iD, City city, Supplier supplier, string address, List<City> possibleCities, List<Supplier> possibleSuppliers)
+        {
+            ID = iD;
+            City = city;
+            Supplier = supplier;
+            Address = address;
+            CompanyID = Supplier.ID;
+            CityID = City.ID;
+            FactoryId = iD.ToString();
+            PossibleCities = possibleCities;
+            PossibleSuppliers = possibleSuppliers;
+            CityItems = possibleCities.Select(ct => new SelectListItem(ct.CityName, ct.ID.ToString())).ToList();
+            SupplierItems = possibleSuppliers.Select(sp => new SelectListItem(sp.Name, sp.ID.ToString())).ToList();
+        }
     }
 }

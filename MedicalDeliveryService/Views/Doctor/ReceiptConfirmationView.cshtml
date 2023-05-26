@@ -1,5 +1,88 @@
 ﻿@model MedicalDeliveryService.Models.ReceiptViewModel
 
+@{
+}
+
+<style>
+    .page-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .back-link {
+        font-size: 14px;
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .section {
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .receipt-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+        .receipt-table th,
+        .receipt-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .receipt-table th {
+            background-color: #f8f9fa;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .receipt-table td:last-child {
+            border-bottom: none;
+        }
+
+    .confirm-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .product-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+        .product-table th,
+        .product-table td {
+            padding: 8px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .product-table th {
+            background-color: #f8f9fa;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .product-table td:last-child {
+            border-bottom: none;
+        }
+</style>
+
 <h1 class="page-title">Receipt Confirmation</h1>
 <p>
     <a asp-action="Index" class="back-link">Back</a>
@@ -7,8 +90,18 @@
 
 <div class="section">
     <h2 class="section-title">Receipt Details</h2>
-    <p><strong>Date:</strong> @Model.Receipt.CreationDate</p>
-    <p><strong>Appointment Review:</strong> @Model.AppointmentReview</p>
+    <table class="receipt-table">
+        <tbody>
+            <tr>
+                <td class="section-title">Date</td>
+                <td style="background-color: white;">@Model.Receipt.CreationDate</td>
+            </tr>
+            <tr>
+                <td class="section-title">Appointment Review</td>
+                <td style="background-color: white;">@Model.AppointmentReview</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <div class="section">
@@ -34,14 +127,26 @@
 
 <div class="section">
     <h2 class="section-title">Total Cost</h2>
-    <p><strong>Total Cost:</strong> @Model.Cost</p>
+    <table class="receipt-table">
+        <tbody>
+            <tr>
+                <td style="background-color: white;">@Model.Cost</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <div class="section">
     <h2 class="section-title">Doctor</h2>
-    <p><strong>Doctor Name:</strong> @Model.DoctorName</p>
+    <table class="receipt-table">
+        <tbody>
+            <tr>
+                <td style="background-color: white;">@Model.DoctorName</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
+
 <nav class="menu-bar">
     <a asp-action="WelcomeDoctor" class="btn btn-primary">Ok</a>
-
 </nav>

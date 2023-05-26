@@ -258,10 +258,17 @@ namespace MedicalDeliveryService.Controllers
 
             return View("AllSuppliers", _supplierService.GetAllSuppliers().Select(sup => new SupplierViewModel(sup.ID, sup.Name)));
         }
+
+        [HttpPost]
+        public IActionResult FilterFactories() 
+        {
+            return View("");
+        }
+
         [HttpGet]
         public IActionResult AllFactories()
         {
-            return View("AllFactories", _factoryService.GetAllFactories().Select(fac => new FactoryViewModel(fac.ID, _cityService.GetCityById(fac.CityID), _supplierService.GetById(fac.CompanyID), fac.Address)));
+            return View("AllFactories", _factoryService.GetAllFactories().Select(fac => new FactoryViewModel(fac.ID, _cityService.GetCityById(fac.CityID), _supplierService.GetById(fac.CompanyID), fac.Address, _cityService.GetAllCities(), _supplierService.GetAllSuppliers())));
         }
         [HttpGet]
         public IActionResult CreateFactory()
