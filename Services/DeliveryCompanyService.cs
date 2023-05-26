@@ -37,7 +37,20 @@ namespace Services
 
         public void DeletDeliveryCompany(int Id)
         {
+
+            var detailsList = GetCompanyDetails(Id);
+
+            if (detailsList.Count!=0) 
+            {
+                foreach (DeliveryCompanyAndCity details in detailsList)
+                {
+                    DeleteAllWorkersFromCity(details.ID);
+                }
+
+            }
+
             _unitOfWork.DeliveryCompanyRepository.Delete(Id);
+
         }
 
         public void DeleteAllWorkersFromCity(int companyDetailsId)

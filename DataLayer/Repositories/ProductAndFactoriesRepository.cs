@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using DataModel;
 using DataLayer.Repositories.Abstract;
+using System.Linq;
 namespace DataLayer.Repositories
 {
     public class ProductAndFactoriesRepository : GenericRepository<ProductAndFactoryEntity, int>, IProductAndFactoryRepository
@@ -13,6 +14,9 @@ namespace DataLayer.Repositories
 
         }
 
-        
+        public IEnumerable<ProductAndFactoryEntity> GetFactoryDetailsForFacory(int factoryid)
+        {
+            return _DbSet.ToList().FindAll(details => details.FactoryID==factoryid);
+        }
     }
 }

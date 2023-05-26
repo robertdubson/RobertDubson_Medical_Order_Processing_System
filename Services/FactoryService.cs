@@ -35,6 +35,15 @@ namespace Services
 
         public void DeleteFactory(int ID) 
         {
+            var factoryDetails = GetFactoryDetailsByFactoryId(ID);
+            if (factoryDetails.Count != 0) 
+            {
+                foreach (ProductAndFactory details in factoryDetails) 
+                {
+                    DeleteFactoryDetail(details.ID);
+                }
+            }
+
             _unitOfWork.FactoryRepository.Delete(ID);
         }
 
@@ -102,6 +111,11 @@ namespace Services
         public void DeleteFactoryDetail(int Id)
         {
             _unitOfWork.ProductAndFactoryRepository.Delete(Id);
+        }
+
+        public List<ProductAndFactory> GetFactoryDetailsByFactoryId(int Id) 
+        {
+            return _unitOfWork.ProductAndFactoryRepository.GetFactoryDetailsForFacory(Id).Select(det => _productAndFactoryMapper.FromEntityToDomain(det)).ToList();
         }
     }
 }

@@ -15,6 +15,8 @@ namespace Services.Abstract
 
         SupplierAndProductMapper _supplierAndProductMapper;
 
+        FactoryMapper _factoryMapper;
+
         public SupplierService(IUnitOfWork uof, SupplierMapper mapper, SupplierAndProductMapper supplierAndProductMapper)
         {
             _unitOfWork = uof;
@@ -22,6 +24,10 @@ namespace Services.Abstract
             _supplierMapper = mapper;
 
             _supplierAndProductMapper = supplierAndProductMapper;
+
+            _factoryMapper = new FactoryMapper();
+
+
         }
         public void Add(Supplier example)
         {
@@ -30,6 +36,24 @@ namespace Services.Abstract
 
         public void Delete(int id)
         {
+            var factories = GetFactoriesBySupplier(id);
+            var priceList = GetPriceList(id);
+
+            if (factories.Count != 0) 
+            {
+                foreach (Factory f in factories) 
+                {
+                    _unitOfWork.FactoryRepository.Delete(f.ID);
+                }
+            }
+            if (priceList.Count!=0) 
+            {
+                foreach (SupplierAndProduct sp in priceList) 
+                {
+                    DeleteSupplierAndProduct(sp.ID);
+                }
+            }
+
             _unitOfWork.SupplierRepository.Delete(id);
         }
 
@@ -46,6 +70,21 @@ namespace Services.Abstract
         public void Update(Supplier example)
         {
             _unitOfWork.SupplierRepository.Update(_supplierMapper.FromDomainToEntity(example));
+        }
+
+        public void DeleteSupplierAndProduct(int id) 
+        {
+            _unitOfWork.SupplierAndProductRepository.Delete(id);
+        }
+
+        public List<SupplierAndProduct> GetPriceList(int supplierId) 
+        {
+            return _unitOfWork.SupplierAndProductRepository.GetPriceList(supplierId).Select(sp => _supplierAndProductMapper.FromEntityToDomain(sp)).ToList();
+        }
+
+        public List<Factory> GetFactoriesBySupplier(int supplierId) 
+        {
+            return _unitOfWork.FactoryRepository.GetFactoriesBySupplierId(supplierId).Select(fac => _factoryMapper.FromEntityToDomain(fac)).ToList();
         }
     }
 }

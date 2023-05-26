@@ -6,5 +6,9 @@ namespace DataLayer.Repositories.Abstract
 {
     public interface ISupplierAndProductRepository : IRepository<SupplierAndProductEntity, int>
     {
+
+        IEnumerable<SupplierAndProductEntity> GetPriceList(int SupplierId);
     }
+
+
 }

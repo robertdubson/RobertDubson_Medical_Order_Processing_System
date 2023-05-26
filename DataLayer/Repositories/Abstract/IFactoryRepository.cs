@@ -6,5 +6,6 @@ namespace DataLayer.Repositories.Abstract
 {
     public interface IFactoryRepository : IRepository<FactoryEntity, int>
     {
+        IEnumerable<FactoryEntity> GetFactoriesBySupplierId(int supplierId);
     }
 }

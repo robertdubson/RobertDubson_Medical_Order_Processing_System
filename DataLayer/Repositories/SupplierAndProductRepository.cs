@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using DataModel;
 using DataLayer.Repositories.Abstract;
+using System.Linq;
 namespace DataLayer.Repositories
 {
     public class SupplierAndProductRepository : GenericRepository<SupplierAndProductEntity, int>, ISupplierAndProductRepository
@@ -12,5 +13,10 @@ namespace DataLayer.Repositories
         {
 
         }
+        public IEnumerable<SupplierAndProductEntity> GetPriceList(int SupplierId) 
+        {
+            return _DbSet.ToList().FindAll(sp => sp.SupplierID==SupplierId);
+        }
+
     }
 }
