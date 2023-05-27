@@ -2,16 +2,79 @@
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    .standout-table {
+        background-color: #f5f5f5;
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+        .standout-table th,
+        .standout-table td {
+            border: none;
+            padding: 12px; /* Increased padding */
+        }
+
+    .menu-bar {
+        background-color: #f5f5f5;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .menu-item {
+        display: inline-block;
+        padding: 8px 12px;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        margin-right: 10px;
+        border-radius: 8px; /* Soft corners */
+    }
+
+    .action-button {
+        display: inline-block;
+        padding: 8px 12px;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        margin-right: 10px;
+        border-radius: 8px; /* Soft corners */
+    }
+
+        .action-button:hover {
+            background-color: #0056b3;
+        }
+</style>
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>E-Commerce system to Control economics of medical services</p>
 </div>
-<nav class="menu-bar">
-    <a class="menu-item" asp-action="AllClients">All Clients</a>
-    <a class="menu-item" asp-action="AllSuppliers">All Suppliers</a>
-    <a class="menu-item" asp-action="AllFactories">All Factories</a>
-    <a class="menu-item" asp-action="AllProducts">All Products</a>
-    <a class="menu-item" asp-action="CreateNewReceipt">+ New Receipt</a>
-</nav>
 
-<iframe title="MedicalDeliveryServiceReport" width="1700" height="2500" src="https://app.powerbi.com/reportEmbed?reportId=7148ebdb-14fb-40a3-a3f8-5bd871450a5d&autoAuth=true&ctid=2a84e6b3-061a-43ff-a98d-5ba6e3e0272b" frameborder="0" allowFullScreen="true"></iframe>
+<div class="menu-bar">
+    <div>
+        <button class="menu-item" onclick="location.href='@Url.Action("AllClients")'">All Clients</button>
+        <button class="menu-item" onclick="location.href='@Url.Action("AllSuppliers")'">All Suppliers</button>
+        <button class="menu-item" onclick="location.href='@Url.Action("AllFactories")'">All Factories</button>
+        <button class="menu-item" onclick="location.href='@Url.Action("AllProducts")'">All Products</button>
+    </div>
+    <div>
+        <button class="menu-item" onclick="location.href='@Url.Action("CreateNewReceipt")'">+ New Receipt</button>
+    </div>
+</div>
+
+<iframe title="AdminHomeReport" width="1450" height="750" src="https://app.powerbi.com/reportEmbed?reportId=00e77285-7446-4470-b904-5e2b1cbfa9e7&autoAuth=true&ctid=2a84e6b3-061a-43ff-a98d-5ba6e3e0272b" frameborder="0" allowFullScreen="true"></iframe>

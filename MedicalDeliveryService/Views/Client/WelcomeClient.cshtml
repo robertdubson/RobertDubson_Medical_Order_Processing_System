@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ReceiptViewModel>
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<ReceiptViewModel>
 
 @{
     ViewData["Title"] = "ClientDetails";
@@ -35,6 +36,11 @@
 </style>
 <h1>Welcome!</h1>
 
+@{
+    int userId = (int)Context.Session.GetInt32("UserId");
+}
+
+<iframe title="HomeClient" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=b0552d3f-d8c1-4089-9c19-5a77820067e4&autoAuth=true&ctid=2a84e6b3-061a-43ff-a98d-5ba6e3e0272b&filter=Clients/ID eq @userId" frameborder="0" allowFullScreen="true"></iframe>
 
 <table class="standout-table">
     <thead>

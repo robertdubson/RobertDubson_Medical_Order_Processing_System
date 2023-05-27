@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ReceiptViewModel>
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<ReceiptViewModel>
 
 @{
     ViewData["Title"] = "ClientDetails";
@@ -41,6 +42,14 @@
     <a asp-action="NewReceipt" class="action-button">New Receipt</a>
     <a asp-action="AllClients" class="action-button">All Clients</a>
 </nav>
+
+@{
+    int doctorId = (int)Context.Session.GetInt32("UserId");
+}
+
+<iframe title="DoctorHome" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=67062b0a-8d0d-4b0e-9508-b252947e16d5&autoAuth=true&ctid=2a84e6b3-061a-43ff-a98d-5ba6e3e0272b&filter=Doctors/ID eq @doctorId" frameborder="0" allowFullScreen="true"></iframe>
+
+
 
 <table class="standout-table">
     <thead>

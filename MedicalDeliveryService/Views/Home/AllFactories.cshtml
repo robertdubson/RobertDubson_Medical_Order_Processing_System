@@ -19,47 +19,49 @@
 
 <h1>AllFactories</h1>
 
-<p>
-    <button onclick="window.location.href='@Url.Action("CreateFactory")'" class="btn btn-primary">Create New</button>
-</p>
+<div style="margin-bottom: 20px;"><iframe title="AdminFactories" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=09c57b64-0bb2-468b-b57e-e1b22a9e2ca7&autoAuth=true&ctid=2a84e6b3-061a-43ff-a98d-5ba6e3e0272b" frameborder="0" allowFullScreen="true"></iframe></div>
 
-<table class="table standout-table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.City.CityName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Supplier.Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <p>
+        <button onclick="window.location.href='@Url.Action("CreateFactory")'" class="btn btn-primary">Create New</button>
+    </p>
+
+    <table class="table standout-table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.City.CityName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Supplier.Name)
-                </td>
-                <td>
-                    <button onclick="window.location.href='@Url.Action("EditFactory", new { id = item.ID })'" class="btn btn-primary">Edit</button> |
-                    <button onclick="window.location.href='@Url.Action("FactoryDetails", new { id = item.ID })'" class="btn btn-info">Factory Details</button> |
-                    <button onclick="window.location.href='@Url.Action("DeleteFactory", new { id = item.ID })'" class="btn btn-danger">Delete</button>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.City.CityName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Supplier.Name)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.City.CityName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Supplier.Name)
+                    </td>
+                    <td>
+                        <button onclick="window.location.href='@Url.Action("EditFactory", new { id = item.ID })'" class="btn btn-primary">Edit</button> |
+                        <button onclick="window.location.href='@Url.Action("FactoryDetails", new { id = item.ID })'" class="btn btn-info">Factory Details</button> |
+                        <button onclick="window.location.href='@Url.Action("DeleteFactory", new { id = item.ID })'" class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 
 
