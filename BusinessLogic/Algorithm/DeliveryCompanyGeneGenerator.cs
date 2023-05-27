@@ -67,6 +67,8 @@ namespace BusinessLogic
         {
             double minDistance = 0;
 
+            cities.Remove(destination);
+
             if (cities.Count != 0)
             {
                 Dictionary<City, double> distances = new Dictionary<City, double>();
@@ -81,7 +83,7 @@ namespace BusinessLogic
 
                 foreach (City c in distances.Keys)
                 {
-                    if (distances[c] < minDistance)
+                    if (distances[c] < minDistance & distances[c]!=0)
                     {
                         minDistance = distances[c];
                     }
@@ -95,7 +97,7 @@ namespace BusinessLogic
         private double GetDistanceBetween(City one, City two)
         {
 
-            double distance = Math.Sqrt(Math.Pow(one.CoordinateX - two.CoordinateX, 2) - Math.Pow(one.CoordinateY - two.CoordinateY, 2));
+            double distance = Math.Sqrt(Math.Pow(one.CoordinateX - two.CoordinateX, 2) + Math.Pow(one.CoordinateY - two.CoordinateY, 2));
 
             return distance;
         }
@@ -115,16 +117,27 @@ namespace BusinessLogic
 
             minPrice = companies[indexCompany].PriceForKm * GetDistanceBetween(cities[indexCity], destination);
 
-            foreach (City c in cities) 
+            cities.Remove(destination);
+
+            foreach (City c in cities)
             {
-                foreach (DeliveryCompany dc in companies) 
+                foreach (DeliveryCompany dc in companies)
                 {
-                    if (minPrice > dc.PriceForKm * GetDistanceBetween(c, destination)) 
+                    if (minPrice > dc.PriceForKm * GetDistanceBetween(c, destination) & dc.PriceForKm * GetDistanceBetween(c, destination)!=0)
                     {
                         minPrice = dc.PriceForKm * GetDistanceBetween(c, destination);
                     }
                 }
             }
+
+            //minPrice = companies[indexCompany].PriceForKm;
+            //foreach (DeliveryCompany company in companies) 
+            //{
+            //    if (company.PriceForKm<minPrice) 
+            //    {
+            //        minPrice = company.PriceForKm;
+            //    }
+            //}
 
             return minPrice;
 

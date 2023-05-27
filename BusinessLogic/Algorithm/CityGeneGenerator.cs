@@ -29,6 +29,8 @@ namespace BusinessLogic
         {
 
             double min = 0;
+
+            cities.Remove(destination);
             
             if (cities.Count != 0) 
             {
@@ -44,7 +46,7 @@ namespace BusinessLogic
 
                 foreach (City c in distances.Keys)
                 {
-                    if (distances[c] < min)
+                    if (distances[c] < min & distances[c]!=0)
                     {
                         min = distances[c];
                     }
@@ -57,7 +59,7 @@ namespace BusinessLogic
         private double GetDistanceBetween(City one, City two) 
         {
 
-            double distance = Math.Sqrt(Math.Pow(one.CoordinateX - two.CoordinateX, 2) - Math.Pow(one.CoordinateY - two.CoordinateY, 2));
+            double distance = Math.Sqrt(Math.Pow(one.CoordinateX - two.CoordinateX, 2) + Math.Pow(one.CoordinateY - two.CoordinateY, 2));
 
             
             return distance;

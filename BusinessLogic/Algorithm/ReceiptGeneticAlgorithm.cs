@@ -4,6 +4,26 @@ using System.Text;
 
 namespace BusinessLogic
 {
+    public class AlgorithmLogger 
+    {
+        public List<string> LogList { get; set; }
+
+        public AlgorithmLogger()
+        {
+            LogList = new List<string>();
+        }
+
+        public void Log(string command) 
+        {
+            LogList.Add(command);
+        }
+
+        public string FormChromosomeString(ReceiptSolution solution) 
+        {
+            return "City: " + solution.CityGene.GetCity().CityName + "; City Rank: " + solution.CityGene.CalculateRank() + "; Factory: " + solution.FactoryGene.GetFactory().ID + "; Factory Rank: " + solution.FactoryGene.CalculateRank() + "; Delivery Company: " + solution.CompanyGene.GetCompany().Name + "; Company Rank:" + solution.CompanyGene.CalculateRank() + "; TOTAL RANK: " + solution.CalculateFitness() + "; ";
+        }
+    }
+
     public class ReceiptGeneticAlgorithm : IGeneticAlgorithm
     {
         List<CityGene> _cityGenes;
@@ -12,8 +32,11 @@ namespace BusinessLogic
 
         List<DeliveryCompanyGene> _companyGenes;
 
-        MedicalProduct _selectedProduct;        
+        MedicalProduct _selectedProduct;
 
+        AlgorithmLogger _logger;
+
+        public AlgorithmLogger Logger { get => _logger; set => _logger = value; }
         
         public ReceiptGeneticAlgorithm(MedicalProduct selectedProduct, CityGeneGenerator cityGeneGenerator, FactoryGeneGenerator factoryGeneGenerator, DeliveryCompanyGeneGenerator deliveryCompanyGeneGenerator)
         {
@@ -25,7 +48,8 @@ namespace BusinessLogic
 
             _selectedProduct = selectedProduct;
 
-            
+            _logger = new AlgorithmLogger();
+
         }
 
         public ReceiptSolution GetSolution(int maxIterations=100) 
@@ -39,6 +63,8 @@ namespace BusinessLogic
                 maxIterations--;
             }
 
+            _logger.Log("SOLUTION: " + _logger.FormChromosomeString((ReceiptSolution)receiptPopulation.GetTheBestSolution()));
+
             return (ReceiptSolution)receiptPopulation.GetTheBestSolution();
         }
 
@@ -50,13 +76,19 @@ namespace BusinessLogic
 
             List<IChromosome> initializedChromosomes = new List<IChromosome>();
 
+            _logger.Log("Initial Population: ");
+
+            
+
             if (solutionsCount < chromosomeCount) 
             {
                 countOfIterations = solutionsCount;
             }
 
             for (int i = 0; i < countOfIterations; i++) 
-            {               
+            {
+
+                string chromosomeString = "Chromosome: ";
 
                 Random randCity = new Random();
 
@@ -85,6 +117,8 @@ namespace BusinessLogic
 
                 CityGene selectedCityGene = _cityGenes[cityIndex];
 
+                chromosomeString += i +"; City: "+selectedCityGene.GetCity().CityName + "; Rank: " + selectedCityGene.CalculateRank();
+
                 //if (_cityGenes.Count != 0) 
                 //{
                 //    _cityGenes.RemoveAt(cityIndex);
@@ -95,6 +129,8 @@ namespace BusinessLogic
                 int factoryIndex = randFactory.Next(possibleFactories.Count);
 
                 FactoryGene selectedFactory = possibleFactories[factoryIndex];
+
+                chromosomeString += "; Factory" + selectedFactory.GetFactory().ID + "; Rank: " + selectedFactory.CalculateRank();
 
                 //if (_factoryGenes.Count != 0) 
                 //{
@@ -110,7 +146,16 @@ namespace BusinessLogic
                 //    _companyGenes.RemoveAt(companyIndex);
                 //}
 
-                initializedChromosomes.Add(new ReceiptSolution(selectedCityGene, selectedFactory, selectedCompany));
+                chromosomeString += "; Delivery Company: " + selectedCompany.GetCompany().Name + "; Rank:" + selectedCompany.CalculateRank() + "; ";
+
+                ReceiptSolution currentSolution = new ReceiptSolution(selectedCityGene, selectedFactory, selectedCompany);
+
+
+                initializedChromosomes.Add(currentSolution);
+
+                chromosomeString += "TOTAL RANK: " + currentSolution.CalculateFitness() + "; ";
+
+                _logger.Log(chromosomeString);
 
             }
 
@@ -121,19 +166,45 @@ namespace BusinessLogic
 
         public ReceiptSolution Mating(ReceiptSolution firstParent, ReceiptSolution secondParent) 
         {
+            _logger.Log("Crossing over: ");
+
             List<ReceiptSolution> potentialChildren = new List<ReceiptSolution>();
 
-            potentialChildren.Add(new ReceiptSolution(firstParent.CityGene, secondParent.FactoryGene, secondParent.CompanyGene));
+            ReceiptSolution child = new ReceiptSolution(firstParent.CityGene, secondParent.FactoryGene, secondParent.CompanyGene);
 
-            potentialChildren.Add(new ReceiptSolution(secondParent.CityGene, firstParent.FactoryGene, firstParent.CompanyGene));
+            _logger.Log("Potential child: City: " + child.CityGene.GetCity().CityName + "; City Rank: " + child.CityGene.CalculateRank() + "; Factory: " + child.FactoryGene.GetFactory().ID + "; Factory Rank: " + child.FactoryGene.CalculateRank() + "; Delivery Company: " + child.CompanyGene.GetCompany().Name + "; Company Rank:" + child.CompanyGene.CalculateRank() + "; TOTAL RANK: " + child.CalculateFitness() + "; ");
 
-            potentialChildren.Add(new ReceiptSolution(secondParent.CityGene, firstParent.FactoryGene, secondParent.CompanyGene));
+            potentialChildren.Add(child);
 
-            potentialChildren.Add(new ReceiptSolution(firstParent.CityGene, secondParent.FactoryGene, firstParent.CompanyGene));
+            child = new ReceiptSolution(secondParent.CityGene, firstParent.FactoryGene, firstParent.CompanyGene);
 
-            potentialChildren.Add(new ReceiptSolution(secondParent.CityGene, secondParent.FactoryGene, firstParent.CompanyGene));
+            _logger.Log("Potential child: City: " + child.CityGene.GetCity().CityName + "; City Rank: " + child.CityGene.CalculateRank() + "; Factory: "+ child.FactoryGene.GetFactory().ID + "; Factory Rank: " + child.FactoryGene.CalculateRank() + "; Delivery Company: " + child.CompanyGene.GetCompany().Name +"; Company Rank:" + child.CompanyGene.CalculateRank() + "; TOTAL RANK: " + child.CalculateFitness() + "; ");
 
-            potentialChildren.Add(new ReceiptSolution(firstParent.CityGene, firstParent.FactoryGene, secondParent.CompanyGene));
+            potentialChildren.Add(child);
+
+            child = new ReceiptSolution(secondParent.CityGene, firstParent.FactoryGene, secondParent.CompanyGene);
+
+            _logger.Log("Potential child: City: " + child.CityGene.GetCity().CityName + "; City Rank: " + child.CityGene.CalculateRank() + "; Factory: " + child.FactoryGene.GetFactory().ID + "; Factory Rank: " + child.FactoryGene.CalculateRank() + "; Delivery Company: " + child.CompanyGene.GetCompany().Name + "; Company Rank:" + child.CompanyGene.CalculateRank() + "; TOTAL RANK: " + child.CalculateFitness() + "; ");
+
+            potentialChildren.Add(child);
+
+            child = new ReceiptSolution(firstParent.CityGene, secondParent.FactoryGene, firstParent.CompanyGene);
+
+            _logger.Log("Potential child: City: " + child.CityGene.GetCity().CityName + "; City Rank: " + child.CityGene.CalculateRank() + "; Factory: " + child.FactoryGene.GetFactory().ID + "; Factory Rank: " + child.FactoryGene.CalculateRank() + "; Delivery Company: " + child.CompanyGene.GetCompany().Name + "; Company Rank:" + child.CompanyGene.CalculateRank() + "; TOTAL RANK: " + child.CalculateFitness() + "; ");
+
+            potentialChildren.Add(child);
+
+            child = new ReceiptSolution(secondParent.CityGene, secondParent.FactoryGene, firstParent.CompanyGene);
+
+            _logger.Log("Potential child: City: " + child.CityGene.GetCity().CityName + "; City Rank: " + child.CityGene.CalculateRank() + "; Factory: " + child.FactoryGene.GetFactory().ID + "; Factory Rank: " + child.FactoryGene.CalculateRank() + "; Delivery Company: " + child.CompanyGene.GetCompany().Name + "; Company Rank:" + child.CompanyGene.CalculateRank() + "; TOTAL RANK: " + child.CalculateFitness() + "; ");
+
+            potentialChildren.Add(child);            
+
+            child = new ReceiptSolution(firstParent.CityGene, firstParent.FactoryGene, secondParent.CompanyGene);
+
+            _logger.Log("Potential child: City: " + child.CityGene.GetCity().CityName + "; City Rank: " + child.CityGene.CalculateRank() + "; Factory: " + child.FactoryGene.GetFactory().ID + "; Factory Rank: " + child.FactoryGene.CalculateRank() + "; Delivery Company: " + child.CompanyGene.GetCompany().Name + "; Company Rank:" + child.CompanyGene.CalculateRank() + "; TOTAL RANK: " + child.CalculateFitness() + "; ");
+
+            potentialChildren.Add(child);
 
             Random rand = new Random();
 
@@ -150,6 +221,10 @@ namespace BusinessLogic
                 }
             }
 
+            _logger.Log("SELECTED CHILD: City: " + child.CityGene + "; City Rank: " + child.CityGene.CalculateRank() + "; Factory: " + selectedChild.FactoryGene.GetFactory().ID + "; Factory Rank: " + selectedChild.FactoryGene.CalculateRank() + "; Delivery Company: " + selectedChild.CompanyGene.GetCompany().Name + "; Company Rank:" + selectedChild.CompanyGene.CalculateRank() + "; TOTAL RANK: " + selectedChild.CalculateFitness() + "; ");
+
+            _logger.Log("End of Crossingover");
+            
             return selectedChild;
         }
 
@@ -202,9 +277,12 @@ namespace BusinessLogic
         }
 
         public IPopulation Crossingover(IPopulation population)
-        {            
+        {
+            _logger.Log("Selection: ");
 
             IChromosome firstParent = population.GetTheBestSolution();
+
+            _logger.Log("Selected first parent: " + _logger.FormChromosomeString((ReceiptSolution)firstParent));
 
             population.RemoveChromosome(firstParent);
 
@@ -217,6 +295,8 @@ namespace BusinessLogic
                 secondParent = castedpopulation.GetChromosomeWithSameCity((ReceiptSolution)firstParent);
             }
 
+            _logger.Log("Selected second parent: " + _logger.FormChromosomeString((ReceiptSolution)secondParent));
+
             ReceiptSolution child = Mating((ReceiptSolution)firstParent, (ReceiptSolution)secondParent);
 
             population.AddChromosome(child);
@@ -225,11 +305,25 @@ namespace BusinessLogic
 
             population.RemoveChromosome(secondParent);
 
+            _logger.Log("Current Population: ");
+
+            int iteration = 0;
+
+            foreach (ReceiptSolution solution in population.GetChromosomes()) 
+            {
+                _logger.Log("Chromosome " + iteration +" " + _logger.FormChromosomeString(solution));
+                iteration++;
+            }
+
+            _logger.Log("End of selection.");
+
             return population;
         }
 
         public IPopulation Mutation(IPopulation population)
         {
+            _logger.Log("Mutation: ");
+
             Random rand = new Random();
 
             int countOfMutants = rand.Next(population.GetChromosomes().Count);
@@ -242,8 +336,10 @@ namespace BusinessLogic
 
                 ReceiptSolution selectedChromosome = (ReceiptSolution)population.GetChromosomes()[chIndex];
 
-                List<FactoryGene> possibleFactories = _factoryGenes.FindAll(gene => gene.GetFactory().CityID == selectedChromosome.CityGene.GetCity().ID & gene.GetFactory() != selectedChromosome.FactoryGene.GetFactory());
+                _logger.Log("Chromosome before mutation: " + _logger.FormChromosomeString(selectedChromosome));
                 
+                List<FactoryGene> possibleFactories = _factoryGenes.FindAll(gene => gene.GetFactory().CityID == selectedChromosome.CityGene.GetCity().ID & gene.GetFactory() != selectedChromosome.FactoryGene.GetFactory());
+
                 if (possibleFactories.Count!=0) {
                     
                     Random randFactory = new Random();
@@ -270,9 +366,7 @@ namespace BusinessLogic
                     population.RemoveChromosome(selectedChromosome);
                 }
 
-                
-
-                
+                _logger.Log("Chromosome after mutation: " + _logger.FormChromosomeString(selectedChromosome));
 
                 population.AddChromosome(selectedChromosome);
 
@@ -281,6 +375,18 @@ namespace BusinessLogic
                 //_companyGenes.RemoveAt(companyIndex);
 
             }
+
+            _logger.Log("Current Population: ");
+
+            int iteration = 0;
+
+            foreach (ReceiptSolution solution in population.GetChromosomes())
+            {
+                _logger.Log("Chromosome " + iteration + " " + _logger.FormChromosomeString(solution));
+                iteration++;
+            }
+
+            _logger.Log("End of Mutation.");
 
             return population;
             

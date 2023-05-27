@@ -614,6 +614,7 @@ namespace MedicalDeliveryService.Controllers
                 selectedProducts.Add(_productService.GetProduct(prodId));
             }
             List<ReceiptAndProduct> solutions = _receiptService.GenerateOptimizedReceipt(destination, selectedProducts);
+            AlgorithmLogger logger = _receiptService.GetLogger();
             solutions.ForEach(solution => _receiptService.AddSolution(solution));
             _unitOfWork.Complete();
             double cost = 0;
@@ -633,7 +634,7 @@ namespace MedicalDeliveryService.Controllers
                 productsToConfirm.Add(prod);
             }
 
-            return View("ReceiptConfirmationView", new ReceiptViewModel(productsToConfirm, receipt, _userService.GetDoctorById(doctorId)));
+            return View("ReceiptConfirmationView", new ReceiptViewModel(productsToConfirm, receipt, _userService.GetDoctorById(doctorId), logger));
         }
         [HttpGet]
         public IActionResult AllCompanies() 

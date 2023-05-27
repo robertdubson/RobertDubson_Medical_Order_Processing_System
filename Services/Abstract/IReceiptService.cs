@@ -29,5 +29,7 @@ namespace Services.Abstract
         public List<ReceiptAndProduct> GenerateOptimizedReceipt(City destination, List<MedicalProduct> purchasedProducts);
 
         public List<MedicalProduct> GetPrescriptedProducts(int receiptId);
+
+        public BusinessLogic.AlgorithmLogger GetLogger();
     }
 }

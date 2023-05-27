@@ -76,6 +76,8 @@ namespace BusinessLogic
         {
             double min = 0;
 
+            cities.Remove(destination);
+
             if (factories.Count != 0)
             {
                 Dictionary<City, double> distances = new Dictionary<City, double>();
@@ -172,7 +174,7 @@ namespace BusinessLogic
         private double GetDistanceBetween(City one, City two)
         {
 
-            double distance = Math.Sqrt(Math.Pow(one.CoordinateX - two.CoordinateX, 2) - Math.Pow(one.CoordinateY - two.CoordinateY, 2));
+            double distance = Math.Sqrt(Math.Pow(one.CoordinateX - two.CoordinateX, 2) + Math.Pow(one.CoordinateY - two.CoordinateY, 2));
 
             return distance;
         }

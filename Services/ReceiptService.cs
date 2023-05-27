@@ -30,6 +30,8 @@ namespace Services
 
         MedicalProductMapper _medicalProductMapper;
 
+        BusinessLogic.AlgorithmLogger Logger { get; set; }
+
         public ReceiptService(IUnitOfWork uof)
         {
             _unitOfWork = uof;
@@ -51,6 +53,8 @@ namespace Services
             _receiptAndProductMapper = new ReceiptAndProductMapper();
 
             _medicalProductMapper = new MedicalProductMapper();
+
+            Logger = new AlgorithmLogger();
         }
 
         public void AddSolution(ReceiptAndProduct solution) 
@@ -70,6 +74,7 @@ namespace Services
 
         public List<ReceiptAndProduct> GenerateOptimizedReceipt(City destination, List<MedicalProduct> purchasedProducts)
         {
+
             List<ReceiptAndProduct> solutions = new List<ReceiptAndProduct>();
 
             foreach (MedicalProduct prod in purchasedProducts)
@@ -86,6 +91,7 @@ namespace Services
                 
                 solutions.Add(new ReceiptAndProduct(_unitOfWork.ReceiptRepository.NextID(), prod.ID, solution.CityGene.GetCity().ID, solution.FactoryGene.GetFactory().ID, solution.CompanyGene.GetCompany().ID));
 
+                receiptGeneticAlgorithm.Logger.LogList.ForEach(s => Logger.Log(s));
             }
 
             return solutions;
@@ -136,6 +142,11 @@ namespace Services
         public List<ReceiptAndProduct> GetReceiptDetails(int id)
         {
             return _unitOfWork.ReceiptAndProductRepository.GetPrescriptedProducts(id).Select(rp => _receiptAndProductMapper.FromEntityToDomain(rp)).ToList();
+        }
+
+        public AlgorithmLogger GetLogger()
+        {
+            return Logger;
         }
     }
 }
