@@ -121,12 +121,16 @@ namespace Services
 
         public void RemoveClient(int ID) 
         {
+            _unitOfWork.ReceiptRepository.GetReceiptByClientId(ID).ToList().ForEach(r => _unitOfWork.ReceiptRepository.Delete(r.ID));
+
             _unitOfWork.ClientRepository.Delete(ID);
 
         }
 
         public void RemoveDoctor(int ID) 
         {
+
+            _unitOfWork.ReceiptRepository.GetReceiptsByDoctorId(ID).ToList().ForEach(r => _unitOfWork.ReceiptRepository.Delete(r.ID));
             _unitOfWork.DoctorRepository.Delete(ID);
         }
 

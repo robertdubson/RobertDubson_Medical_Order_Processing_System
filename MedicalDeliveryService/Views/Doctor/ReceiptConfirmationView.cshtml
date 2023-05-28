@@ -150,3 +150,23 @@
 <nav class="menu-bar">
     <a asp-action="WelcomeDoctor" class="btn btn-primary">Ok</a>
 </nav>
+<div class="section">
+    <h2 class="section-title">Algorithm Logs</h2>
+    <p><button onclick="downloadLogs()">Download Logs</button></p>
+</div>
+
+
+
+<script>
+  function downloadLogs() {
+    var logs = '@string.Join("\n", Model.AlgorithmLogger.LogList)'.replace(/&#xA;/g, '\n');
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-16,' + encodeURIComponent(logs));
+    element.setAttribute('download', 'algorithm_logs.txt');
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+</script>
+

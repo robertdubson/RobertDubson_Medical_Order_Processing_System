@@ -9,5 +9,7 @@ namespace DataLayer.Repositories.Abstract
         public IEnumerable<ReceiptEntity> GetReceiptsByDoctorId(int doctorId);
 
         public IEnumerable<ReceiptEntity> GetReceiptByClientId(int clientId);
+
+
     }
 }

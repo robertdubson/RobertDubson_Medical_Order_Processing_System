@@ -157,7 +157,11 @@ namespace MedicalDeliveryService.Controllers
             _userService.RemoveClient(id);
             _unitOfWork.Complete();
 
-            return View("Index");
+            List<ClientsViewModel> models = new List<ClientsViewModel>();
+
+            _userService.GetAllClients().ForEach(cl => models.Add(new ClientsViewModel(cl.ID, cl.Name, _cityService.GetCityById(cl.LocationID), cl.PasswordHash, cl.UserName, cl.Phone, cl.EMail)));
+
+            return View("AllClients", models);
         }
 
         [HttpGet]

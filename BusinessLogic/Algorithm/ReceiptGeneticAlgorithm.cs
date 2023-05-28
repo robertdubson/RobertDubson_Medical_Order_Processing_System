@@ -221,7 +221,7 @@ namespace BusinessLogic
                 }
             }
 
-            _logger.Log("SELECTED CHILD: City: " + child.CityGene + "; City Rank: " + child.CityGene.CalculateRank() + "; Factory: " + selectedChild.FactoryGene.GetFactory().ID + "; Factory Rank: " + selectedChild.FactoryGene.CalculateRank() + "; Delivery Company: " + selectedChild.CompanyGene.GetCompany().Name + "; Company Rank:" + selectedChild.CompanyGene.CalculateRank() + "; TOTAL RANK: " + selectedChild.CalculateFitness() + "; ");
+            _logger.Log("SELECTED CHILD: City: " + child.CityGene.GetCity().CityName + "; City Rank: " + child.CityGene.CalculateRank() + "; Factory: " + selectedChild.FactoryGene.GetFactory().ID + "; Factory Rank: " + selectedChild.FactoryGene.CalculateRank() + "; Delivery Company: " + selectedChild.CompanyGene.GetCompany().Name + "; Company Rank:" + selectedChild.CompanyGene.CalculateRank() + "; TOTAL RANK: " + selectedChild.CalculateFitness() + "; ");
 
             _logger.Log("End of Crossingover");
             

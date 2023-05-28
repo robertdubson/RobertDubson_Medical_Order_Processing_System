@@ -96,6 +96,8 @@ namespace MedicalDeliveryService.Controllers
             }
             List<ReceiptAndProduct> solutions = _receiptService.GenerateOptimizedReceipt(destination, selectedProducts);
             solutions.ForEach(solution => _receiptService.AddSolution(solution));
+
+            AlgorithmLogger logger = _receiptService.GetLogger();
             _unitOfWork.Complete();
             double cost = 0;
             solutions.ForEach(solution => cost += _productService.GetPrice(solution.FactoryID, solution.ProductID));
@@ -115,7 +117,7 @@ namespace MedicalDeliveryService.Controllers
                 productsToConfirm.Add(prod);
             }
 
-            return View("ReceiptConfirmationView", new ReceiptViewModel(productsToConfirm, receipt, _userService.GetDoctorById(doctorId)));
+            return View("ReceiptConfirmationView", new ReceiptViewModel(productsToConfirm, receipt, _userService.GetDoctorById(doctorId), logger));
 
         }
 
@@ -153,6 +155,7 @@ namespace MedicalDeliveryService.Controllers
             }
             List<ReceiptAndProduct> solutions = _receiptService.GenerateOptimizedReceipt(destination, selectedProducts);
             solutions.ForEach(solution => _receiptService.AddSolution(solution));
+            AlgorithmLogger logger = _receiptService.GetLogger();
             _unitOfWork.Complete();
             double cost = 0;
             solutions.ForEach(solution => cost += _productService.GetPrice(solution.FactoryID, solution.ProductID));
@@ -172,7 +175,7 @@ namespace MedicalDeliveryService.Controllers
                 productsToConfirm.Add(prod);
             }
 
-            return View("ReceiptConfirmationView", new ReceiptViewModel(productsToConfirm, receipt, _userService.GetDoctorById(doctorId)));
+            return View("ReceiptConfirmationView", new ReceiptViewModel(productsToConfirm, receipt, _userService.GetDoctorById(doctorId), logger));
         }
 
         [HttpGet]
