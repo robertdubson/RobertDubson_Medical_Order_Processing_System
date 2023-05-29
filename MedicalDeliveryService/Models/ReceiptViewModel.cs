@@ -7,6 +7,8 @@ namespace MedicalDeliveryService.Models
 {
     public class ReceiptViewModel
     {
+        public List<SupplyChainViewModel> Chains { get; set; }
+
         public List<MedicalProduct> PrescriptedProducts { get; set; }
 
         public Receipt Receipt { get; set; }

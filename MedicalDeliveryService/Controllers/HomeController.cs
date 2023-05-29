@@ -629,16 +629,21 @@ namespace MedicalDeliveryService.Controllers
             _receiptService.AddReceipt(receipt);
             _unitOfWork.Complete();
             List<MedicalProduct> productsToConfirm = new List<MedicalProduct>();
-
+            List<SupplyChainViewModel> chain = new List<SupplyChainViewModel>();
             foreach (ReceiptAndProduct solution in solutions) 
             {
                 double price = _productService.GetPrice(solution.FactoryID, solution.ProductID);
                 MedicalProduct prod = _productService.GetProduct(solution.ProductID);
                 prod.Price = price;
                 productsToConfirm.Add(prod);
+                chain.Add(new SupplyChainViewModel(_supplierService.GetById(_factoryService.GetFactory(solution.FactoryID).CompanyID), _factoryService.GetFactory(solution.FactoryID), _cityService.GetCityById(solution.CityID), _cityService.GetCityById(client.LocationID), _deliveryCompanyService.GetById(solution.DeliveryCompanyID), prod));
             }
 
-            return View("ReceiptConfirmationView", new ReceiptViewModel(productsToConfirm, receipt, _userService.GetDoctorById(doctorId), logger));
+            ReceiptViewModel viewModel = new ReceiptViewModel(productsToConfirm, receipt, _userService.GetDoctorById(doctorId), logger);
+
+            viewModel.Chains = chain;
+
+            return View("ReceiptConfirmationView", viewModel);
         }
         [HttpGet]
         public IActionResult AllCompanies() 

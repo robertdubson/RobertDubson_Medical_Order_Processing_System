@@ -38,6 +38,12 @@ namespace MedicalDeliveryService.Controllers
 
         ICityService _cityService;
 
+        ISupplierService _supplierService;
+
+        IFactoryService _factoryService;
+
+        IDeliveryCompanyService _deliveryCompanyService;
+
         public DoctorController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -49,6 +55,12 @@ namespace MedicalDeliveryService.Controllers
             _productService = new ProductService(_unitOfWork, new MedicalProductMapper(), new ProductAndFactoryMapper());
 
             _cityService = new CityService(_unitOfWork, new CityMapper(), new DeliveryCompanyAndCityMapper());
+
+            _deliveryCompanyService = new DeliveryCompanyService(_unitOfWork);
+
+            _supplierService = new SupplierService(_unitOfWork, new SupplierMapper(), new SupplierAndProductMapper());
+
+            _factoryService = new FactoryService(_unitOfWork, new FactoryMapper());
         }
 
         [HttpGet]
@@ -108,16 +120,21 @@ namespace MedicalDeliveryService.Controllers
             _unitOfWork.Complete();
 
             List<MedicalProduct> productsToConfirm = new List<MedicalProduct>();
-
+            List<SupplyChainViewModel> chain = new List<SupplyChainViewModel>();
             foreach (ReceiptAndProduct solution in solutions)
             {
                 double price = _productService.GetPrice(solution.FactoryID, solution.ProductID);
                 MedicalProduct prod = _productService.GetProduct(solution.ProductID);
                 prod.Price = price;
                 productsToConfirm.Add(prod);
+                chain.Add(new SupplyChainViewModel(_supplierService.GetById(_factoryService.GetFactory(solution.FactoryID).CompanyID), _factoryService.GetFactory(solution.FactoryID), _cityService.GetCityById(solution.CityID), _cityService.GetCityById(client.LocationID), _deliveryCompanyService.GetById(solution.DeliveryCompanyID), prod));
             }
 
-            return View("ReceiptConfirmationView", new ReceiptViewModel(productsToConfirm, receipt, _userService.GetDoctorById(doctorId), logger));
+            ReceiptViewModel viewModel = new ReceiptViewModel(productsToConfirm, receipt, _userService.GetDoctorById(doctorId), logger);
+
+            viewModel.Chains = chain;
+
+            return View("ReceiptConfirmationView", viewModel);
 
         }
 
@@ -147,11 +164,13 @@ namespace MedicalDeliveryService.Controllers
             Client client = _userService.GetClietnById(clientId);
             City destination = _cityService.GetCityById(client.LocationID);
             List<MedicalProduct> selectedProducts = new List<MedicalProduct>();
+            List<SupplyChainViewModel> chain = new List<SupplyChainViewModel>();
             for (int i = 0; i < count; i++)
             {
                 string IdProdStr = Request.Form["PrescriptedProducts[" + i.ToString() + "].ID"];
                 int prodId = int.Parse(IdProdStr);
                 selectedProducts.Add(_productService.GetProduct(prodId));
+
             }
             List<ReceiptAndProduct> solutions = _receiptService.GenerateOptimizedReceipt(destination, selectedProducts);
             solutions.ForEach(solution => _receiptService.AddSolution(solution));
@@ -173,9 +192,14 @@ namespace MedicalDeliveryService.Controllers
                 MedicalProduct prod = _productService.GetProduct(solution.ProductID);
                 prod.Price = price;
                 productsToConfirm.Add(prod);
+                chain.Add(new SupplyChainViewModel(_supplierService.GetById(_factoryService.GetFactory(solution.FactoryID).CompanyID), _factoryService.GetFactory(solution.FactoryID), _cityService.GetCityById(solution.CityID), _cityService.GetCityById(client.LocationID), _deliveryCompanyService.GetById(solution.DeliveryCompanyID), prod));
             }
+            
+            ReceiptViewModel viewModel = new ReceiptViewModel(productsToConfirm, receipt, _userService.GetDoctorById(doctorId), logger);
 
-            return View("ReceiptConfirmationView", new ReceiptViewModel(productsToConfirm, receipt, _userService.GetDoctorById(doctorId), logger));
+            viewModel.Chains = chain;
+
+            return View("ReceiptConfirmationView", viewModel);
         }
 
         [HttpGet]

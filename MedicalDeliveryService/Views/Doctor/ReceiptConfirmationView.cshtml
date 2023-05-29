@@ -147,6 +147,36 @@
     </table>
 </div>
 
+<div class="section">
+    <h2 class="section-title">Supply Chains</h2>
+    <table class="receipt-table">
+        <thead>
+            <tr>
+                <th>Supplier</th>
+                <th>Factory</th>
+                <th>City</th>
+                <th>Destination</th>
+                <th>Delivery Company</th>
+                <th>Product</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var chain in Model.Chains)
+            {
+                <tr>
+                    <td>@chain.Supplier.Name</td>
+                    <td>@chain.Factory.ID</td>
+                    <td>@chain.City.CityName</td>
+                    <td>@chain.Destination.CityName</td>
+                    <td>@chain.Company.Name</td>
+                    <td>@chain.Product.ProductName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
 <nav class="menu-bar">
     <a asp-action="WelcomeDoctor" class="btn btn-primary">Ok</a>
 </nav>
